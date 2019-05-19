@@ -26,3 +26,17 @@ for (j in 2:length(re.tickers)) {
 
 colnames(re.raw) <- c("DJUSRE", "NLY", "EqRes", "CdnApt")
 
+commodities.tickers <- c("CHRIS/CME_GI1", "CHRIS/CME_C1", "CHRIS/CME_S1", "CHRIS/CME_HG1",
+                         "CHRIS/SHFE_RB1", "CHRIS/CME_CL1", "CHRIS/CME_NG1")
+commodities.raw <- Quandl(commodities.tickers[1], type = "xts")[, "Settle"]
+
+for (j in 2:length(commodities.tickers)) {
+  tmp <- Quandl(commodities.tickers[j], type = "xts")[, "Settle"]
+  commodities.raw <- cbind(commodities.raw, tmp)
+}
+colnames(commodities.raw) <- c("GSCI", "Corn", "Soybeans", "Copper", "Rebar",
+                               "WTI", "USNatgas")
+eqtidx.tickers <- c("^GSPC", "^RUT", "^GSPTSE", "^MXX", "^FTSE", "^STOXX50E",
+                    "^SSMI", "^HSI", "^STI", "^N225")
+
+                               
