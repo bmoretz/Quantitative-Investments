@@ -7,4 +7,4 @@ library(quantmod)
 # Grab the (bid and ask) for the Hang Seng and TSX 60.
 
 eqtidx.tickers <- c("CHRIS/HKEX_HSI1", "CHRIS/MX_SXM1")
-eqtidx.raw <- Quandl(cg.tickers, type = "xts")
+eqtidx.raw <- Quandl(eqtidx.tickers, type = "xts")
