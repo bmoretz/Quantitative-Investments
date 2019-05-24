@@ -8,4 +8,4 @@ library(quantmod)
 # Download short volume and adjusted close prices from yahoo.
 
 eqty.tickers <- c("FINRA/FNSQ_AMD", "FINRA/FNSQ_RGR", "FINRA/FNSQ_TSLA")
-eqty.raw <- Quandl(cg.tickers, type = "xts")
+eqty.raw <- Quandl(eqty.tickers, type = "xts")
