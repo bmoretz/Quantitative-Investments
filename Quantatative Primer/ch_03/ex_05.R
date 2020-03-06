@@ -9,3 +9,4 @@ library(quantmod)
 
 eqty.tickers <- c("FINRA/FNSQ_AMD", "FINRA/FNSQ_RGR", "FINRA/FNSQ_TSLA")
 eqty.raw <- Quandl(eqty.tickers, type = "xts")
+
