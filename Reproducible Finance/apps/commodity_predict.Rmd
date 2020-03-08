@@ -1,0 +1,98 @@
+---
+title: "Commodities Prediction"
+runtime: shiny
+output:
+  flexdashboard::flex_dashboard:
+    orientation: rows
+---
+
+```{r setup, include=FALSE}
+
+library(tidyverse) 
+library(Quandl)
+library(tidyquant)
+library(timetk)
+library(forecast)
+library(highcharter)
+Quandl.api_key("d9EidiiDWoFESfdk5nPy")
+
+```
+
+Inputs{.sidebar}
+--------------------------------
+
+```{r}
+# Notice a tradeoff here: we're making it easy on our users because they don't need to 
+# remember the naming conventions. But, we're also forced to severely limit their choices. 
+# On page two, we'll see what it looks like to be more flexible but less efficient.
+
+ dataChoices <- c("Oil" = "FRED/DCOILWTICO", #oil data from Fred
+                  "Copper" = "ODA/PCOPP_USD", # copper data from ODA
+                  "Gold" = "WGC/GOLD_DAILY_USD") # gold data from CME
+
+ selectInput("dataSet",
+              "Commodity",
+             choices = dataChoices, #freddie mac
+                         #"BIS",  #bank of intl settlements
+                         #"ODA",  #IMF
+                         #"ISM"), #Inst of supply management
+             selected = "WTI oil")
+ 
+frequencyChoices <- c("months" = "monthly",
+                      "weeks" = "weekly",
+                      "days" = "daily")
+                     
+selectInput("frequency",
+            "freq",
+            choices = frequencyChoices, 
+            selected = "months")
+                     
+dateRangeInput("dateRange",
+               "Historical data",
+               start = "2000-01-01",
+               end   = Sys.Date())
+
+numericInput("periods", "Periods to Forecast", 12, min = 1, max = 100)
+
+actionButton("go", "Submit")
+
+commodity <- eventReactive(input$go, {
+
+commodity <- Quandl(input$dataSet,
+               start_date = format(input$dateRange[1]),
+               end_date = format(input$dateRange[2]),
+               order = "asc",
+               type = "xts",
+               collapse = as.character(input$frequency)
+              )
+
+auto.arima(commodity) %>% 
+  forecast(h = input$periods)
+
+})
+
+chosen_commodity <- eventReactive(input$go, {
+  names(dataChoices[dataChoices == input$dataSet])
+})
+
+```
+
+
+Row
+-------------------------------------
+    
+### Price Forecast
+
+```{r}
+renderHighchart({
+  hchart(commodity()) %>% 
+    hc_title(text = paste("Price history and forecast of", chosen_commodity(), 
+                       sep = " ")) %>%
+    hc_yAxis(title = list(text = "monthly price"),
+           labels = list(format = "${value}"),
+           opposite = FALSE) %>% 
+  hc_add_theme(hc_theme_flat()) %>% 
+    hc_exporting(enabled = TRUE) 
+})
+
+```

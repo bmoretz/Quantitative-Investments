@@ -1,0 +1,276 @@
+---
+title: "Skew/Kurt Dashboard"
+runtime: shiny
+output:
+  flexdashboard::flex_dashboard:
+    orientation: rows
+---
+
+
+```{r setup, message = FALSE}
+
+library(tidyverse)
+library(highcharter)
+library(tidyquant)
+library(timetk)
+library(scales)
+
+```
+
+Sidebar {.sidebar}
+=====================================
+  
+```{r}
+
+fluidRow(
+  column(6,
+  textInput("stock1", "Stock 1", "SPY")),
+  column(5,
+  numericInput("w1", "Portf. %", 25, min = 1, max = 100))
+)  
+
+fluidRow(
+  column(6,
+  textInput("stock2", "Stock 2", "EFA")),
+  column(5,
+  numericInput("w2", "Portf. %", 25, min = 1, max = 100))
+)
+
+fluidRow(
+  column(6,
+  textInput("stock3", "Stock 3", "IJS")),
+  column(5,
+  numericInput("w3", "Portf. %", 20, min = 1, max = 100))
+)
+
+fluidRow(
+  column(6,
+  textInput("stock4", "Stock 4", "EEM")),
+  column(5,
+  numericInput("w4", "Portf. %", 20, min = 1, max = 100))
+)
+
+fluidRow(
+  column(6,
+  textInput("stock5", "Stock 5", "AGG")),
+  column(5,
+  numericInput("w5", "Portf. %", 10, min = 1, max = 100))
+)
+
+fluidRow(
+  column(7,
+  dateInput("date", "Starting Date", "2013-01-01", format = "yyyy-mm-dd"))
+)
+
+fluidRow(
+  column(4,
+  numericInput("window", "Window", 6, min = 3, max = 20, step = 1))
+  )
+
+actionButton("go", "Submit")
+```
+
+```{r}
+prices <- eventReactive(input$go, {
+  
+  symbols <- c(input$stock1, input$stock2, input$stock3, input$stock4, input$stock5)
+  
+  getSymbols(symbols, src = 'yahoo', from = input$date, 
+             auto.assign = TRUE, warnings = FALSE) %>% 
+  map(~Ad(get(.))) %>% 
+  reduce(merge) %>%
+  `colnames<-`(symbols)
+})
+
+
+portfolio_returns_xts <- eventReactive(input$go, {
+  prices <- prices()
+  
+  w <- c(input$w1/100, input$w2/100, input$w3/100, input$w4/100, input$w5/100)
+
+  prices_monthly <- to.monthly(prices, indexAt = "last", OHLC = FALSE)
+  
+  asset_returns_xts <- na.omit(Return.calculate(prices_monthly, method = "log"))
+  
+  portfolio_returns_xts <- 
+    Return.portfolio(asset_returns_xts, weights = w) %>% 
+    `colnames<-`("returns")
+})  
+  
+rolling_skew_xts <- eventReactive(input$go, {
+  
+  rolling_skew_xts <- 
+    rollapply(portfolio_returns_xts(),
+            FUN = skewness,
+            width = input$window) %>% 
+    na.omit()
+
+})
+
+rolling_kurt_xts <- eventReactive(input$go, {
+  rolling_kurt_xts <- 
+    rollapply(portfolio_returns_xts(),
+            FUN = kurtosis,
+            width = input$window) %>% 
+    na.omit()
+
+})
+
+portfolio_returns_tq_rebalanced_monthly <- eventReactive(input$go, {
+  
+  prices <- prices()
+  w <- c(input$w1/100, input$w2/100, input$w3/100, input$w4/100, input$w5/100)
+  
+  asset_returns_long <- 
+      prices %>% 
+      to.monthly(indexAt = "lastof", OHLC = FALSE) %>% 
+      tk_tbl(preserve_index = TRUE, rename_index = "date") %>%
+      gather(asset, returns, -date) %>% 
+      group_by(asset) %>%  
+      mutate(returns = (log(returns) - log(lag(returns))))
+
+  
+  portfolio_returns_tq_rebalanced_monthly <- 
+  asset_returns_long %>%
+  tq_portfolio(assets_col  = asset, 
+               returns_col = returns,
+               weights     = w,
+               col_rename  = "returns",
+               rebalance_on = "months")
+})
+
+```
+
+Portfolio Skewness + Kurtosis
+=====================================  
+
+Row {data-height=600, .tabset}
+-----------------------------------------------------------------------
+
+### Rolling Skewness
+
+```{r}
+renderHighchart({
+  
+  highchart(type = "stock") %>%
+    hc_title(text = "Rolling Skew") %>%
+    hc_add_series(rolling_skew_xts(), name = "rolling skew", color = "cornflowerblue") %>%
+    hc_yAxis(title = list(text = "skewness"),
+           opposite = FALSE,
+           max = 3, 
+           min = -3) %>%
+  hc_navigator(enabled = FALSE) %>% 
+  hc_scrollbar(enabled = FALSE)  %>% 
+    hc_exporting(enabled = TRUE) 
+  
+})
+```
+
+### Rolling Kurtosis
+
+```{r}
+renderHighchart({
+  
+  highchart(type = "stock") %>%
+    hc_title(text = "Rolling Kurtosis") %>%
+    hc_add_series(rolling_kurt_xts(), 
+                  name = "rolling kurt", 
+                  color = "cornflowerblue") %>%
+    hc_yAxis(title = list(text = "kurtosis"),
+           opposite = FALSE,
+           max = 3, 
+           min = -3) %>%
+  hc_navigator(enabled = FALSE) %>% 
+  hc_scrollbar(enabled = FALSE) %>% 
+  hc_exporting(enabled = TRUE)
+  
+})
+```
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+### Histogram
+```{r}
+renderPlot({
+
+  portfolio_returns_tq_rebalanced_monthly() %>%
+  mutate(hist_col_red = 
+           ifelse(returns < (mean(returns) - 2*sd(returns)), 
+                  returns, NA),
+         hist_col_green = 
+           ifelse(returns > (mean(returns) + 2*sd(returns)), 
+                  returns, NA),
+         hist_col_blue = 
+           ifelse(returns > (mean(returns) - 2*sd(returns)) &
+                  returns < (mean(returns) + 2*sd(returns)),
+                  returns, NA)) %>% 
+  ggplot() + 
+  
+  geom_histogram(aes(x = hist_col_red),
+               alpha = .7, 
+               binwidth = .003, 
+               fill = "red", 
+               color = "red") +
+  
+  geom_histogram(aes(x = hist_col_green),
+               alpha = .7, 
+               binwidth = .003, 
+               fill = "green", 
+               color = "green") +
+  
+  geom_histogram(aes(x = hist_col_blue),
+               alpha = .7, 
+               binwidth = .003, 
+               fill = "cornflowerblue", 
+               color = "cornflowerblue") +
+  
+scale_x_continuous(breaks = pretty_breaks(n = 10)) +
+xlab("monthly returns")
+})
+```
+
+### Density
+
+```{r}
+renderPlot({
+
+  portfolio_returns_tq_rebalanced_monthly <- portfolio_returns_tq_rebalanced_monthly()
+  mean <- mean(portfolio_returns_tq_rebalanced_monthly$returns)
+  median <- median(portfolio_returns_tq_rebalanced_monthly$returns)
+  
+  skew_density_plot <- portfolio_returns_tq_rebalanced_monthly %>% 
+    ggplot(aes(x = returns)) +
+    stat_density(geom = "line", size = 1, color = "cornflowerblue")
+  
+  shaded_area_data <- 
+    ggplot_build(skew_density_plot)$data[[1]] %>% 
+    filter(x < mean)
+
+  skew_density_plot_shaded <- 
+    skew_density_plot + 
+    geom_area(data = shaded_area_data, aes(x = x, y = y), fill="pink", alpha = 0.5)
+  
+  median_line_data <- 
+    ggplot_build(skew_density_plot)$data[[1]] %>% 
+    filter(x <= median)
+
+skew_density_plot_shaded +
+  
+  geom_segment(data = median_line_data, aes(x = median, y = 0, xend = median, yend = density), 
+               color = "black", linetype = "dotted") +
+  
+  annotate(geom = "text", x = median, y = 5, label = "median", 
+           fontface = "plain", angle = 90, alpha = .8, vjust =  1.75) +
+  
+  annotate(geom = "text", x = (mean - .03), y = .1, label = "returns < mean", 
+           fontface = "plain", color = "red", alpha = .8, vjust =  -1) +
+  
+  ggtitle("Density Plot Illustrating Skewness")
+  
+
+  
+})
+
+```
+

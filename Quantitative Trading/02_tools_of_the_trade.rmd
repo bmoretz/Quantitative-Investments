@@ -1,0 +1,565 @@
+---
+title: ''
+mainfont: Arial
+fontsize: 12pt
+documentclass: report
+header-includes:
+- \PassOptionsToPackage{table}{xcolor}
+- \usepackage{caption}
+- \usepackage{amssymb}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage[table]{xcolor}
+- \usepackage{fancyhdr}
+- \usepackage{boldline}
+- \usepackage{tipa}
+   \definecolor{headergrey}{HTML}{545454}
+   \definecolor{msdblue}{HTML}{1C93D1}
+   \pagestyle{fancy}
+   \setlength\headheight{30pt}
+   \rhead{\color{headergrey}\today}
+   \fancyhead[L]{\color{headergrey}Moretz, Brandon}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Tools of the Trade}
+   \rfoot{\color{headergrey}Chapter 2}
+   \lfoot{\color{headergrey}}
+   \fancyfoot[C]{\rmfamily\color{headergrey}Quantitative Trading with R}
+geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r knitr_setup, include = FALSE}
+
+knitr::opts_chunk$set(
+   echo = T, 
+   eval = TRUE, 
+   dev = 'png', 
+   fig.width = 9, 
+   fig.height = 3.5)
+
+options(knitr.table.format = "latex")
+
+```
+
+```{r report_setup, message = FALSE, warning = FALSE, include = FALSE}
+
+library(data.table, quietly = TRUE, warn.conflicts = FALSE)
+library(ggthemes, quietly = TRUE, warn.conflicts = FALSE)
+library(scales, quietly = TRUE, warn.conflicts = FALSE)
+
+library(knitr, quietly = TRUE, warn.conflicts = FALSE)
+library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(pander, quietly = TRUE, warn.conflicts = FALSE)
+library(formattable, quietly = TRUE, warn.conflicts = FALSE)
+
+library(grid, quietly = TRUE, warn.conflicts = FALSE)
+library(gridExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(extrafont, quietly = TRUE, warn.conflicts = FALSE)
+library(tinytex, quietly = TRUE, warn.conflicts = FALSE)
+
+library(here, quietly = TRUE, warn.conflicts = FALSE)
+
+options(tinytex.verbose = TRUE)
+suppressMessages(library("tidyverse"))
+
+pretty_kable <- function(data, title, dig = 2) {
+  kable(data, caption = title, digits = dig) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+      kableExtra::kable_styling(latex_options = "hold_position")
+}
+
+theme_set(theme_light())
+
+# Theme Overrides
+theme_update(axis.text.x = element_text(size = 10),
+             axis.text.y = element_text(size = 10),
+             plot.title = element_text(hjust = 0.5, size = 16, face = "bold", color = "darkgreen"),
+             axis.title = element_text(face = "bold", size = 12, colour = "steelblue4"),
+             plot.subtitle = element_text(face = "bold", size = 8, colour = "darkred"),
+             legend.title = element_text(size = 12, color = "darkred", face = "bold"),
+             legend.position = "right", legend.title.align=0.5,
+             panel.border = element_rect(linetype = "solid", 
+                                         colour = "lightgray"), 
+             plot.margin = unit(c( 0.1, 0.1, 0.1, 0.1), "inches"))
+
+data.dir <- paste0(here::here(), "/datasets")
+
+```
+
+```{r pander_setup, include = FALSE}
+
+knitr::opts_chunk$set(comment = NA)
+
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+
+```
+
+#### Chapter 2
+
+## Basic R Language Tools
+
+Integrand:
+
+```{r}
+integrand <- function(x) 1/((x + 1) * sqrt(x))
+
+integrate(integrand, lower = 0, upper = Inf)
+```
+
+Vectorization:
+
+```{r}
+x <- c(1, 5, 10, 15, 20)
+x
+
+x2 <- 2 * x
+x2
+
+x3 <- x^2
+x3
+
+x4 <- x / x2
+x4
+
+x5 <- round(x * (x/2) ^ 3.5 + sqrt(x4), 3)
+x5
+
+x6 <- round(c(x2[2:4], x3[1:2], x5[4]), 2)
+x6
+```
+
+Matrix:
+
+```{r}
+my_matrix <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3)
+my_matrix
+
+my_matrix <- matrix(seq(1, 6), nrow = 2, ncol = 3, byrow = T)
+my_matrix
+```
+
+Attributes:
+
+```{r}
+dimnames(my_matrix) <- list(c("one", "hello"), c("column1", "column2", "c3"))
+
+my_matrix
+```
+
+```{r}
+attributes(my_matrix)
+```
+
+```{r}
+ans <- my_matrix[1, 3]
+
+new_matrix_1 <- my_matrix * my_matrix
+new_matrix_1
+
+new_matrix_2 <- sqrt(my_matrix)
+new_matrix_2
+```
+
+```{r}
+mat1 <- matrix(rnorm(1000), nrow = 100)
+round(mat1[1:5, 2:6], 3)
+```
+
+```{r}
+mat2 <- mat1[1:25,] ^2
+mat2
+```
+
+data.frame:
+
+```{r}
+df <- data.frame(price = c(89.2, 23.2, 21.2),
+                 symbol = c("MOT", "AAPL", "IBM"),
+                 action = c("Buy", "Sell", "Buy"))
+df
+
+class(df$symbol)
+```
+
+```{r}
+df2 <- data.frame(price = c(89.2, 23.2, 21.2),
+                 symbol = c("MOT", "AAPL", "IBM"),
+                 action = c("Buy", "Sell", "Buy"),
+                 stringsAsFactors = F)
+df2
+
+class(df2$symbol)
+```
+
+```{r}
+price <- df[1, 1]
+```
+
+```{r}
+df3 <- data.frame(col1 = c(1, 2, 3, 4),
+                  col2 = c(1, 2, 3, 4))
+
+symbols <- df$symbol
+
+symbols
+```
+
+```{r}
+class(symbols)
+```
+
+list:
+
+```{r}
+my_list <- list(a = c(1, 2, 3, 4, 5),
+                b = matrix(1:10, nrow = 2, ncol = 5),
+                c = data.frame(price = c(89.3, 98.2, 21.2)),
+                stock = c("MOT", "IBM", "CSCO"))
+
+my_list
+```
+
+```{r}
+first_element <- my_list[[1]]
+
+first_element
+
+class(first_element)
+```
+
+```{r}
+second_element <- my_list[["b"]]
+
+second_element
+```
+
+```{r}
+part_of_list <- my_list[c(1, 3)]
+
+part_of_list
+
+class(part_of_list)
+```
+
+```{r}
+size_of_list <- length(my_list)
+
+size_of_list
+```
+
+Env:
+
+```{r}
+env <- new.env()
+
+env[["first"]] <- 5
+env[["second"]] <- 6
+env$third <- 7
+
+env
+```
+
+```{r}
+ls(env)
+```
+
+```{r}
+get("first", envir = env)
+```
+
+```{r}
+rm("second", envir = env)
+```
+
+```{r}
+ls(env)
+```
+
+```{r}
+# pass by reference
+env_2 <- env
+env_2$third <- 42
+
+get("third", envir = env)
+```
+
+```{r}
+x <- c(1, 2, 3.2, 4, 3, 2.1, 9, 19)
+plot(x)
+```
+
+```{r}
+plot(x, type = "l")
+```
+
+```{r}
+# Setup the canvas
+plot(rnorm(1000), main = "Some Returns", cex.main = 0.9,
+     xlab = "Time", ylab = "Returns")
+# Superimpose a grid
+grid()
+# Create a few vertical and horizontal lines
+abline(v = 400, lwd = 2, lty = 1)
+abline(h = 2, lwd = 3, lty = 3)
+```
+
+```{r}
+# Create a 2-row, 2-column format
+par(mfrow = c(2, 2))
+
+# First plot (points)
+plot(rnorm(100), main = "Graph 1")
+
+# Second plot (line)
+plot(rnorm(100), main = "Graph 2", type = "l")
+
+# Third plot (steps) with a vertical line
+plot(rnorm(100), main = "Graph 3", type = "s")
+abline(v = 50, lwd = 4)
+
+plot(rnorm(100), type = "h", main = "Graph 4")
+
+# reset par
+par(mfrow = c(1, 1))
+```
+
+```{r}
+plot(rnorm(100), main = "A Line Plot",
+     cex.main = 0.8,
+     xlab = "x-axis",
+     ylab = "y-axis",
+     type = "l")
+
+# Extra text
+mtext("Some text at the top", side = 3)
+
+# At x = 40, and y = -1 coordinates
+legend(40, -1, "A Legend")
+```
+
+```{r}
+formals(plot.default)
+```
+
+### Functional Programming
+
+Functional:
+
+```{r}
+ans <- sum(1:100)
+
+ans
+```
+
+Imperative:
+
+```{r}
+answer <- 0
+for(i in 1:100){
+   answer = answer + i
+}
+
+answer
+```
+
+### Functions
+
+```{r}
+# Create 100 standard normals
+x <- rnorm(100, mean = 0, sd = 1)
+
+# Find the length of the vector x.
+length(x)
+
+# Compute the mean of x.
+mean(x)
+
+# Compute the standard deviation of x.
+sd(x)
+
+# Compute thee range (min, max) of a variable.
+range(x)
+
+# Find the sum of all the numbers.
+sum(x)
+
+# Do a cumulative sum of the values in x.
+cumsum(x)
+
+# Display the first 3 elements of x.
+head(x, 3)
+
+# Display the summary statistics on x.
+summary(x)
+
+# Sort x from largest to smallest.
+sort(x)
+
+# Compute the successive differences in x.
+diff(x)
+
+# Create an integer sequence from 1 to 10
+1:10
+
+# A sequence from 1 to 10 in steps of 0.1
+seq(1, 10, 0.1)
+```
+
+If
+
+```{r}
+# Define a boolean variable
+my_boolean <- 1 == 2
+
+if( my_boolean) {
+   print("not correct")
+} else {
+   print("XYZ")
+}
+```
+
+```{r}
+for(i in 1:5){
+   cat(i, "\n")
+}
+```
+
+```{r}
+some_list <- list()
+
+for(z in c("hello", "goodbye")) {
+   some_list[[z]] <- z
+}
+
+some_list
+```
+
+```{r}
+filter_and_sort_symbols <- function(symbols) {
+   # Name: filter_symbols
+   # Purpose: Convert to upper case if not
+   # and remove any non valid symbols
+   # Input: symbols = vector of stock tickers
+   # Output: filtered_symbols = filtered symbols
+   
+   # Convert symbols to uppercase
+   symbols <- toupper(symbols)
+   
+   # Validate the symbol names
+   valid <- regexpr("^[A-Z]{2,4}$", symbols)
+   
+   # Return only the valid ones
+   return(sort(symbols[valid == 1]))
+}
+```
+
+```{r}
+filter_and_sort_symbols(c("MOT", "cvx", "123", "Gog2", "XLe"))
+```
+
+```{r}
+extract_prices <- function(filtered_symbols, file_path) {
+   # Name: extract_prices
+   # Purpose: Read prices from specified file
+   # Inputs: filtered_symbols = vector of symbols,
+   #        file_path = location of price data
+   # Output: prices = data.frame of prices per symbols
+   
+   # Read in the .csv prices
+   all_prices <- read.csv(file = file_path, header = T,
+                          stringsAsFactors = F)
+   
+   # Make the data row names
+   rownames(all_prices) <- all_prices$Date
+   
+   # Remove the original Date column
+   all_prices$Date <- NULL
+   
+   # Extract only the reelevant data columns
+   valid_columns <- colnames(all_prices) %in% filtered_symbols
+   
+   return(all_prices[, valid_columns])
+}
+```
+
+```{r}
+filter_prices <- function(prices) {
+   # Name: filter_prices
+   # Inputs: Identify the rows with missing values
+   # Outputs: missing_rows = vector of indexes wehre
+   #  data is missing in any of the columns
+   
+   # Returns a boolean vector of good or bad rows
+   valid_rows <- complete.cases(prices)
+   
+   # Identify the index of the missing rows
+   missing_rows <- which(valid_rows == F)
+   
+   return(missing_rows)
+}
+```
+
+```{r}
+compute_pairwise_correlations <- function(prices) {
+   # Name: compute_pairwise_correlations
+   # Purpose: Calculates pairwise correlations of returns
+   # and plots the pairwise relationships
+   
+   # Inputs: prices = data.frame of prices
+   # Output: correlation_matrix = A corrleation matrix
+   
+   # Convert prices to returns
+   returns <- apply(prices, 2, function(x) diff(log(x)))
+   
+   # Plot all the pairwise relationships
+   pairs(returns, main = "Pairwise return scatterplot")
+}
+```
+
+```{r}
+# Stock Symbols
+symbols <- c("IBM", "XOM", "2SG", "TEva",
+             "G0og", "CVX", "AAPL", "BA")
+
+# Location of the price database
+
+price.file <- file.path(here::here(), "/Quantitative Trading/prices.csv")
+prices <- data.table::fread(price.file)
+
+# Filter and sort the symbols
+filtered_symbols <- filter_and_sort_symbols(symbols)
+filtered_symbols
+
+# Extract Prices
+prices <- extract_prices(filtered_symbols, price.file)
+
+# Filter Prices
+missing_rows <- filter_prices(prices)
+missing_rows
+
+# Compute Correlations
+correlation_matrix <- compute_pairwise_correlations(prices)
+correlation_matrix
+```
+

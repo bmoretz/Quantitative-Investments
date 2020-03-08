@@ -1,0 +1,175 @@
+---
+title: "Rolling Volatility"
+runtime: shiny
+output:
+  flexdashboard::flex_dashboard:
+    vertical_layout: fill
+    orientation: rows
+---
+
+
+```{r setup, message = FALSE}
+
+library(shiny)
+library(flexdashboard)
+library(tidyverse)
+library(highcharter)
+library(tidyquant)
+library(timetk)
+library(scales)
+
+```
+
+Volatility 
+===========================================
+
+Sidebar {.sidebar}
+-----------------------------------------------------------------------
+
+```{r}
+
+fluidRow(
+  column(6,
+  textInput("stock1", "Stock 1", "SPY")),
+  column(5,
+  numericInput("w1", "Portf. %", 25, min = 1, max = 100))
+)  
+
+fluidRow(
+  column(6,
+  textInput("stock2", "Stock 2", "EFA")),
+  column(5,
+  numericInput("w2", "Portf. %", 25, min = 1, max = 100))
+)
+
+fluidRow(
+  column(6,
+  textInput("stock3", "Stock 3", "IJS")),
+  column(5,
+  numericInput("w3", "Portf. %", 20, min = 1, max = 100))
+)
+
+fluidRow(
+  column(6,
+  textInput("stock4", "Stock 4", "EEM")),
+  column(5,
+  numericInput("w4", "Portf. %", 20, min = 1, max = 100))
+)
+
+fluidRow(
+  column(6,
+  textInput("stock5", "Stock 5", "AGG")),
+  column(5,
+  numericInput("w5", "Portf. %", 10, min = 1, max = 100))
+)
+
+
+fluidRow(
+  column(7,
+  dateInput("date", "Starting Date", "2013-01-01", format = "yyyy-mm-dd"))
+)
+
+fluidRow(
+  column(5,
+  numericInput("window", "Window", 12, min = 3, max = 36, step = 1))
+)
+
+actionButton("go", "Submit")
+
+```
+
+```{r}
+
+prices <- eventReactive(input$go, {
+  symbols <- c(input$stock1, input$stock2, input$stock3, input$stock4, input$stock5)
+  
+  prices <- 
+    getSymbols(symbols, src = 'yahoo', from = input$date, 
+               auto.assign = TRUE, warnings = FALSE) %>% 
+    map(~Ad(get(.))) %>% 
+    reduce(merge) %>%
+    `colnames<-`(symbols)
+})
+
+port_rolling_sd_tidy <- eventReactive(input$go, {
+  
+  prices <- prices()
+  
+  w <- c(input$w1/100, input$w2/100, input$w3/100, input$w4/100, input$w5/100)
+  
+  portfolio_returns_tq_rebalanced_monthly <- 
+    prices %>% 
+    to.monthly(indexAt = "last", OHLC = FALSE) %>% 
+    tk_tbl(preserve_index = TRUE, rename_index = "date") %>%
+    slice(-1) %>%
+    gather(asset, returns, -date) %>%
+    group_by(asset) %>% 
+    mutate(returns = (log(returns) - log(lag(returns)))) %>%
+    tq_portfolio(assets_col  = asset, 
+               returns_col = returns,
+               weights     = w,
+               col_rename  = "returns",
+               rebalance_on = "months")
+  
+  window <- input$window
+  
+  port_rolling_sd_tidy <- 
+  portfolio_returns_tq_rebalanced_monthly %>% 
+  tq_mutate(mutate_fun = rollapply,
+            width = window,
+            FUN = sd,
+            col_rename = ("rolling_sd")) %>%
+  select(date, rolling_sd) %>% 
+  na.omit()
+    
+})
+
+```
+
+
+Row {data-height=500}
+------------------------------------------
+
+### rolling vol hc
+
+```{r}
+
+renderHighchart({
+  
+  port_rolling_sd_xts_hc <- 
+    port_rolling_sd_tidy() %>% 
+    tk_xts(date_col = date) %>% 
+    round(., 4) * 100
+  
+  highchart(type = "stock") %>% 
+    hc_title(text = "Portfolio Rolling Volatility") %>%
+    hc_yAxis(title = list(text = "Volatility"),
+           labels = list(format = "{value}%"),
+           opposite = FALSE) %>% 
+    hc_add_series(port_rolling_sd_xts_hc, 
+                  name = "Portfolio Vol", 
+                  color = "cornflowerblue",
+                  id = "Port") %>%
+    hc_add_theme(hc_theme_flat()) %>%
+    hc_navigator(enabled = FALSE) %>% 
+    hc_scrollbar(enabled = FALSE)
+})
+```
+
+Row {data-height=500}
+-----------------------------------------------------------------------
+
+### rolling vol ggplot
+
+```{r}
+renderPlot({
+  port_rolling_sd_tidy() %>% 
+    ggplot(aes(x = date)) +
+    geom_line(aes(y = rolling_sd), color = "cornflowerblue") + 
+    scale_y_continuous(labels = scales::percent) +
+    ggtitle("Portfolio Rolling Vol") +
+    ylab("volatility") +
+    scale_x_date(breaks = pretty_breaks(n = 8)) +
+    theme(plot.title = element_text(hjust = 0.5))
+})
+```
