@@ -1,0 +1,338 @@
+---
+title: ''
+documentclass: report
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
+  html_document:
+    df_print: paged
+geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
+header-includes:
+- \PassOptionsToPackage{table}{xcolor}
+- \usepackage{caption}
+- \usepackage{amssymb}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage[table]{xcolor}
+- \usepackage{fancyhdr}
+- \usepackage{boldline}
+- \usepackage{tipa} \definecolor{headergrey}{HTML}{545454} \definecolor{msdblue}{HTML}{1C93D1}
+  \pagestyle{fancy} \setlength\headheight{30pt} \rhead{\color{headergrey}\today} \fancyhead[L]{\color{headergrey}Moretz,
+  Brandon} \fancyhead[C]{\Large\bfseries\color{headergrey}Wrangling and Graphing Data}
+  \rfoot{\color{headergrey}Chapter 4} \lfoot{\color{headergrey}} \fancyfoot[C]{\rmfamily\color{headergrey}Quantitative
+  Economics with R}
+mainfont: Arial
+fontsize: 12pt
+editor_options:
+  chunk_output_type: console
+---
+
+
+```{r knitr_setup, include = FALSE}
+
+knitr::opts_chunk$set(
+   echo = T, 
+   eval = TRUE, 
+   dev = 'png', 
+   fig.width = 9, 
+   fig.height = 3.5)
+
+options(knitr.table.format = "latex")
+
+```
+
+```{r report_setup, message = FALSE, warning = FALSE, include = FALSE}
+
+library(data.table, quietly = TRUE, warn.conflicts = FALSE)
+library(ggthemes, quietly = TRUE, warn.conflicts = FALSE)
+library(scales, quietly = TRUE, warn.conflicts = FALSE)
+
+library(haven, quietly = TRUE, warn.conflicts = FALSE)
+library(knitr, quietly = TRUE, warn.conflicts = FALSE)
+library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(pander, quietly = TRUE, warn.conflicts = FALSE)
+library(formattable, quietly = TRUE, warn.conflicts = FALSE)
+
+library(grid, quietly = TRUE, warn.conflicts = FALSE)
+library(gridExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(extrafont, quietly = TRUE, warn.conflicts = FALSE)
+library(tinytex, quietly = TRUE, warn.conflicts = FALSE)
+
+library(tidyverse, quietly = TRUE, warn.conflicts = FALSE)
+library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
+library(xts, quietly = TRUE, warn.conflicts = FALSE)
+library(texreg, quietly = TRUE, warn.conflicts = FALSE)
+
+library(here, quietly = TRUE, warn.conflicts = FALSE)
+
+library(wooldridge, quietly = TRUE, warn.conflicts = FALSE)
+library(WDI, quietly = TRUE, warn.conflicts = FALSE)
+library(maps, quietly = TRUE, warn.conflicts = FALSE)
+library(countrycode, quietly = TRUE, warn.conflicts = FALSE)
+
+options(tinytex.verbose = TRUE)
+suppressMessages(library("tidyverse"))
+
+pretty_kable <- function(data, title, dig = 2) {
+  kable(data, caption = title, digits = dig) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+      kableExtra::kable_styling(latex_options = "hold_position")
+}
+
+theme_set(theme_light())
+
+# Theme Overrides
+theme_update(axis.text.x = element_text(size = 10),
+             axis.text.y = element_text(size = 10),
+             plot.title = element_text(hjust = 0.5, size = 16, face = "bold", color = "darkgreen"),
+             axis.title = element_text(face = "bold", size = 12, colour = "steelblue4"),
+             plot.subtitle = element_text(face = "bold", size = 8, colour = "darkred"),
+             legend.title = element_text(size = 12, color = "darkred", face = "bold"),
+             legend.position = "right", legend.title.align=0.5,
+             panel.border = element_rect(linetype = "solid", 
+                                         colour = "lightgray"), 
+             plot.margin = unit(c( 0.1, 0.1, 0.1, 0.1), "inches"))
+
+data.dir <- paste0(here::here(), "/Quantitative Economics")
+
+get_csv <- function(file) {
+   data.table::fread(file.path(data.dir, file))
+}
+
+get_strata <- function(file) {
+   haven::read_dta(file.path(data.dir, file))
+}
+```
+
+```{r pander_setup, include = FALSE}
+
+knitr::opts_chunk$set(comment = NA)
+
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+
+```
+
+## Wrangling and Graphing
+
+```{r}
+data(anscombe)
+
+ans <- anscombe
+
+str(ans)
+```
+
+```{r}
+ans <- as_tibble(anscombe)
+```
+
+```{r}
+glimpse(ans)
+```
+
+```{r}
+ans %>%
+   summarize(mean.x1 = mean(x1),
+             mean.x2 = mean(x2),
+             mean.y1 = mean(y1),
+             mean.y2 = mean(y2))
+
+ans %>%
+   summarize(sd.x1 = sd(x1),
+             sd.x2 = sd(x2),
+             sd.y1 = sd(y1),
+             sd.y2 = sd(y2))
+```
+
+```{r}
+mod1 <- lm(y1 ~ x1, data = ans)
+
+mod2 <- lm(y1 ~ x2, data = ans)
+```
+
+```{r, results = 'asis', echo = FALSE}
+texreg(list(mod1, mod2),
+       custom.model.names = c("mod1", "mod2"),
+       caption = "Regressions of y1 on x1 and y2 on x2",
+       caption.above = T)
+```
+
+```{r, fig.heigh=6}
+p1 <- ggplot(ans, aes(x = x1, y = y1)) +
+   geom_point() +
+   geom_smooth(method = "lm", se = F)
+
+p2 <- ggplot(ans, aes(x = x2, y = y2)) +
+   geom_point() +
+   geom_smooth(method = "lm", se = F)
+
+p3 <- ggplot(ans, aes(x = x3, y = y3)) +
+   geom_point() +
+   geom_smooth(method = "lm", se = F)
+
+p4 <- ggplot(ans, aes(x = x4, y = y4)) +
+   geom_point() +
+   geom_smooth(method = "lm", se = F)
+
+gridExtra::grid.arrange(p1, p2, p3, p4, ncol = 2)
+```
+
+```{r}
+ifri <- get_csv("ifri_car_liv.csv")
+
+ifri <- ifri[1:80,]
+
+ifri <- ifri %>%
+   rename(carbon = zbio, liveli = zliv)
+```
+
+```{r}
+ggplot(ifri, aes(x = liveli)) +
+   geom_histogram(aes(fill = ..count..), bins = 30)
+```
+
+```{r}
+ggplot(ifri, aes(y = liveli)) +
+   geom_boxplot(fill = "cornflowerblue") +
+   coord_flip()
+```
+
+```{r}
+ggplot(ifri, aes(x = carbon)) +
+   geom_histogram(aes(fill = ..count..), bins = 30)
+```
+
+```{r}
+ggplot(ifri, aes(y = carbon)) +
+   geom_boxplot(fill = "cornflowerblue") +
+   coord_flip()
+```
+
+```{r}
+ggplot(ifri, aes(x= factor(ownstate),
+                 y = carbon)) +
+   geom_boxplot(aes(fill = ownstate)) +
+   coord_flip()
+```
+
+```{r}
+ifri2 <- mutate(ifri, f_own_rule =
+                   ifelse(ownstate == 1 & rulematch == 0, "State_low",
+                   ifelse(ownstate == 1 & rulematch == 1, "State_high",
+                   ifelse(ownstate == 0 & rulematch == 1, "Com_High",
+                          "Com_Low" ))))
+
+ggplot(ifri2, aes(x = liveli,
+                  y = carbon,
+                  size = lnfsize,
+                  colour = f_own_rule)) +
+   geom_point() +
+   geom_smooth(method = "lm", se = F)
+```
+
+```{r}
+WDIsearch("gdp.*capita.*PPP")
+
+WDIsearch("Co2.*capita")
+
+wdi_data <- WDI(indicator = 
+                   c("NY.GDP.PCAP.PP.KD",
+                     "EN.ATM.CO2E.PC"),
+                start = 2010,
+                end = 2010,
+                extra = T)
+
+wdi_data <- wdi_data %>%
+   filter(region != "Aggregates")
+
+wdi <- wdi_data %>%
+   rename(GDPpercap = 
+             NY.GDP.PCAP.PP.KD,
+         Emit_CO2percap = 
+            EN.ATM.CO2E.PC)
+```
+
+
+```{r}
+ggplot(wdi, aes(x = GDPpercap)) +
+   geom_histogram(aes(fill = ..count..))
+```
+
+```{r}
+ggplot(wdi, aes(y = GDPpercap,
+                x = region)) +
+   geom_boxplot(aes(fill = region)) +
+   coord_flip() +
+   scale_y_log10()
+```
+
+```{r}
+ggplot(wdi, aes(x = GDPpercap, y = Emit_CO2percap)) +
+   geom_point(aes(color = region))
+```
+
+```{r}
+ggplot(wdi, aes(x = GDPpercap, y = Emit_CO2percap)) +
+   geom_point(aes(color = region)) +
+   scale_x_log10() +
+   scale_y_log10() +
+   geom_smooth(method = "lm", se = F)
+```
+
+```{r}
+dat_map <- map_data("world")
+
+dim(dat_map)
+
+head(dat_map)
+```
+
+```{r}
+ggplot(dat_map, aes(x = long, y = lat, group = group)) +
+   geom_polygon(fill = "white", color = "black")
+```
+
+```{r}
+dat_map$ccode <- countrycode(dat_map$region,
+                            origin = "country.name",
+                            destination = "wb")
+
+wdi$ccode <- countrycode(wdi$country,
+                         origin = "country.name",
+                         destination = "wb")
+
+merged <- full_join(dat_map, wdi, by = "ccode")
+```
+
+```{r}
+ggplot(merged, aes(x = long, y = lat,
+                   group = group, fill = log10(GDPpercap))) +
+   geom_polygon()
+```
+
+```{r}
+ggplot(merged, aes(x = long, y = lat,
+                   group = group,
+                   fill = log10(Emit_CO2percap))) +
+   geom_polygon() +
+   scale_fill_gradient(low = "green",
+                       high = "red")
+```
+
