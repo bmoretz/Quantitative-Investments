@@ -1,0 +1,387 @@
+---
+title: ''
+mainfont: Arial
+fontsize: 12pt
+documentclass: report
+header-includes:
+- \PassOptionsToPackage{table}{xcolor}
+- \usepackage{caption}
+- \usepackage{amssymb}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage[table]{xcolor}
+- \usepackage{fancyhdr}
+- \usepackage{boldline}
+- \usepackage{tipa}
+   \definecolor{headergrey}{HTML}{545454}
+   \definecolor{msdblue}{HTML}{1C93D1}
+   \pagestyle{fancy}
+   \setlength\headheight{30pt}
+   \rhead{\color{headergrey}\today}
+   \fancyhead[L]{\color{headergrey}Moretz, Brandon}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Working with Data}
+   \rfoot{\color{headergrey}Chapter 3}
+   \lfoot{\color{headergrey}}
+   \fancyfoot[C]{\rmfamily\color{headergrey}Quantitative Trading with R}
+geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r knitr_setup, include = FALSE}
+
+knitr::opts_chunk$set(
+   echo = T, 
+   eval = TRUE, 
+   dev = 'png', 
+   fig.width = 9, 
+   fig.height = 3.5)
+
+options(knitr.table.format = "latex")
+
+```
+
+```{r report_setup, message = FALSE, warning = FALSE, include = FALSE}
+
+library(data.table, quietly = TRUE, warn.conflicts = FALSE)
+library(ggthemes, quietly = TRUE, warn.conflicts = FALSE)
+library(scales, quietly = TRUE, warn.conflicts = FALSE)
+
+library(knitr, quietly = TRUE, warn.conflicts = FALSE)
+library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(pander, quietly = TRUE, warn.conflicts = FALSE)
+library(formattable, quietly = TRUE, warn.conflicts = FALSE)
+
+library(grid, quietly = TRUE, warn.conflicts = FALSE)
+library(gridExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(extrafont, quietly = TRUE, warn.conflicts = FALSE)
+library(tinytex, quietly = TRUE, warn.conflicts = FALSE)
+
+library(xts, quietly = TRUE, warn.conflicts = FALSE)
+library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
+
+library(RJSONIO, quietly = TRUE, warn.conflicts = FALSE)
+library(XLConnect, quietly = TRUE, warn.conflicts = FALSE)
+
+library(here, quietly = TRUE, warn.conflicts = FALSE)
+
+library(hflights, quietly = TRUE, warn.conflicts = FALSE)
+
+options(tinytex.verbose = TRUE)
+suppressMessages(library("tidyverse"))
+
+pretty_kable <- function(data, title, dig = 2) {
+  kable(data, caption = title, digits = dig) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+      kableExtra::kable_styling(latex_options = "hold_position")
+}
+
+theme_set(theme_light())
+
+# Theme Overrides
+theme_update(axis.text.x = element_text(size = 10),
+             axis.text.y = element_text(size = 10),
+             plot.title = element_text(hjust = 0.5, size = 16, face = "bold", color = "darkgreen"),
+             axis.title = element_text(face = "bold", size = 12, colour = "steelblue4"),
+             plot.subtitle = element_text(face = "bold", size = 8, colour = "darkred"),
+             legend.title = element_text(size = 12, color = "darkred", face = "bold"),
+             legend.position = "right", legend.title.align=0.5,
+             panel.border = element_rect(linetype = "solid", 
+                                         colour = "lightgray"), 
+             plot.margin = unit(c( 0.1, 0.1, 0.1, 0.1), "inches"))
+
+data.dir <- paste0(here::here(), "/Quantitative Trading")
+
+```
+
+```{r pander_setup, include = FALSE}
+
+knitr::opts_chunk$set(comment = NA)
+
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+
+```
+
+#### Chapter 3
+
+## Working with Data
+
+```{r}
+# Load the .csv file
+aapl_2 <- read.csv(file = file.path(data.dir, "aapl.csv"), header = TRUE, stringsAsFactors = FALSE)
+
+# Reverse the entries
+aapl_2 <- aapl_2[rev(rownames(aapl_2)), ]
+
+aapl_close <- aapl_2[, "Close"]
+
+summary(aapl_close)
+```
+
+```{r}
+book <- loadWorkbook(file.path(data.dir, "/strategy.xlsx"))
+
+# Convert it into a data frame
+signals <- readWorksheet(book, sheet = "signals", header = TRUE)
+
+signals
+```
+
+```{r}
+strength <- readWorksheet(book, sheet = "strength", header = TRUE)
+
+strength
+```
+
+```{r}
+
+# Setup a new spreadsheet
+book <- loadWorkbook("demo_sheet.xlsx", create = TRUE)
+
+# Create a sheet called stock1
+createSheet(book, name = "stock1")
+
+# Creating a sheet called stock2
+createSheet(book, name = "stock2")
+
+# Load data into workbook
+df <- data.frame(a = c(1, 2, 3), b = c(4, 5, 6))
+writeWorksheet(book, data=df, sheet="stock1", header = TRUE)
+
+# Save the workbook
+saveWorkbook(book, file = file.path(data.dir, "/demo_sheet.xlsx"))
+```
+
+```{r}
+# First, coerce the data into a data.table
+flights_dt <- as_tibble(hflights)
+
+# What type of object is this?
+class(flights_dt)
+## [1] "tbl_dt"  "tbl"   "data.table"  "data.frame"
+
+# Create a grouping by carrier
+carrier_group <- group_by(flights_dt, UniqueCarrier)
+
+# Now compute the summary statistics
+summarise(carrier_group, avg_delay = mean(ArrDelay, na.rm = TRUE))
+
+```
+
+```{r}
+flights_dt <- as_tibble(hflights)
+
+class(flights_dt)
+```
+
+```{r}
+# Load a small dataset that comes along with xts.
+# We could have used our original .csv file as well.
+data(sample_matrix)
+
+# Look at the data
+head(sample_matrix)
+## [1] "matrix"
+
+# What is the type of this object?
+class(sample_matrix)
+## [1] "matrix"
+
+# Use the str() command to get more details about this object.
+str(sample_matrix)
+## num [1:180, 1:4] 50 50.2 50.4 50.4 50.2 ...
+## - attr(*, "dimnames")=List of 2
+## ..$ : chr [1:180] "2007-01-02" "2007-01-03"
+## "2007-01-04" "2007-01-05" ...
+## ..$ : chr [1:4] "Open" "High" "Low" "Close"
+
+xts_matrix <- as.xts(sample_matrix, descr = 'my new xts object')
+
+str(xts_matrix)
+
+# Simple plot
+plot(xts_matrix[,1], main = "Our first xts plot",
+ cex.main = 0.8)
+
+# Or we can try something fancier.
+plot(xts_matrix, main = "Candle plot on xts object",
+ cex.main = 0.8, type = "candles")
+
+plot(xts_matrix["2007-01-01::2007-02-12"],
+  main = "An xts candle plot with subsetting",
+  cex.main = 0.8, type = "candles")
+
+start_date <- "2007-05-05"
+end_date <- "2007-12-31"
+
+plot(xts_matrix[paste(start_date, "::",
+  end_date, sep = "")])
+```
+
+```{r}
+# Create a vector of 10 fictitious stock prices along with
+# a time index in microsecond resolution.
+price_vector <- c(101.02, 101.03, 101.03, 101.04, 101.05,
+  101.03, 101.02, 101.01, 101.00, 100.99)
+
+dates <- c("03/12/2013 08:00:00.532123",
+  "03/12/2013 08:00:01.982333",
+  "03/12/2013 08:00:01.650321",
+  "03/12/2013 08:00:02.402321",
+  "03/12/2013 08:00:02.540432",
+  "03/12/2013 08:00:03.004554",
+  "03/12/2013 08:00:03.900213",
+  "03/12/2013 08:00:04.050323",
+  "03/12/2013 08:00:04.430345",
+  "03/12/2013 08:00:05.700123")
+```
+
+```{r}
+# Allow the R console to display the microsecond field
+options(digits.secs = 6)
+
+# Create the time index with the correct format
+time_index <- strptime(dates, format = "%d/%m/%Y %H:%M:%OS")
+
+# Pass the time index into the its object
+xts_price_vector <- xts(price_vector, time_index)
+
+# Plot the price of the fictitious stock
+plot(xts_price_vector, main = "Fictitious price series",
+  cex.main = 0.8)
+
+# Add a horizontal line where the mean value is
+abline(h = mean(xts_price_vector), lwd = 2)
+
+# Add a vertical blue line at a specified time stamp
+my_time <- as.POSIXct("03/12/2013 08:00:03.004554",
+  format = "%d/%m/%Y %H:%M:%OS")
+
+abline(v = my_time, lwd = 2, lty = 2)
+
+es_price <- c(1700.00, 1700.25, 1700.50, 1700.00, 1700.75,
+    1701.25, 1701.25, 1701.25, 1700.75, 1700.50)
+
+es_time  <- c("09/12/2013 08:00:00.532123",
+  "09/12/2013 08:00:01.982333",
+  "09/12/2013 08:00:05.650321",
+  "09/12/2013 08:10:02.402321",
+  "09/12/2013 08:12:02.540432",
+  "09/12/2013 08:12:03.004554",
+  "09/12/2013 08:14:03.900213",
+  "09/12/2013 08:15:07.090323",
+  "09/12/2013 08:16:04.430345",
+  "09/12/2013 08:18:05.700123")
+
+# create an xts time series object
+xts_es <- xts(es_price, as.POSIXct(es_time,
+  format = "%d/%m/%Y %H:%M:%OS"))
+
+names(xts_es) <- c("price")
+
+time_diff <- difftime(index(xts_es)[2], index(xts_es)[1],
+  units = "secs")
+```
+
+```{r}
+time_diff
+## Time difference of 1.45021 secs
+
+diffs <- c()
+for(i in 2:length(index(xts_es))) {
+  diffs[i] <- difftime(index(xts_es)[i], index(xts_es)[i - 1],
+    units = "secs")
+}
+
+```
+
+```{r}
+##########################
+# Charting with quantmod #
+##########################
+
+AAPL <- getSymbols("AAPL", auto.assign=FALSE)
+head(AAPL)
+
+# Adding some technical indicators on top of the original plot
+chartSeries(AAPL, subset='2010::2010-04',
+  theme = chartTheme('white'),
+  TA = "addVo(); addBBands()")
+
+reChart(subset='2009-01-01::2009-03-03')
+
+chartSeries(AAPL, subset='2011::2012',
+  theme = chartTheme('white'),
+  TA = "addBBands(); addDEMA()")
+
+addVo()
+addDPO()
+
+# Initial chart plot with no indicators
+chartSeries(AAPL, theme = chartTheme('white'), TA = NULL)
+
+# Custom function creation
+my_indicator <- function(x) {
+   return(x + 90)
+}
+
+add_my_indicator <- newTA(FUN = my_indicator, preFUN=Cl,
+  legend.name = "My Fancy Indicator", on = 1)
+
+add_my_indicator()
+```
+
+```{r}
+
+#########################
+# Graphing wiht ggplot2 #
+#########################
+
+# Create a matrix with price and volume
+df <- AAPL[, c("AAPL.Adjusted", "AAPL.Volume")]
+names(df) <- c("price", "volume")
+
+# Create
+df$return <- diff(log(df[, 1]))
+df <- df[-1, ]
+
+df$cuts <- cut(abs(df$return),
+  breaks = c(0, 0.02, 0.04, 0.25),
+  include.lowest = TRUE)
+
+# Create another column for the mean
+df$means <- NA
+for(i in 1:3) {
+  group <- which(df$cuts == i)
+  if(length(group) > 0) {
+    df$means[group] <- mean(df$volume[group])
+  }
+}
+
+ggplot(df) +
+   geom_histogram(aes(x=volume)) +
+   facet_grid(cuts ~ .) +
+   geom_vline(aes(xintercept=means), linetype="dashed", size=1)
+```
+
