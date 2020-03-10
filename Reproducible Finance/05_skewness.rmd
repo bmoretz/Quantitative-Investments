@@ -1,0 +1,446 @@
+---
+title: ''
+mainfont: Arial
+fontsize: 12pt
+documentclass: report
+header-includes:
+- \PassOptionsToPackage{table}{xcolor}
+- \usepackage{caption}
+- \usepackage{amssymb}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage[table]{xcolor}
+- \usepackage{fancyhdr}
+- \usepackage{boldline}
+- \usepackage{tipa}
+   \definecolor{headergrey}{HTML}{545454}
+   \definecolor{msdblue}{HTML}{1C93D1}
+   \pagestyle{fancy}
+   \setlength\headheight{30pt}
+   \rhead{\color{headergrey}\today}
+   \fancyhead[L]{\color{headergrey}Moretz, Brandon}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Skewness}
+   \rfoot{\color{headergrey}Chapter 5}
+   \lfoot{\color{headergrey}}
+   \fancyfoot[C]{\rmfamily\color{headergrey}Reproducible Finance}
+geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
+editor_options: 
+  chunk_output_type: console
+always_allow_html: true
+---
+
+
+```{r knitr_setup, include = FALSE}
+
+knitr::opts_chunk$set(
+   echo = T, 
+   eval = TRUE, 
+   dev = 'png', 
+   fig.width = 9, 
+   fig.height = 3.5)
+
+options(knitr.table.format = "latex")
+
+```
+
+```{r report_setup, message = FALSE, warning = FALSE, include = FALSE}
+
+library(data.table, quietly = TRUE, warn.conflicts = FALSE)
+library(ggthemes, quietly = TRUE, warn.conflicts = FALSE)
+library(scales, quietly = TRUE, warn.conflicts = FALSE)
+
+library(knitr, quietly = TRUE, warn.conflicts = FALSE)
+library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(pander, quietly = TRUE, warn.conflicts = FALSE)
+library(formattable, quietly = TRUE, warn.conflicts = FALSE)
+
+library(grid, quietly = TRUE, warn.conflicts = FALSE)
+library(gridExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(extrafont, quietly = TRUE, warn.conflicts = FALSE)
+library(tinytex, quietly = TRUE, warn.conflicts = FALSE)
+
+library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
+library(dplyr, quietly = TRUE, warn.conflicts = FALSE)
+library(xts, quietly = TRUE, warn.conflicts = FALSE)
+library(tidyverse, quietly = TRUE, warn.conflicts = FALSE)
+library(tidyquant, quietly = TRUE, warn.conflicts = FALSE)
+library(readr, quietly = TRUE, warn.conflicts = FALSE)
+library(timetk, quietly = TRUE, warn.conflicts = FALSE)
+library(readxl, quietly = TRUE, warn.conflicts = FALSE)
+library(lubridate, quietly = TRUE, warn.conflicts = FALSE)
+library(tibbletime, quietly = TRUE, warn.conflicts = FALSE)
+library(highcharter, quietly = TRUE, warn.conflicts = FALSE)
+
+
+library(here, quietly = TRUE, warn.conflicts = FALSE)
+
+options(tinytex.verbose = TRUE)
+suppressMessages(library("tidyverse"))
+
+pretty_kable <- function(data, title, dig = 2) {
+  kable(data, caption = title, digits = dig) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+      kableExtra::kable_styling(latex_options = "hold_position")
+}
+
+theme_set(theme_light())
+
+# Theme Overrides
+theme_update(axis.text.x = element_text(size = 10),
+             axis.text.y = element_text(size = 10),
+             plot.title = element_text(hjust = 0.5, size = 16, face = "bold", color = "darkgreen"),
+             axis.title = element_text(face = "bold", size = 12, colour = "steelblue4"),
+             plot.subtitle = element_text(face = "bold", size = 8, colour = "darkred"),
+             legend.title = element_text(size = 12, color = "darkred", face = "bold"),
+             legend.position = "right", legend.title.align=0.5,
+             panel.border = element_rect(linetype = "solid", 
+                                         colour = "lightgray"), 
+             plot.margin = unit(c( 0.1, 0.1, 0.1, 0.1), "inches"))
+
+data.dir <- paste0(here::here(), "/Reproducible Finance")
+
+```
+
+```{r pander_setup, include = FALSE}
+
+knitr::opts_chunk$set(comment = NA)
+
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+
+```
+
+#### Skewness
+
+```{r}
+data.file <- file.path(data.dir, "Reproducible Finance.csv")
+
+symbols <- c("SPY", "EFA", "IJS", "EEM", "AGG")
+
+# Yahoo! Finance
+
+prices <- getSymbols(symbols,
+             from = "2012-12-31",
+             to = "2017-12-31",
+             auto.assign = T,
+             warnings = F) %>%
+          map(~Ad(get(.))) %>%
+  reduce(merge) %>%
+  `colnames<-`(symbols)
+```
+
+```{r}
+# Verfiy Import
+head(prices, 3)
+
+# convert to monthly prices.
+
+prices_monthly <- to.monthly(prices,
+                             indexAt = "lastof",
+                             OHLC = F)
+
+head(prices_monthly)
+
+# Convert to monthly returns, dplyr.
+
+asset_returns_dplyr_byhand <-
+  prices %>%
+  to.monthly(indexAt = "lastof", OHLC = F) %>%
+  # convert the index to a date
+  data.frame(date = index(.)) %>%
+  # now remove the index because it got converted to row names
+  remove_rownames() %>%
+  gather(asset, prices, - date) %>%
+  group_by(asset) %>%
+  mutate(returns = (log(prices) - log(lag(prices)))) %>%
+  select(-prices) %>%
+  spread(asset, returns) %>%
+  select(date, symbols)
+
+head(asset_returns_dplyr_byhand)
+
+asset_returns_dplyr_byhand <- asset_returns_dplyr_byhand %>%
+  na.omit()
+
+# convert from wide to long format.
+
+asset_returns_long <-
+  asset_returns_dplyr_byhand %>%
+  gather(asset, returns, - date) %>%
+  group_by(asset)
+
+head(asset_returns_long)
+
+# Convert to monthly returns, xts.
+asset_returns_xts <-
+  Return.calculate(prices_monthly,
+                   method = "log") %>%
+  na.omit()
+
+head(asset_returns_xts, 3)
+
+# Asset Weights
+
+w <- c(0.25,
+       0.25,
+       0.20,
+       0.20,
+       0.10)
+
+stopifnot(sum(w) == 1)
+
+tibble(w, symbols) %>%
+  summarise(total_weights = sum(w))
+
+# Portfolio returns, xts.
+
+portfolio_returns_xts_rebalanced_monthly <-
+  Return.portfolio(asset_returns_xts,
+                   weights = w,
+                   rebalance_on = "months") %>%
+  `colnames<-`("returns")
+
+head(portfolio_returns_xts_rebalanced_monthly)
+
+# Portfolio returns, tidyquant.
+
+portfolio_returns_tq_rebalanced_monthly <-
+  asset_returns_long %>%
+  tq_portfolio(assets_col = asset,
+               returns_col = returns,
+               weights = w,
+               col_rename = "returns",
+               rebalance_on = "months")
+
+head(portfolio_returns_tq_rebalanced_monthly, 3)
+```
+
+
+```{r}
+skew_xts <- skewness(portfolio_returns_xts_rebalanced_monthly$returns)
+
+skew_xts
+```
+
+```{r}
+skew_tidy <- portfolio_returns_tq_rebalanced_monthly %>%
+  summarize(skew_builtin = skewness(returns),
+            skew_byhand =
+              (sum((returns - mean(returns))^3)/length(returns))/
+              ((sum((returns - mean(returns))^2)/length(returns)))^(3/2)) %>%
+  select(skew_builtin, skew_byhand)
+
+skew_tidy %>%
+  mutate(xts = coredata(skew_xts)) %>%
+  mutate_all(~ round(., 3))
+```
+
+```{r}
+portfolio_returns_tq_rebalanced_monthly %>%
+  ggplot(aes(x = returns)) +
+    geom_histogram(alpha = 7,
+                   binwidth = .003,
+                   fill = "cornflowerblue",
+                   color = "cornflowerblue") +
+  scale_x_continuous(breaks = pretty_breaks(n = 10))
+```
+
+```{r}
+portfolio_returns_tq_rebalanced_monthly %>%
+  mutate(hist_col_red =
+           if_else(returns < (mean(returns) - 2*sd(returns)),
+                   returns, as.numeric(NA)),
+         if_else(returns > (mean(returns) - 2*sd(returns)),
+                 returns, as.numeric(NA))) %>%
+  ggplot() +
+  geom_histogram(aes(x = hist_col_red),
+                 alpha = .7,
+                 binwidth = 0.003,
+                 fill = "red",
+                 color = "red") +
+  geom_histogram(aes(x = returns),
+                 alpha = 0.7,
+                 binwidth = 0.003,
+                 fill = "cornflowerblue",
+                 color = "cornflowerblue") +
+  scale_x_continuous(breaks = pretty_breaks(n = 10)) +
+  xlab("monthly returns")
+```
+
+```{r}
+portfolio_density_plot <-
+  portfolio_returns_tq_rebalanced_monthly %>%
+  ggplot(aes(x = returns)) +
+  stat_density(geom = "line",
+               alpha = 1,
+               color = "cornflowerblue")
+
+portfolio_density_plot
+```
+
+```{r}
+shaded_area_data <-
+  ggplot_build(portfolio_density_plot)$data[[1]] %>%
+  filter(x < mean(portfolio_returns_tq_rebalanced_monthly$returns))
+
+portfolio_density_plot_shaded <-
+  portfolio_density_plot +
+  geom_area(data = shaded_area_data,
+            aes(x = x, y = y),
+            fill = "pink",
+            alpha = 0.5)
+
+portfolio_density_plot_shaded
+```
+
+```{r}
+median <- median(portfolio_returns_tq_rebalanced_monthly$returns)
+
+mean <- mean(portfolio_returns_tq_rebalanced_monthly$returns)
+```
+
+```{r}
+median_line_data <-
+  ggplot_build(portfolio_density_plot)$data[[1]] %>%
+  filter(x <= median)
+
+portfolio_density_plot_shaded +
+  geom_segment(data = shaded_area_data,
+               aes(x = mean, y = 0,
+                   xend = mean,
+                   yend = density),
+               color = "red",
+               linetype = "dotted") +
+  annotate(geom = "text",
+           x = mean,
+           y = 5,
+           label = "mean",
+           color = "red",
+           fontface = "plain",
+           angle = 90,
+           alpha = 0.8,
+           vjust = -1.75) +
+  geom_segment(data = median_line_data,
+               aes(x = median,
+                   y = 0,
+                   xend = median,
+                   yend = density),
+               color = "black",
+               linetype = "dotted") +
+  annotate(geom = "text",
+           x = median,
+           y = 5,
+           label = "median",
+           color = "black",
+           fontface = "plain",
+           angle = 90,
+           alpha = 0.8,
+           vjust = -1.75) +
+  ggtitle("Density Plot Illustrating Skewness")
+```
+
+```{r}
+asset_returns_long %>%
+  summarize(skew_assets = skewness(returns)) %>%
+  add_row(asset = "Portfolio",
+          skew_assets = skew_tidy$skew_byhand) %>%
+  ggplot(aes(x = asset,
+             y = skew_assets,
+             color = asset)) +
+  geom_point() +
+  geom_text(
+    aes(x = "Portfolio",
+        y = 
+          skew_tidy$skew_builtin + 0.04),
+        label = "Portfolio",
+    color = "cornflowerblue") +
+  labs(y = "skewness")
+```
+
+```{r}
+window <- 24
+
+rolling_skew_xts <-
+  rollapply(portfolio_returns_xts_rebalanced_monthly,
+            FUN = skewness,
+            width = window) %>%
+  na.omit()
+```
+
+```{r}
+skew_roll_24 <-
+  rollify(skewness, window = window)
+
+roll_skew_tibbletime <- 
+  portfolio_returns_tq_rebalanced_monthly %>%
+  as_tbl_time(index = date) %>%
+  mutate(skew = skew_roll_24(returns)) %>%
+  select(-returns) %>%
+  na.omit()
+```
+
+```{r}
+rolling_skew_tq <-
+  portfolio_returns_tq_rebalanced_monthly %>%
+  tq_mutate(select = returns,
+            mutate_fun = rollapply,
+            width = window,
+            FUN = skewness,
+            col_rename = 'tq') %>%
+  na.omit()
+```
+
+```{r}
+rolling_skew_tq %>%
+  select(-returns) %>%
+  mutate(xts = coredata(rolling_skew_xts),
+         tbltime = roll_skew_tibbletime$skew) %>%
+  mutate_if(is.numeric, ~ round(., 3)) %>%
+  tail(3)
+```
+
+```{r}
+highchart(type = "stock") %>%
+  hc_title(text = "Rolling 24-Month Skewness") %>%
+  hc_add_series(rolling_skew_xts,
+                name = "Rolling Skewness",
+                color = "cornflowerblue") %>%
+  hc_yAxis(title = list(text = "skewness"),
+           opposite = F,
+           max = 1,
+           min = -1) %>%
+  hc_navigator(enabled = F) %>%
+  hc_scrollbar(enabled = F) %>%
+  hc_add_theme(hc_theme_flat()) %>%
+  hc_exporting(enabled = F)
+```
+
+```{r}
+rolling_skew_tq %>%
+  ggplot(aes(x = date, y = tq)) +
+  geom_line(color = "cornflowerblue") +
+  ggtitle("Rolling 24-Month Skew") +
+  ylab(paste("Rolling ", window, " month skewness", sep = " ")) +
+  scale_y_continuous(limits = c(-1, 1),
+                     breaks = pretty_breaks(n = 8))
+```
+
