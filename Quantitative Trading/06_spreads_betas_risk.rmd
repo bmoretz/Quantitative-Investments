@@ -30,8 +30,8 @@ header-includes:
    \setlength\headheight{30pt}
    \rhead{\color{headergrey}\today}
    \fancyhead[L]{\color{headergrey}Moretz, Brandon}
-   \fancyhead[C]{\Large\bfseries\color{headergrey}Working with Data}
-   \rfoot{\color{headergrey}Chapter 3}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Spreads, Betas and Risk}
+   \rfoot{\color{headergrey}Chapter 6}
    \lfoot{\color{headergrey}}
    \fancyfoot[C]{\rmfamily\color{headergrey}Quantitative Trading with R}
 geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
@@ -123,265 +123,459 @@ panderOptions('keep.trailing.zeros', TRUE)
 
 ```
 
-#### Chapter 3
-
-## Working with Data
+## Spreads, Beta and Risks
 
 ```{r}
-# Load the .csv file
-aapl_2 <- read.csv(file = file.path(data.dir, "aapl.csv"), header = TRUE, stringsAsFactors = FALSE)
+pepsi <- getSymbols('PEP', from = '2013-01-01',
+                    to = '2014-01-01', adjust = T, auto.assign = F)
 
-# Reverse the entries
-aapl_2 <- aapl_2[rev(rownames(aapl_2)), ]
+coke <- getSymbols('COKE', from = '2013-01-01',
+                    to = '2014-01-01', adjust = T, auto.assign = F)
 
-aapl_close <- aapl_2[, "Close"]
+Sys.setenv(TZ = "UTC")
+```
+ 
+```{r}
+prices <- cbind(pepsi$PEP.Adjusted, coke$COKE.Adjusted)
+price_changes <- data.table(apply(prices, 2, diff), keep.rownames = T)
+colnames(price_changes) <- c('Date', 'PEP', 'COKE')
 
-summary(aapl_close)
+ggplot(price_changes, aes(PEP, COKE)) +
+  geom_point(shape = 1)
 ```
 
 ```{r}
-book <- loadWorkbook(file.path(data.dir, "/strategy.xlsx"))
-
-# Convert it into a data frame
-signals <- readWorksheet(book, sheet = "signals", header = TRUE)
-
-signals
+ans <- lm(PEP ~ COKE, data = price_changes)
+beta <- coef(ans)[2]
 ```
 
 ```{r}
-strength <- readWorksheet(book, sheet = "strength", header = TRUE)
-
-strength
+ans2 <- lm(COKE ~ PEP, data = price_changes)
+beta2 <- coef(ans2)[2]
 ```
 
-```{r}
+Ordinary Least Squares (blue) approach vs Total Least Squares (red) approach:
 
-# Setup a new spreadsheet
-book <- loadWorkbook("demo_sheet.xlsx", create = TRUE)
+```{r, fig.height=8}
+SPY <- getSymbols('SPY', from = '2011-01-01',
+                  to = '2012-12-31', adjsut = T, auto.assign = F)
 
-# Create a sheet called stock1
-createSheet(book, name = "stock1")
+AAPL <- getSymbols('AAPL', from = '2011-01-01',
+                  to = '2012-12-31', adjsut = T, auto.assign = F)
 
-# Creating a sheet called stock2
-createSheet(book, name = "stock2")
+x <- diff(as.numeric(SPY$SPY.Adjusted))
+y <- diff(as.numeric(AAPL$AAPL.Adjusted))
 
-# Load data into workbook
-df <- data.frame(a = c(1, 2, 3), b = c(4, 5, 6))
-writeWorksheet(book, data=df, sheet="stock1", header = TRUE)
+plot(x, y, main = "Scatter plot of returns. SPY vs. AAPL",
+     cex.main = 0.8, cex.lab = 0.8, cex.axis = 0.8)
+abline(lm(y ~ x))
+abline(lm(x ~ y), lty = 2, col = "blue")
+grid()
 
-# Save the workbook
-saveWorkbook(book, file = file.path(data.dir, "/demo_sheet.xlsx"))
+r <- prcomp(~ x + y)
+slope <- r$rotation[2, 1] / r$rotation[1, 1]
+intercept <- r$center[2] - slope * r$center[1]
+
+# Show first principal component
+abline(a = intercept, b = slope, lty = 3, col = "red")
 ```
 
-```{r}
-# First, coerce the data into a data.table
-flights_dt <- as_tibble(hflights)
-
-# What type of object is this?
-class(flights_dt)
-## [1] "tbl_dt"  "tbl"   "data.table"  "data.frame"
-
-# Create a grouping by carrier
-carrier_group <- group_by(flights_dt, UniqueCarrier)
-
-# Now compute the summary statistics
-summarise(carrier_group, avg_delay = mean(ArrDelay, na.rm = TRUE))
-
-```
+### Constructing the spread
 
 ```{r}
-flights_dt <- as_tibble(hflights)
-
-class(flights_dt)
-```
-
-```{r}
-# Load a small dataset that comes along with xts.
-# We could have used our original .csv file as well.
-data(sample_matrix)
-
-# Look at the data
-head(sample_matrix)
-## [1] "matrix"
-
-# What is the type of this object?
-class(sample_matrix)
-## [1] "matrix"
-
-# Use the str() command to get more details about this object.
-str(sample_matrix)
-## num [1:180, 1:4] 50 50.2 50.4 50.4 50.2 ...
-## - attr(*, "dimnames")=List of 2
-## ..$ : chr [1:180] "2007-01-02" "2007-01-03"
-## "2007-01-04" "2007-01-05" ...
-## ..$ : chr [1:4] "Open" "High" "Low" "Close"
-
-xts_matrix <- as.xts(sample_matrix, descr = 'my new xts object')
-
-str(xts_matrix)
-
-# Simple plot
-plot(xts_matrix[,1], main = "Our first xts plot",
- cex.main = 0.8)
-
-# Or we can try something fancier.
-plot(xts_matrix, main = "Candle plot on xts object",
- cex.main = 0.8, type = "candles")
-
-plot(xts_matrix["2007-01-01::2007-02-12"],
-  main = "An xts candle plot with subsetting",
-  cex.main = 0.8, type = "candles")
-
-start_date <- "2007-05-05"
-end_date <- "2007-12-31"
-
-plot(xts_matrix[paste(start_date, "::",
-  end_date, sep = "")])
-```
-
-```{r}
-# Create a vector of 10 fictitious stock prices along with
-# a time index in microsecond resolution.
-price_vector <- c(101.02, 101.03, 101.03, 101.04, 101.05,
-  101.03, 101.02, 101.01, 101.00, 100.99)
-
-dates <- c("03/12/2013 08:00:00.532123",
-  "03/12/2013 08:00:01.982333",
-  "03/12/2013 08:00:01.650321",
-  "03/12/2013 08:00:02.402321",
-  "03/12/2013 08:00:02.540432",
-  "03/12/2013 08:00:03.004554",
-  "03/12/2013 08:00:03.900213",
-  "03/12/2013 08:00:04.050323",
-  "03/12/2013 08:00:04.430345",
-  "03/12/2013 08:00:05.700123")
-```
-
-```{r}
-# Allow the R console to display the microsecond field
-options(digits.secs = 6)
-
-# Create the time index with the correct format
-time_index <- strptime(dates, format = "%d/%m/%Y %H:%M:%OS")
-
-# Pass the time index into the its object
-xts_price_vector <- xts(price_vector, time_index)
-
-# Plot the price of the fictitious stock
-plot(xts_price_vector, main = "Fictitious price series",
-  cex.main = 0.8)
-
-# Add a horizontal line where the mean value is
-abline(h = mean(xts_price_vector), lwd = 2)
-
-# Add a vertical blue line at a specified time stamp
-my_time <- as.POSIXct("03/12/2013 08:00:03.004554",
-  format = "%d/%m/%Y %H:%M:%OS")
-
-abline(v = my_time, lwd = 2, lty = 2)
-
-es_price <- c(1700.00, 1700.25, 1700.50, 1700.00, 1700.75,
-    1701.25, 1701.25, 1701.25, 1700.75, 1700.50)
-
-es_time  <- c("09/12/2013 08:00:00.532123",
-  "09/12/2013 08:00:01.982333",
-  "09/12/2013 08:00:05.650321",
-  "09/12/2013 08:10:02.402321",
-  "09/12/2013 08:12:02.540432",
-  "09/12/2013 08:12:03.004554",
-  "09/12/2013 08:14:03.900213",
-  "09/12/2013 08:15:07.090323",
-  "09/12/2013 08:16:04.430345",
-  "09/12/2013 08:18:05.700123")
-
-# create an xts time series object
-xts_es <- xts(es_price, as.POSIXct(es_time,
-  format = "%d/%m/%Y %H:%M:%OS"))
-
-names(xts_es) <- c("price")
-
-time_diff <- difftime(index(xts_es)[2], index(xts_es)[1],
-  units = "secs")
-```
-
-```{r}
-time_diff
-## Time difference of 1.45021 secs
-
-diffs <- c()
-for(i in 2:length(index(xts_es))) {
-  diffs[i] <- difftime(index(xts_es)[i], index(xts_es)[i - 1],
-    units = "secs")
+# Function to calculate the spread
+calculate_spread <- function(x, y, beta) {
+    return(y - beta * x)
 }
 
-```
+# Function to calculate the beta and level
+# given start and end dates
+calculate_beta_and_level <- function(x, y,
+  start_date, end_date) {
+  require(xts)
 
-```{r}
-##########################
-# Charting with quantmod #
-##########################
+  time_range <- paste(start_date, "::",
+    end_date, sep = "")
+  
+  x <- x[time_range]
+  y <- y[time_range]
 
-AAPL <- getSymbols("AAPL", auto.assign=FALSE)
-head(AAPL)
+  dx <- diff(x[time_range])
+  dy <- diff(y[time_range])
+  r <- prcomp( ~ dx + dy)
 
-# Adding some technical indicators on top of the original plot
-chartSeries(AAPL, subset='2010::2010-04',
-  theme = chartTheme('white'),
-  TA = "addVo(); addBBands()")
+  beta <- r$rotation[2, 1] / r$rotation[1, 1]
+  spread <- calculate_spread(x, y, beta)
+  names(spread) <- "spread"
+  level <- mean(spread, na.rm = TRUE)
 
-reChart(subset='2009-01-01::2009-03-03')
+  outL <- list()
+  outL$spread <- spread
+  outL$beta <- beta
+  outL$level <- level
 
-chartSeries(AAPL, subset='2011::2012',
-  theme = chartTheme('white'),
-  TA = "addBBands(); addDEMA()")
-
-addVo()
-addDPO()
-
-# Initial chart plot with no indicators
-chartSeries(AAPL, theme = chartTheme('white'), TA = NULL)
-
-# Custom function creation
-my_indicator <- function(x) {
-   return(x + 90)
+  return(outL)
 }
 
-add_my_indicator <- newTA(FUN = my_indicator, preFUN=Cl,
-  legend.name = "My Fancy Indicator", on = 1)
+# Function to calculate buy and sell signals
+# with upper and lower threshold
+calculate_buy_sell_signals <- function(spread, beta,
+  level, lower_threshold, upper_threshold) {
 
-add_my_indicator()
+  buy_signals <- ifelse(spread <= level -
+   lower_threshold, 1, 0)
+  sell_signals <- ifelse(spread >= level +
+    upper_threshold, 1, 0)
+
+  # bind these vectors into a matrix
+  output <- cbind(spread, buy_signals,
+    sell_signals)
+  colnames(output) <- c("spread", "buy_signals",
+    "sell_signals")
+
+  return(output)
+}
+```
+ 
+```{r}
+# Implementation
+# Pick an in-sample date range
+start_date <- "2009-01-01"
+end_date <- "2011-12-31"
+x <- SPY[, 6]
+y <- AAPL[, 6]
+
+results <- calculate_beta_and_level(x, y,
+  start_date, end_date)
+
+results$beta
+## [1] 4.923278
+
+results$level
+## [1] -239.0602
+
+plot(results$spread, ylab = "Spread Value",
+  main = "AAPL - beta * SPY",
+  cex.main = 0.8,
+  cex.lab = 0.8,
+  cex.axis = 0.8)
+
+# Out of sample start and end dates
+start_date_out_sample <- "2012-01-01"
+end_date_out_sample <- "2012-10-22"
+range <- paste(start_date_out_sample, "::",
+  end_date_out_sample, sep = "")
+
+# Out of sample analysis
+spread_out_of_sample <- calculate_spread(x[range],
+  y[range], results$beta)
+
+plot(spread_out_of_sample, main = "AAPL - beta * SPY",
+  cex.main = 0.8,
+  cex.lab = 0.8,
+  cex.axis = 0.8)
+abline(h = results$level, lwd = 2)
+```
+
+### Signal generation and validation
+
+```{r}
+# Rolling window of trading days
+window_length <- 10
+
+# Time range
+start_date <- "2011-01-01"
+end_date <- "2011-12-31"
+range <- paste(start_date, "::",
+  end_date, sep = "")
+
+# Our stock pair
+x <- SPY[range, 6]
+y <- AAPL[range, 6]
+
+dF <- cbind(x, y)
+names(dF) <- c("x", "y")
+
+# Function that we will use to calculate betas
+run_regression <- function(dF) {
+  return(coef(lm(y ~ x - 1, data = as.data.frame(dF))))
+}
+
+rolling_beta <- function(z, width) {
+  rollapply(z, width = width, FUN = run_regression,
+  by.column = FALSE, align = "right")
+}
+
+betas <- rolling_beta(diff(dF), 10)
+
+data <- merge(betas, dF)
+data$spread <- data$y - lag(betas, 1) * data$x
+
+returns <- diff(dF) / dF
+return_beta <- rolling_beta(returns, 10)
+data$spreadR <- diff(data$y) / data$y -
+  return_beta * diff(data$x) / data$x
+
+tail(data)
+##            betas    x      y      spread     spreadR
+## 2011-12-22 2.770586 119.60 383.07 138.70795 -0.002322110
+## 2011-12-23 3.094533 120.67 387.66  53.33343  0.003311904
+## 2011-12-27 3.450416 120.76 390.74  17.04417  0.007083611
+## 2011-12-28 3.364819 119.18 387.00 -24.22055  0.004194527
+## 2011-12-29 3.004804 120.41 389.38 -15.77781 -0.003361064
 ```
 
 ```{r}
+threshold <- sd(data$spread, na.rm = TRUE)
 
-#########################
-# Graphing wiht ggplot2 #
-#########################
+threshold
+## [1] 143.7734
 
-# Create a matrix with price and volume
-df <- AAPL[, c("AAPL.Adjusted", "AAPL.Volume")]
-names(df) <- c("price", "volume")
+plot(data$spread, main = "AAPL vs. SPY In-Sample",
+  cex.main = 0.8,
+  cex.lab = 0.8,
+  cex.axis = 0.8)
+abline(h = threshold, lty = 2)
+abline(h = -threshold, lty = 2)
+```
 
-# Create
-df$return <- diff(log(df[, 1]))
-df <- df[-1, ]
+```{r}
+# Construct the out of sample spread
+# Keep the same 10 day rolling window
+window_length <- 10
 
-df$cuts <- cut(abs(df$return),
-  breaks = c(0, 0.02, 0.04, 0.25),
-  include.lowest = TRUE)
+# Time range
+start_date <- "2012-01-01"
+end_date <- "2013-12-31"
+range <- paste(start_date, "::",
+  end_date, sep = "")
 
-# Create another column for the mean
-df$means <- NA
-for(i in 1:3) {
-  group <- which(df$cuts == i)
-  if(length(group) > 0) {
-    df$means[group] <- mean(df$volume[group])
+# Our stock pair
+x <- SPY[range, 6]
+y <- AAPL[range, 6]
+
+# Bind these together into a matrix
+dF <- cbind(x, y)
+names(dF) <- c("x", "y")
+
+# Calculate the out of sample rolling beta
+beta_out_of_sample <- rolling_beta(diff(dF), 10)
+```
+
+```{r}
+# Buy and sell threshold
+data_out <- merge(beta_out_of_sample, dF)
+data_out$spread <- data_out$y -
+  lag(beta_out_of_sample, 1) * data_out$x
+
+# Plot the spread with in-sample bands
+plot(data_out$spread, main = "AAPL vs. SPY out of sample",
+  cex.main = 0.8,
+  cex.lab = 0.8,
+  cex.axis = 0.8)
+abline(h = threshold, lwd = 2)
+abline(h = -threshold, lwd = 2)
+
+# Generate sell and buy signals
+buys <- ifelse(data_out$spread > threshold, 1, 0)
+sells <- ifelse(data_out$spread < -threshold, -1, 0)
+data_out$signal <- buys + sells
+
+plot(data_out$spread, main = "AAPL vs. SPY out of sample",
+ cex.main = 0.8,
+ cex.lab = 0.8,
+ cex.axis = 0.8)
+abline(h = threshold, lty = 2)
+abline(h = -threshold, lty = 2)
+```
+
+```{r}
+# Buy and sell threshold
+data_out <- merge(beta_out_of_sample, dF)
+data_out$spread <- data_out$y -
+  lag(beta_out_of_sample, 1) * data_out$x
+
+# Plot the spread with in-sample bands
+plot(data_out$spread, main = "AAPL vs. SPY out of sample",
+  cex.main = 0.8,
+  cex.lab = 0.8,
+  cex.axis = 0.8)
+abline(h = threshold, lwd = 2)
+abline(h = -threshold, lwd = 2)
+
+# Generate sell and buy signals
+buys <- ifelse(data_out$spread > threshold, 1, 0)
+sells <- ifelse(data_out$spread < -threshold, -1, 0)
+data_out$signal <- buys + sells
+
+plot(data_out$spread, main = "AAPL vs. SPY out of sample",
+ cex.main = 0.8,
+ cex.lab = 0.8,
+ cex.axis = 0.8)
+abline(h = threshold, lty = 2)
+abline(h = -threshold, lty = 2)
+```
+
+### Trading the Spread
+
+```{r}
+prev_x_qty <- 0
+position <- 0
+trade_size <- 100
+signal <- as.numeric(data_out$signal)
+signal[is.na(signal)] <- 0
+beta <- as.numeric(data_out$beta_out_of_sample)
+
+qty_x <- rep(0, length(signal))
+qty_y <- rep(0, length(signal))
+
+for(i in 1:length(signal)) {
+  if(signal[i] == 1 && position == 0) {
+    # buy the spread
+    prev_x_qty <- round(beta[i] * trade_size)
+    qty_x[i] <- -prev_x_qty
+    qty_y[i] <- trade_size
+    position <- 1
+  }
+
+  if(signal[i] == -1 && position == 0) {
+    # sell the spread initially
+    prev_x_qty <- round(beta[i] * trade_size)
+    qty_x[i] <- prev_x_qty
+    qty_y[i] <- -trade_size
+    position <- -1
+  }
+
+  if(signal[i] == 1 && position == -1) {
+  # we are short the spread and need to buy
+  qty_x[i] <- -(round(beta[i] * trade_size) +
+    prev_x_qty)
+  prev_x_qty <- round(beta[i] * trade_size)
+  qty_y[i] <- 2 * trade_size
+  position <- 1
+  }
+
+  if(signal[i] == -1 && position == 1) {
+    # we are long the spread and need to sell
+    qty_x[i] <- round(beta[i] * trade_size) + prev_x_qty
+    prev_x_qty <- round(beta[i] * trade_size)
+    qty_y[i] <- -2 * trade_size
+    position <- -1
   }
 }
 
-ggplot(df) +
-   geom_histogram(aes(x=volume)) +
-   facet_grid(cuts ~ .) +
-   geom_vline(aes(xintercept=means), linetype="dashed", size=1)
+qty_x[length(qty_x)] <- -sum(qty_x)
+qty_y[length(qty_y)] <- -sum(qty_y)
+
+data_out$qty_x <- qty_x
+data_out$qty_y <- qty_y
+
+data_out[1:3, ]
+##  beta_out_of_sample        x      y  spread signal qty_x qty_y
+## 2012-01-17  2.1511279 123.48 408.20     NA     NA    0     0
+## 2012-01-18  2.5890817 124.85 412.44  143.87168  1 -259   100
+## 2012-01-19  2.0711505 125.51 411.13   86.17435  0    0     0
+
+tail(data_out, 3)
+##   beta_out_of_sample       x      y  spread signal qty_x qty_y
+## 2012-12-27  6.5051194 138.15 499.45 -404.90307 -1    0     0
+## 2012-12-28  5.6770827 136.66 494.14 -394.84962 -1    0     0
+## 2012-12-31  6.3934172 138.98 516.04 -272.96095 -1 -668   100
+```
+
+```{r}
+# function for computing the equity curve
+compute_equity_curve <- function(qty, price) {
+
+  cash_buy <- ifelse(sign(qty) == 1,
+    qty * price, 0)
+  cash_sell <- ifelse(sign(qty) == -1,
+    -qty * price, 0)
+  position <- cumsum(qty)
+  cumulative_buy <- cumsum(cash_buy)
+  cumulative_sell <- cumsum(cash_sell)
+
+  equity <- cumulative_sell - cumulative_buy +
+    position * price
+  return(equity)
+}
+
+# Add the equity curve columns to the data_out table
+data_out$equity_curve_x <- compute_equity_curve(
+  data_out$qty_x, data_out$x)
+data_out$equity_curve_y <- compute_equity_curve(
+  data_out$qty_y, data_out$y)
+
+plot(data_out$equity_curve_x +
+  data_out$equity_curve_y, type = 'l',
+  main = "AAPL / SPY spread", ylab = "P&L",
+  cex.main = 0.8,
+  cex.axis = 0.8,
+  cex.lab = 0.8)
+```
+
+### More on the Equity Curve
+
+```{r}
+# Calculates the Sharpe ratio
+sharpe_ratio <- function(x, rf) {
+  sharpe <- (mean(x, na.rm = TRUE) - rf) /
+    sd(x, na.rm = TRUE)
+  return(sharpe)
+}
+
+# Calculates the maximum drawdown profile
+drawdown <- function(x) {
+  cummax(x) - x
+}
+
+par(mfrow = c(2, 1), mar = c(1, 1, 1, 1))
+equity_curve <- data_out$equity_curve_x + data_out$equity_curve_y
+
+plot(equity_curve, main = "Equity Curve",
+  cex.main = 0.8,
+  cex.lab = 0.8,
+  cex.axis = 0.8)
+
+plot(drawdown(equity_curve), main = "Drawdown of equity curve",
+ cex.main = 0.8,
+ cex.lab = 0.8,
+ cex.axis = 0.8)
+
+equity <- as.numeric(equity_curve[, 1])
+equity_curve_returns <- diff(equity) / equity[-length(equity)]
+
+# Remove any infinities and NaN
+invalid_values <- is.infinite(equity_curve_returns) | is.nan(equity_curve_returns)
+
+sharpe_ratio(equity_curve_returns[!invalid_values], 0.03)
+```
+
+### Strategy Attributes
+
+```{r}
+omega_ratio <- function(r, T) {
+  omega <- mean(pmax(r - T, 0)) / mean(pmax(T - r, 0))
+  return(omega)
+}
+
+# Find out where the trades occur
+trade_dates <- data_out$qty_x[data_out$qty_x != 0]
+
+# The trade_dates object is an xts object whose index
+# contains the necessary time information
+duration <- as.numeric(diff(index(trade_dates)))
+
+# Summary statistics
+summary(duration)
+## Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+## 1.00   13.50   21.00   31.84   44.00  128.00
+
+# Histogram of trade duration
+hist(duration, breaks = 20,
+  main = "Histogram of trade durations",
+  cex.main = 0.8,
+  cex.lab = 0.8,
+  cex.axis = 0.8)
 ```
 
