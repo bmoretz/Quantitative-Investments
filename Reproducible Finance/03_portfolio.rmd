@@ -125,7 +125,7 @@ panderOptions('keep.trailing.zeros', TRUE)
 
 ```
 
-#### Asset Prices
+#### Portfolio
 
 ```{r}
 

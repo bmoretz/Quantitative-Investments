@@ -38,7 +38,7 @@ head(prices_monthly)
 asset_returns_xts <-
   Return.calculate(prices_monthly,
                    method = "log") %>%
-                   na.omit()
+  na.omit()
 
 head(asset_returns_xts, 3)
 
@@ -48,14 +48,14 @@ asset_returns_tq <-
   prices %>%
   tk_tbl(preserve_index = T,
          rename_index = "date") %>%
-         gather(asset, prices, - date) %>%
-         group_by(asset) %>%
-         tq_transmute(mutate_fun = periodReturn,
-              period = "monthly",
-              type = "log") %>%
-              spread(asset, monthly.returns) %>%
-              select(date, symbols) %>%
-              slice(-1)
+  gather(asset, prices, - date) %>%
+  group_by(asset) %>%
+  tq_transmute(mutate_fun = periodReturn,
+               period = "monthly",
+               type = "log") %>%
+  spread(asset, monthly.returns) %>%
+  select(date, symbols) %>%
+  slice(-1)
 
 head(asset_returns_tq)
 
@@ -117,10 +117,10 @@ head(portfolio_returns_xts_rebalanced_monthly, 3)
 asset_returns_long %>%
   group_by(asset) %>%
   mutate(weights = case_when(asset == symbols[1] ~ w[1],
-                            asset == symbols[2] ~ w[2],
-                            asset == symbols[3] ~ w[3],
-                            asset == symbols[4] ~ w[4],
-                            asset == symbols[5] ~ w[5])) %>%
+                             asset == symbols[2] ~ w[2],
+                             asset == symbols[3] ~ w[3],
+                             asset == symbols[4] ~ w[4],
+                             asset == symbols[5] ~ w[5])) %>%
   head(3)
 
 # Portfolio returns, dplyr.
@@ -129,10 +129,10 @@ portfolio_returns_dplyr_byhand <-
   asset_returns_long %>%
   group_by(asset) %>%
   mutate(weights = case_when(asset == symbols[1] ~ w[1],
-                            asset == symbols[2] ~ w[2],
-                            asset == symbols[3] ~ w[3],
-                            asset == symbols[4] ~ w[4],
-                            asset == symbols[5] ~ w[5]),
+                             asset == symbols[2] ~ w[2],
+                             asset == symbols[3] ~ w[3],
+                             asset == symbols[4] ~ w[4],
+                             asset == symbols[5] ~ w[5]),
          weighted_returns = returns * weights) %>%
   group_by(date) %>%
   summarize(returns = sum(weighted_returns))
@@ -156,8 +156,8 @@ portfolio_returns_dplyr_byhand %>%
   mutate(equation = coredata(portfolio_returns_byhand),
          tq = portfolio_returns_tq_rebalanced_monthly$returns,
          xts = coredata(portfolio_returns_xts_rebalanced_monthly)) %>%
-         mutate_if(is.numeric, funs(round(., 3))) %>%
-         head()
+  mutate_if(is.numeric, funs(round(., 3))) %>%
+  head()
 
 # Visualize portfolio returns
 
@@ -184,9 +184,9 @@ hc_portfolio <-
 hchart(hc_portfolio,
        color = "cornflowerblue",
        name = "Portfolio") %>%
-       hc_title(text = "Portfolio Returns Distribution") %>%
-       hc_add_theme(hc_theme_flat()) %>%
-       hc_exporting(enabled = T)
+  hc_title(text = "Portfolio Returns Distribution") %>%
+  hc_add_theme(hc_theme_flat()) %>%
+  hc_exporting(enabled = T)
 
 # ggplot
 
@@ -210,12 +210,12 @@ portfolio_returns_tq_rebalanced_monthly %>%
 
 asset_returns_long %>%
   ggplot(aes(x = returns,
-            fill = asset)) +
+             fill = asset)) +
   geom_histogram(alpha = 0.15,
-                  binwidth = 0.01) +
+                 binwidth = 0.01) +
   geom_histogram(data = portfolio_returns_tq_rebalanced_monthly,
-                  fill = "cornflowerblue",
-                  binwidth = 0.01) +
+                 fill = "cornflowerblue",
+                 binwidth = 0.01) +
   ggtitle("Portfolio Returns Distribution") +
   theme_update(plot.title = element_text(hjust = 0.5))
 
