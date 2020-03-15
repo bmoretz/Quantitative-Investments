@@ -17,11 +17,11 @@ symbols <- c("SPY", "EFA", "IJS", "EEM", "AGG")
 
 # Yahoo! Finance
 prices <- getSymbols(symbols,
-             from = "2012-12-31",
-             to = "2017-12-31",
-             auto.assign = T,
-             warnings = F) %>%
-          map(~Ad(get(.))) %>%
+                     from = "2012-12-31",
+                     to = "2017-12-31",
+                     auto.assign = T,
+                     warnings = F) %>%
+  map(~Ad(get(.))) %>%
   reduce(merge) %>%
   `colnames<-`(symbols)
 

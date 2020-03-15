@@ -119,4 +119,265 @@ panderOptions('keep.trailing.zeros', TRUE)
 
 #### Prices
 
+```{r}
+alt.data.AMZN <- getSymbols("AMZN", from = "2010-12-31", to = "2013-12-31", auto.assign = F)
 
+head(alt.data.AMZN)
+```
+
+```{r}
+plot(alt.data.AMZN$AMZN.Adjusted)
+```
+
+```{r}
+data.missings.amzn <- alt.data.AMZN[-400:-500,]
+
+plot(data.missings.amzn$AMZN.Close)
+```
+
+```{r}
+summary(alt.data.AMZN)
+```
+
+```{r}
+df_AMZN <- data.table(Date = index(alt.data.AMZN), alt.data.AMZN)
+
+ggplot(df_AMZN, aes(Date, AMZN.Adjusted)) +
+   geom_line()
+```
+
+Weekly Prices:
+
+```{r}
+wk <- to.weekly(df_AMZN)
+
+head(wk)
+```
+
+Monthly Prices:
+
+```{r}
+mo <- to.monthly(df_AMZN)
+
+head(mo)
+
+df_mo <- data.table(Date = index(mo), mo)
+
+ggplot(df_mo, aes(Date, df_AMZN.Adjusted)) +
+   geom_line()
+```
+
+```{r}
+OHLC_AMZN <- as.quantmod.OHLC(mo)
+
+class(OHLC_AMZN)
+
+chartSeries(OHLC_AMZN)
+```
+
+### Comparing Multiple Securities
+
+```{r}
+from <- "2010-12-31"; to <- "2013-12-31"
+
+data.MSFT <- getSymbols("MSFT", from = from, to = to, auto.assign = F)
+data.AMZN <- getSymbols("AMZN", from = from, to = to, auto.assign = F)
+data.GSPC <- getSymbols("^GSPC", from = from, to = to, auto.assign = F)
+data.IBM <- getSymbols("IBM", from = from, to = to, auto.assign = F)
+
+combined <- data.table(Date = index(data.MSFT), 
+                       MSFT = data.MSFT$MSFT.Close, 
+                       AMZN = data.AMZN$AMZN.Close,
+                       IBM = data.IBM$IBM.Close,
+                       GSPC = data.GSPC$GSPC.Close)
+
+colnames(combined) <- c("Date", "MSFT", "AMZN", "IBM", "GSPC")
+```
+
+```{r}
+combined.returns <- data.table(Date = combined$Date[-1], apply(combined[, 2:5], 2, diff))
+
+data.returns <- melt(combined.returns, id.vars = "Date")
+
+ggplot(data.returns, aes(Date, value, group = variable)) +
+   geom_line(aes(col = variable))
+```
+
+```{r}
+combined.appreciation <- data.table(Date = combined$Date, apply(combined[, 2:5], 2, function(x) x / x[1]))
+
+data.appreciation <- melt(combined.appreciation, id.vars = "Date")
+
+ggplot(data.appreciation, aes(Date, value, group = variable)) +
+   geom_line(aes(col = variable)) +
+   geom_hline(yintercept = 1, col = "darkred") +
+   labs(title = "Value of $1 Invested")
+```
+
+```{r}
+ggplot(data.appreciation, aes(Date, value)) +
+   geom_line(aes(col = variable)) +
+   geom_hline(yintercept = 1, col = "darkred") +
+   facet_wrap( ~variable) +
+   labs(title = "Value of $1 Invested")
+```
+
+```{r}
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length = n + 1)
+  hcl(h = hues, l = 65, c = 100)[1:n]
+}
+```
+
+```{r}
+names <- unique(data.appreciation$variable)
+
+n <- length(names)
+
+colors <- gg_color_hue(n)
+
+plots <- gList()
+
+for(index in 1:length(names))
+{
+   current <- names[index]
+   
+   plot <- local({
+      ggplot() +
+         geom_line(data = data.appreciation[variable == current], aes(Date, value), col = colors[index], lwd = 2) +
+         geom_line(data = data.appreciation[variable != current], aes(Date, value, group = variable), col = "black", alpha = .5, lwd = 1) +
+         geom_hline(yintercept = 1, col = "darkred") +
+         labs(title = "Value of $1 Invested")
+      
+   })
+   
+   plots[[index]] <- plot
+}
+
+do.call("grid.arrange", c(plots, ncol=2))
+```
+
+### Technical Analysis
+
+Simple Moving Average
+
+```{r}
+plot_sma <- function(data, name) {
+   prices <- data.table(Date = data$Date, Close = data[, get(name)])
+   
+   prices$sma50 <- rollmeanr(prices$Close, k=50, fill = NA)
+   prices$sma200 <- rollmeanr(prices$Close, k=200, fill = NA)
+   
+   ggplot(prices[Date >= "2013-1-1"]) +
+      geom_line(aes(Date, Close)) +
+      geom_line(aes(Date, sma50), col = "cornflowerblue", lty = 2) +
+      geom_line(aes(Date, sma200), col = "darkred", lty = 5) +
+      labs(title = paste(name, "SMA"))
+}
+```
+
+```{r}
+plot_sma(combined, "AMZN")
+```
+
+```{r}
+plot_sma(combined, "MSFT")
+```
+
+```{r}
+plot_sma(combined, "GSPC")
+```
+
+```{r}
+plot_sma(combined, "IBM")
+```
+
+### Bollinger Bands
+
+```{r}
+plot_bb <- function(data, name) {
+   prices <- data.table(Date = data$Date, Close = data[, get(name)])
+   prices$avg <- rollmeanr(prices$Close, k=20, fill = NA)
+   prices$sd <- rollapply(prices$Close, width = 20, FUN = sd, fill = NA)
+   prices$upper <- prices$avg + 2*prices$sd
+   prices$lower <- prices$avg - 2*prices$sd
+   
+   ggplot(prices[Date >= "2013-1-1"]) +
+      geom_line(aes(Date, Close)) +
+      geom_line(aes(Date, avg), col = "darkred", lty = 2) +
+      geom_line(aes(Date, upper), col = "cornflowerblue", lty = 2) +
+      geom_line(aes(Date, lower), col = "cornflowerblue", lty = 2) +
+      labs(title = paste(name, "Bollinger Bands"))
+}
+```
+
+```{r}
+plot_bb(combined, "AMZN")
+```
+
+```{r}
+plot_bb(combined, "MSFT")
+```
+
+```{r}
+plot_bb(combined, "IBM")
+```
+
+```{r}
+plot_bb(combined, "GSPC")
+```
+
+### Momentum
+
+Relative Strength Index
+
+```{r}
+plot_rsi <- function(data, name) {
+   prices <- data.table(Date = data$Date, Close = data[, get(name)])
+   prices$delta <- c(NA, diff(prices$Close))
+   prices$up <- ifelse(prices$delta > 0, 1, 0)
+   prices$down <- ifelse(prices$delta < 0, -1, 0)
+   prices$up.val <- prices$up * prices$delta
+   prices$down.val <- prices$down * prices$delta
+   prices$up.first.avg <- rollmeanr(prices$up.val, k = 14, fill = NA)
+   prices$down.first.avg <- rollmeanr(prices$down.val, k = 14, fill = NA)
+   
+   up.val <- as.numeric(prices$up.first.avg)
+   down.val <- as.numeric(prices$down.first.avg)
+   
+   prices$up.avg <- prices$up.first.avg
+   for(i in 15:nrow(prices)) {
+      prices$up.avg[i] <- ((up.val[i-1]*13 + up.val[i])/15)
+   }
+   
+   prices$down.avg <- prices$down.first.avg
+   for(i in 15:nrow(prices)) {
+      prices$down.avg[i] <- ((down.val[i-1]*13 + down.val[i])/15)
+   }
+   
+   prices$RS <- prices$up.avg / prices$down.avg
+   prices$RSI <- 100 - (100/(1 + prices$RS))
+   
+   ggplot(prices, aes(Date, RSI)) +
+      geom_line(col = "darkred") +
+      geom_hline(yintercept = 30, col = "cornflowerblue", lty = 2) +
+      geom_hline(yintercept = 70, col = "cornflowerblue", lty = 2) +
+      labs(title = paste(name, "Relative Strenght Indicator"))
+}
+```
+
+```{r}
+plot_rsi(combined, "AMZN")
+```
+
+```{r}
+plot_rsi(combined, "MSFT")
+```
+
+```{r}
+plot_rsi(combined, "IBM")
+```
+
+```{r}
+plot_rsi(combined, "GSPC")
+```
