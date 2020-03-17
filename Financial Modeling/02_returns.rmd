@@ -25,15 +25,14 @@ header-includes:
 - \usepackage{boldline}
 - \usepackage{tipa}
    \definecolor{headergrey}{HTML}{545454}
-   \definecolor{msdblue}{HTML}{1C93D1}
    \pagestyle{fancy}
    \setlength\headheight{30pt}
    \rhead{\color{headergrey}\today}
    \fancyhead[L]{\color{headergrey}Moretz, Brandon}
-   \fancyhead[C]{\Large\bfseries\color{headergrey}Data}
-   \rfoot{\color{headergrey}Chapter 3}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Security Returns}
+   \rfoot{\color{headergrey}Chapter 1}
    \lfoot{\color{headergrey}\thepage}
-   \fancyfoot[C]{\rmfamily\color{headergrey}Quantitative Economics with R}
+   \fancyfoot[C]{\rmfamily\color{headergrey}Financial Modeling}
 geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
@@ -43,7 +42,6 @@ output:
 editor_options: 
   chunk_output_type: console
 ---
-
 
 ```{r knitr_setup, include = FALSE}
 
@@ -64,7 +62,6 @@ library(data.table, quietly = TRUE, warn.conflicts = FALSE)
 library(ggthemes, quietly = TRUE, warn.conflicts = FALSE)
 library(scales, quietly = TRUE, warn.conflicts = FALSE)
 
-library(haven, quietly = TRUE, warn.conflicts = FALSE)
 library(knitr, quietly = TRUE, warn.conflicts = FALSE)
 library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
 library(pander, quietly = TRUE, warn.conflicts = FALSE)
@@ -79,9 +76,6 @@ library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
 library(xts, quietly = TRUE, warn.conflicts = FALSE)
 
 library(here, quietly = TRUE, warn.conflicts = FALSE)
-
-library(wooldridge, quietly = TRUE, warn.conflicts = FALSE)
-library(WDI, quietly = TRUE, warn.conflicts = FALSE)
 
 options(tinytex.verbose = TRUE)
 suppressMessages(library("tidyverse"))
@@ -106,15 +100,8 @@ theme_update(axis.text.x = element_text(size = 10),
                                          colour = "lightgray"), 
              plot.margin = unit(c( 0.1, 0.1, 0.1, 0.1), "inches"))
 
-data.dir <- paste0(here::here(), "/Quantitative Economics")
+data.dir <- paste0(here::here(), "/datasets")
 
-get_csv <- function(file) {
-   data.table::fread(file.path(data.dir, file))
-}
-
-get_strata <- function(file) {
-   haven::read_dta(file.path(data.dir, file))
-}
 ```
 
 ```{r pander_setup, include = FALSE}
@@ -129,63 +116,100 @@ panderOptions('keep.trailing.zeros', TRUE)
 
 ```
 
-## Getting Data into R
+#### Returns
+
+Case Study: IBM
 
 ```{r}
-data("anscombe")
-```
- 
-```{r}
-ans <- anscombe
-```
+date.from <- "2010-12-31"; date.to <- "2013-12-31"
 
-```{r}
-str(ans)
-```
+raw.IBM <- getSymbols("IBM", from = date.from, to = date.to, auto.assign = F)
 
-```{r}
-head(ans)
+raw.IBM$IBM.Return <- Delt(raw.IBM$IBM.Close)
+raw.IBM$IBM.TotalReturn <- Delt(raw.IBM$IBM.Adjusted)
+raw.IBM$LogReturn <- diff(log(raw.IBM$IBM.Adjusted))
 ```
 
 ```{r}
-data("injury")
-str(injury)
+plot(raw.IBM$IBM.Adjusted)
 ```
 
 ```{r}
-names(injury)
-```
-
-CSV
-
-```{r}
-ifri_car_liv <- get_csv("ifri_car_liv.csv")
-
-ifri <- ifri_car_liv
-str(ifri)
-```
-
-STRATA
-
-```{r}
-ifir <- get_strata('ifri_car_liv.dta')
-str(ifir)
-```
-
-Search World Development Indicators
-
-```{r}
-WDIsearch("gdp.*capita.*PPP")
+plot(raw.IBM$IBM.Return)
 ```
 
 ```{r}
-wdi_data <- WDI(indicator = 
-                   c("NY.GDP.PCAP.PP.KD",
-                     "EN.ATM.CO2E.PC"),
-                start = 2010,
-                end = 2010,
-                extra = T)
+plot(raw.IBM$IBM.TotalReturn)
+```
 
-names(wdi_data)
+```{r}
+plot(raw.IBM$LogReturn)
+```
+
+```{r}
+raw.IBM$GrossReturn <- 1 + raw.IBM$IBM.TotalReturn
+raw.IBM[1, ]$GrossReturn <- 1
+raw.IBM$GrossCumulative <- cumprod(raw.IBM$GrossReturn)
+raw.IBM$NetCumulative <- raw.IBM$GrossCumulative - 1
+```
+
+```{r}
+raw.IBM[nrow(raw.IBM), ]$NetCumulative
+
+plot(raw.IBM$NetCumulative)
+```
+
+```{r}
+raw.IBM$CumLog <- raw.IBM$LogReturn
+raw.IBM[1, ]$CumLog <- 0
+
+ibm.log.ret <- sum(raw.IBM$CumLog)
+exp(ibm.log.ret) - 1
+```
+
+```{r}
+raw.IBM$PrcReturn <- raw.IBM$IBM.Return
+raw.IBM$TotReturn <- raw.IBM$IBM.TotalReturn
+
+raw.IBM[1, ]$PrcReturn <- 0
+raw.IBM[1, ]$TotReturn <- 0
+
+ibm.prc.return <- cumprod(1 + raw.IBM$PrcReturn)
+ibm.tot.return <- cumprod(1 + raw.IBM$TotReturn)
+
+plot(ibm.prc.return, col = "blue")
+lines(ibm.tot.return, col = "black")
+title(main = "Price Return vs. Total Return")
+```
+
+```{r}
+data.AMZN <- getSymbols("AMZN", from = date.from, to = date.to, auto.assign = F)
+
+amzn.returns <- data.table(index(data.AMZN), Delt(data.AMZN$AMZN.Adjusted))
+colnames(amzn.returns) <- c("Date", "Return")
+
+amzn.returns[1, ]$Return <- 0
+
+amzn.returns$CumReturn <- cumprod(1 + amzn.returns$Return)
+
+wk <- data.AMZN; amzn.weekly <- to.weekly(wk)
+
+AMZN.weekly <- Delt(wk$AMZN.Adjusted); AMZN.weekly <- amzn.weekly[-1]
+
+```
+
+```{r}
+data.AMZN <- getSymbols("AMZN", from = date.from, to = date.to, auto.assign = F)
+data.IBM <- getSymbols("IBM", from = date.from, to = date.to, auto.assign = F)
+data.MSFT <- getSymbols("MSFT", from = date.from, to = date.to, auto.assign = F)
+data.NFLX <- getSymbols("NFLX", from = date.from, to = date.to, auto.assign = F)
+```
+
+```{r}
+multi <- cbind(data.AMZN$AMZN.Adjusted, data.IBM$IBM.Adjusted, data.MSFT$MSFT.Adjusted, data.NFLX$NFLX.Adjusted)
+
+names(multi) <- c("Date", "AMZN", "IBM", "NFLX")
+
+
 ```
 

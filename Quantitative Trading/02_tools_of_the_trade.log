@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7250 64-bit) (preloaded format=xelatex 2019.12.15)  8 MAR 2020 16:32
+This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7250 64-bit) (preloaded format=xelatex 2019.12.15)  17 MAR 2020 13:25
 entering extended mode
 **./02_tools_of_the_trade.tex
 (02_tools_of_the_trade.tex
@@ -1345,27 +1345,28 @@ LaTeX Font Info:    Font shape `TU/Arial(0)/m/n' will be
 LaTeX Font Info:    Font shape `TU/Arial(0)/bx/n' will be
 (Font)              scaled to size 14.4pt on input line 805.
 [11] [12] [13] [14] [15]
-Underfull \vbox (badness 10000) detected at line 1197
+Underfull \vbox (badness 10000) detected at line 1186
  []
 
 [16]
 File: 02_tools_of_the_trade_files/figure-latex/unnamed-chunk-42-1.png Graphic f
 ile (type bmp)
 <02_tools_of_the_trade_files/figure-latex/unnamed-chunk-42-1.png>
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1237.
 [17]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1237.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1243.
+[18]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1243.
 (02_tools_of_the_trade.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1237.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1237.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1243.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1243.
  ) 
 Here is how much of TeX's memory you used:
  31774 strings out of 427265
  561046 string characters out of 3146495
- 810321 words of memory out of 3000000
+ 810322 words of memory out of 3000000
  35964 multiletter control sequences out of 15000+200000
  533183 words of font info for 52 fonts, out of 3000000 for 9000
  1348 hyphenation exceptions out of 8191
  55i,11n,118p,822b,449s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on 02_tools_of_the_trade.pdf (17 pages).
+Output written on 02_tools_of_the_trade.pdf (18 pages).

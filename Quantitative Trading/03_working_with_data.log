@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7250 64-bit) (preloaded format=xelatex 2019.12.15)  9 MAR 2020 12:48
+This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7250 64-bit) (preloaded format=xelatex 2019.12.15)  17 MAR 2020 13:22
 entering extended mode
 **./03_working_with_data.tex
 (03_working_with_data.tex
@@ -1393,7 +1393,7 @@ Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 655.
 Here is how much of TeX's memory you used:
  31806 strings out of 427265
  563123 string characters out of 3146495
- 809232 words of memory out of 3000000
+ 809233 words of memory out of 3000000
  35991 multiletter control sequences out of 15000+200000
  533167 words of font info for 50 fonts, out of 3000000 for 9000
  1348 hyphenation exceptions out of 8191

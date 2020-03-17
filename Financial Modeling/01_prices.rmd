@@ -25,14 +25,13 @@ header-includes:
 - \usepackage{boldline}
 - \usepackage{tipa}
    \definecolor{headergrey}{HTML}{545454}
-   \definecolor{msdblue}{HTML}{1C93D1}
    \pagestyle{fancy}
    \setlength\headheight{30pt}
    \rhead{\color{headergrey}\today}
    \fancyhead[L]{\color{headergrey}Moretz, Brandon}
-   \fancyhead[C]{\Large\bfseries\color{headergrey}}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Investment Prices}
    \rfoot{\color{headergrey}Chapter 1}
-   \lfoot{\color{headergrey}}
+   \lfoot{\color{headergrey}\thepage}
    \fancyfoot[C]{\rmfamily\color{headergrey}Financial Modeling}
 geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
 date: "`r format(Sys.time(), '%d %B, %Y')`"
@@ -42,6 +41,7 @@ output:
     latex_engine: xelatex
 editor_options: 
   chunk_output_type: console
+always_allow_html: true
 ---
 
 ```{r knitr_setup, include = FALSE}

@@ -32,7 +32,7 @@ header-includes:
    \fancyhead[L]{\color{headergrey}Moretz, Brandon}
    \fancyhead[C]{\Large\bfseries\color{headergrey}Working with Data}
    \rfoot{\color{headergrey}Chapter 3}
-   \lfoot{\color{headergrey}}
+   \lfoot{\color{headergrey}\thepage}
    \fancyfoot[C]{\rmfamily\color{headergrey}Quantitative Trading with R}
 geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
 date: "`r format(Sys.time(), '%d %B, %Y')`"

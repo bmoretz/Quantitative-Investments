@@ -1,15 +1,8 @@
 ---
 title: ''
+mainfont: Arial
+fontsize: 12pt
 documentclass: report
-date: "`r format(Sys.time(), '%d %B, %Y')`"
-output:
-  pdf_document:
-    fig_caption: yes
-    latex_engine: xelatex
-  html_document:
-    df_print: paged
-always_allow_html: true
-geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
 header-includes:
 - \PassOptionsToPackage{table}{xcolor}
 - \usepackage{caption}
@@ -30,17 +23,28 @@ header-includes:
 - \usepackage[table]{xcolor}
 - \usepackage{fancyhdr}
 - \usepackage{boldline}
-- \usepackage{tipa} \definecolor{headergrey}{HTML}{545454} \definecolor{msdblue}{HTML}{1C93D1}
-  \pagestyle{fancy} \setlength\headheight{30pt} \rhead{\color{headergrey}\today} \fancyhead[L]{\color{headergrey}Moretz,
-  Brandon} \fancyhead[C]{\Large\bfseries\color{headergrey}Asset Prices} \rfoot{\color{headergrey}Chapter
-  2} \lfoot{\color{headergrey}} \fancyfoot[C]{\rmfamily\color{headergrey}Reproducible
+- \usepackage{tipa}
+   \definecolor{headergrey}{HTML}{545454}
+   \definecolor{msdblue}{HTML}{1C93D1}
+   \pagestyle{fancy}
+   \setlength\headheight{30pt}
+   \rhead{\color{headergrey}\today}
+   \fancyhead[L]{\color{headergrey}Moretz, Brandon}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Asset Prices}
+   \rfoot{\color{headergrey}Chapter 2}
+   \lfoot{\color{headergrey}\thepage}
+   \fancyfoot[C]{\rmfamily\color{headergrey}Reproducible
   Finance with R}
-mainfont: Arial
-fontsize: 12pt
-editor_options:
+geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
+editor_options: 
   chunk_output_type: console
+always_allow_html: true
 ---
-
 
 ```{r knitr_setup, include = FALSE}
 

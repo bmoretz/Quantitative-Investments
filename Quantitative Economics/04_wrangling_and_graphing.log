@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7250 64-bit) (preloaded format=xelatex 2019.12.15)  8 MAR 2020 17:54
+This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7250 64-bit) (preloaded format=xelatex 2019.12.15)  17 MAR 2020 13:22
 entering extended mode
 **./04_wrangling_and_graphing.tex
 (04_wrangling_and_graphing.tex
@@ -1367,17 +1367,17 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 9.62415pt on input line 253.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 6.01509pt on input line 253.
+[2]
 File: 04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-7-1.png Graphi
 c file (type bmp)
 <04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-7-1.png>
-[2]
 File: 04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-9-1.png Graphi
 c file (type bmp)
 <04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-9-1.png>
+[3]
 File: 04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-10-1.png Graph
 ic file (type bmp)
 <04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-10-1.png>
-[3]
 File: 04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-11-1.png Graph
 ic file (type bmp)
 <04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-11-1.png>
@@ -1396,22 +1396,22 @@ ic file (type bmp)
 File: 04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-16-1.png Graph
 ic file (type bmp)
 <04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-16-1.png>
+[7]
 File: 04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-17-1.png Graph
 ic file (type bmp)
 <04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-17-1.png>
-[7]
 File: 04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-18-1.png Graph
 ic file (type bmp)
 <04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-18-1.png>
+[8]
 File: 04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-19-1.png Graph
 ic file (type bmp)
 <04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-19-1.png>
-[8]
 File: 04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-21-1.png Graph
 ic file (type bmp)
 <04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-21-1.png>
 [9]
-Overfull \hbox (3916.92949pt too wide) in paragraph at lines 533--533
+Overfull \hbox (3916.92949pt too wide) in paragraph at lines 548--548
 []\TU/lmtt/m/n/12 Warning in countrycode(dat_map$region, origin = "country.name
 ", destination = "wb"): Some values were not matched unambiguously: Anguilla, A
 ntarctica, Ascension Island, Azores, Barbuda, Bonaire, Canary Islands, Chagos A
@@ -1431,20 +1431,20 @@ ic file (type bmp)
 File: 04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-24-1.png Graph
 ic file (type bmp)
 <04_wrangling_and_graphing_files/figure-latex/unnamed-chunk-24-1.png>
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 568.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 583.
 [11]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 568.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 583.
 (04_wrangling_and_graphing.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 568.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 568.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 583.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 583.
  ) 
 Here is how much of TeX's memory you used:
  31945 strings out of 427265
  567378 string characters out of 3146495
- 811312 words of memory out of 3000000
+ 811303 words of memory out of 3000000
  36086 multiletter control sequences out of 15000+200000
  537919 words of font info for 79 fonts, out of 3000000 for 9000
  1348 hyphenation exceptions out of 8191
- 55i,12n,118p,826b,429s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,12n,118p,826b,453s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on 04_wrangling_and_graphing.pdf (11 pages).
