@@ -29,7 +29,7 @@ header-includes:
    \setlength\headheight{30pt}
    \rhead{\color{headergrey}\today}
    \fancyhead[L]{\color{headergrey}Moretz, Brandon}
-   \fancyhead[C]{\Large\bfseries\color{headergrey}Security Returns}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Portfolio Returns}
    \rfoot{\color{headergrey}Chapter 1}
    \lfoot{\color{headergrey}\thepage}
    \fancyfoot[C]{\rmfamily\color{headergrey}Financial Modeling}
@@ -59,7 +59,6 @@ options(knitr.table.format = "latex")
 ```{r report_setup, message = FALSE, warning = FALSE, include = FALSE}
 
 library(data.table, quietly = TRUE, warn.conflicts = FALSE)
-library(reshape2, quietly = TRUE, warn.conflicts = FALSE)
 library(ggthemes, quietly = TRUE, warn.conflicts = FALSE)
 library(scales, quietly = TRUE, warn.conflicts = FALSE)
 
@@ -117,108 +116,71 @@ panderOptions('keep.trailing.zeros', TRUE)
 
 ```
 
-#### Returns
+#### Portfolio Returns
 
-Case Study: IBM
-
-```{r}
-date.from <- "2010-12-31"; date.to <- "2013-12-31"
-
-raw.IBM <- getSymbols("IBM", from = date.from, to = date.to, auto.assign = F)
-
-raw.IBM$IBM.Return <- Delt(raw.IBM$IBM.Close)
-raw.IBM$IBM.TotalReturn <- Delt(raw.IBM$IBM.Adjusted)
-raw.IBM$LogReturn <- diff(log(raw.IBM$IBM.Adjusted))
-```
+### Long Way
 
 ```{r}
-plot(raw.IBM$IBM.Adjusted)
-```
+investment.amounts <- c(AMZN = 50e3, MSFT = 10e3, NFLX = 30e3, IBM = 10e3)
+portfolio.names <- c("AMZN", "MSFT", "NFLX", "IBM")
+date.from <- '2010-12-31'; date.to <- '2013-12-31'
 
-```{r}
-plot(raw.IBM$IBM.Return)
-```
+getSymbols(portfolio.names, from = date.from, to = date.to, auto.assign = T)
 
-```{r}
-plot(raw.IBM$IBM.TotalReturn)
-```
+n <- nrow(AMZN)
 
-```{r}
-plot(raw.IBM$LogReturn)
-```
+combined.prices <- data.table(AMZN = AMZN[c(1, n), 6], 
+                              MSFT = MSFT[c(1, n), 6],
+                              NFLX = NFLX[c(1, n), 6],
+                              IBM = IBM[c(1, n), 6])
+colnames(combined.prices) <- portfolio.names
 
-```{r}
-raw.IBM$GrossReturn <- 1 + raw.IBM$IBM.TotalReturn
-raw.IBM[1, ]$GrossReturn <- 1
-raw.IBM$GrossCumulative <- cumprod(raw.IBM$GrossReturn)
-raw.IBM$NetCumulative <- raw.IBM$GrossCumulative - 1
-```
+period.return <- data.table(apply(combined.prices, 2, Delt))
+period.return <- period.return[2]
 
-```{r}
-raw.IBM[nrow(raw.IBM), ]$NetCumulative
+portfolio.weights <- investment.amounts / sum(investment.amounts)
 
-plot(raw.IBM$NetCumulative)
-```
-
-```{r}
-raw.IBM$CumLog <- raw.IBM$LogReturn
-raw.IBM[1, ]$CumLog <- 0
-
-ibm.log.ret <- sum(raw.IBM$CumLog)
-exp(ibm.log.ret) - 1
-```
-
-```{r}
-raw.IBM$PrcReturn <- raw.IBM$IBM.Return
-raw.IBM$TotReturn <- raw.IBM$IBM.TotalReturn
-
-raw.IBM[1, ]$PrcReturn <- 0
-raw.IBM[1, ]$TotReturn <- 0
-
-ibm.prc.return <- cumprod(1 + raw.IBM$PrcReturn)
-ibm.tot.return <- cumprod(1 + raw.IBM$TotReturn)
-
-plot(ibm.prc.return, col = "blue")
-lines(ibm.tot.return, col = "black")
-title(main = "Price Return vs. Total Return")
-```
-
-```{r}
-data.AMZN <- getSymbols("AMZN", from = date.from, to = date.to, auto.assign = F)
-
-amzn.returns <- data.table(index(data.AMZN), Delt(data.AMZN$AMZN.Adjusted))
-colnames(amzn.returns) <- c("Date", "Return")
-
-amzn.returns[1, ]$Return <- 0
-
-amzn.returns$CumReturn <- cumprod(1 + amzn.returns$Return)
-
-wk <- data.AMZN; amzn.weekly <- to.weekly(wk)
-
-AMZN.weekly <- Delt(wk$AMZN.Adjusted); AMZN.weekly <- amzn.weekly[-1]
+portfolio.return <- sum(period.return * portfolio.weights)
 
 ```
 
+Portfolio Return over the Period: `r round(portfolio.return, 4)*100`%
+
+### Matrix Algebra
+
 ```{r}
-data.AMZN <- getSymbols("AMZN", from = date.from, to = date.to, auto.assign = F)
-data.IBM <- getSymbols("IBM", from = date.from, to = date.to, auto.assign = F)
-data.MSFT <- getSymbols("MSFT", from = date.from, to = date.to, auto.assign = F)
-data.NFLX <- getSymbols("NFLX", from = date.from, to = date.to, auto.assign = F)
+wgt.mat <- t(as.matrix(portfolio.weights))
+ret.mat <- t(as.matrix(period.return))
+
+port.ret <- wgt.mat %*% ret.mat
+```
+
+Portfolio Return over the Period: `r round(port.ret, 4)*100`%
+
+### Benchmark Returns
+
+### Benchmark Portfolios
+
+Benchmark Portfolio with 3 names
+
+```{r}
+benchmark.names <- c("AMZN", "MSFT", "IBM")
+benchmark.prices <- data.table(Date = index(AMZN),
+                              AMZN = AMZN[, 6],
+                              MSFT = MSFT[, 6],
+                              IBM = IBM[, 6])
+colnames(benchmark.prices) <- c("Date", benchmark.names)
+
+benchmark.returns <- data.table(Date = index(AMZN), apply(benchmark.prices[, 2:4], 2, Delt))
+benchmark.returns[, ':='(Year = year(Date), Quarter = quarter(Date), Month = month(Date))]
+benchmark.returns[1, c(2:4)] <- 0
 ```
 
 ```{r}
-multi <- data.table(Date = index(data.AMZN), data.AMZN$AMZN.Adjusted, data.IBM$IBM.Adjusted, data.MSFT$MSFT.Adjusted, data.NFLX$NFLX.Adjusted)
-
-names(multi) <- c("Date", "AMZN", "IBM", "MSFT", "NFLX")
-
-multi.growth <- data.table(Date = multi$Date, apply(multi[, !"Date"], 2, function(x) x / x[1]))
-```
-
-```{r}
-multi.growth.long <- reshape2::melt(multi.growth, id.vars = "Date")
-
-ggplot(multi.growth.long, aes(Date, value, group = variable)) +
-   geom_line(aes(col = variable)) +
-   labs("Growth of $1 over Period")
+benchmark.cumret <- benchmark.returns
+benchmark.cumret[, ':='(AMZN = AMZN + 1, MSFT = MSFT + 1, IBM = IBM + 1)]
+benchmark.cumret[, lapply(.SD, cumprod), 
+                  by = list(Year, Quarter, Month), 
+                  .SDcols = benchmark.names]
 ```
 

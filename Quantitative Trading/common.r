@@ -15,7 +15,7 @@ symbols <- c("XLB", #SPDR Materials sector
              "RWR", #SPDR Dow Jones REIT ETF
              
              "EWJ", #iShares Japan
-             "EWG", #iShares Germany
+             #"EWG", #iShares Germany
              "EWU", #iShares UK
              "EWC", #iShares Canada
              "EWY", #iShares South Korea
