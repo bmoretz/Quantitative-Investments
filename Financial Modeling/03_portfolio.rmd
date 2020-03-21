@@ -123,7 +123,7 @@ panderOptions('keep.trailing.zeros', TRUE)
 ```{r}
 investment.amounts <- c(AMZN = 50e3, MSFT = 10e3, NFLX = 30e3, IBM = 10e3)
 portfolio.names <- c("AMZN", "MSFT", "NFLX", "IBM")
-date.from <- '2010-12-31'; date.to <- '2013-12-31'
+date.from <- '2010-12-31'; date.to <- '2014-1-1'
 
 getSymbols(portfolio.names, from = date.from, to = date.to, auto.assign = T)
 
@@ -141,7 +141,6 @@ period.return <- period.return[2]
 portfolio.weights <- investment.amounts / sum(investment.amounts)
 
 portfolio.return <- sum(period.return * portfolio.weights)
-
 ```
 
 Portfolio Return over the Period: `r round(portfolio.return, 4)*100`%
@@ -171,16 +170,106 @@ benchmark.prices <- data.table(Date = index(AMZN),
                               IBM = IBM[, 6])
 colnames(benchmark.prices) <- c("Date", benchmark.names)
 
-benchmark.returns <- data.table(Date = index(AMZN), apply(benchmark.prices[, 2:4], 2, Delt))
-benchmark.returns[, ':='(Year = year(Date), Quarter = quarter(Date), Month = month(Date))]
-benchmark.returns[1, c(2:4)] <- 0
+
+ewport <- benchmark.returns <- data.table(Date = index(AMZN), apply(benchmark.prices[, 2:4], 2, Delt))
+ewport <- ewport[Date >= '2012-12-31' &
+        Date <= '2013-12-31',]
+rownames(ewport) <- seq(1:nrow(ewport))
+
+ewport
+
+ewport$AMZN <- 1 + ewport$AMZN
+ewport$MSFT <- 1 + ewport$MSFT
+ewport$IBM <- 1 + ewport$IBM
+
+# Q1
+
+ew.q1 <- subset(ewport,
+                ewport$Date >= as.Date("2012-12-31") &
+                ewport$Date <= as.Date("2013-03-31"))
+
+ew.q1[1, 2:4] <- 1
+ew.cum.q1 <- ew.q1[, lapply(.SD, cumprod), .SDcols = benchmark.names][, Date := ew.q1$Date]
+
+num.sec <- length(colnames(ew.q1)) - 1
+
+ew.idx.q1 <- ew.cum.q1[, lapply(.SD, function(x)(1/num.sec)*x), .SDcols = benchmark.names][, Date := ew.q1$Date]
+ew.idx.q1[, Value := AMZN + MSFT + IBM]
+
+# Q2
+
+ew.q2 <- subset(ewport,
+                ewport$Date >= as.Date("2013-3-31") &
+                ewport$Date <= as.Date("2013-6-30"))
+
+q2.value <- tail(ew.idx.q1, 1)$Value
+
+ew.cum.q2 <- ew.q2[, lapply(.SD, cumprod), .SDcols = benchmark.names][, Date := ew.q2$Date]
+
+ew.idx.q2 <- ew.cum.q2[, lapply(.SD, function(x)(q2.value/num.sec)*x), .SDcols = benchmark.names][, Date := ew.q2$Date]
+ew.idx.q2[, Value := AMZN + MSFT + IBM]
+
+# Q3
+
+ew.q3 <- subset(ewport,
+                ewport$Date >= as.Date("2013-6-30") &
+                ewport$Date <= as.Date("2013-9-30"))
+
+q3.value <- tail(ew.idx.q2, 1)$Value
+
+ew.cum.q3 <- ew.q3[, lapply(.SD, cumprod), .SDcols = benchmark.names][, Date := ew.q3$Date]
+
+ew.idx.q3 <- ew.cum.q3[, lapply(.SD, function(x)(q3.value/num.sec)*x), .SDcols = benchmark.names][, Date := ew.q3$Date]
+ew.idx.q3[, Value := AMZN + MSFT + IBM]
+
+# Q4
+
+ew.q4 <- subset(ewport,
+                ewport$Date >= as.Date("2013-9-30") &
+                ewport$Date <= as.Date("2013-12-31"))
+
+q3.value <- tail(ew.idx.q3, 1)$Value
+
+ew.cum.q4 <- ew.q4[, lapply(.SD, cumprod), .SDcols = benchmark.names][, Date := ew.q4$Date]
+
+ew.idx.q4 <- ew.cum.q4[, lapply(.SD, function(x)(q3.value/num.sec)*x), .SDcols = benchmark.names][, Date := ew.q4$Date]
+ew.idx.q4[, Value := AMZN + MSFT + IBM]
+
 ```
 
 ```{r}
+
+benchmark.returns <- data.table(Date = index(AMZN), apply(benchmark.prices[, 2:4], 2, Delt))
+benchmark.returns[, ':='(Year = year(Date), Quarter = quarter(Date), Month = month(Date))]
+benchmark.returns[1, c(2:4)] <- 0
+
 benchmark.cumret <- benchmark.returns
 benchmark.cumret[, ':='(AMZN = AMZN + 1, MSFT = MSFT + 1, IBM = IBM + 1)]
-benchmark.cumret[, lapply(.SD, cumprod), 
-                  by = list(Year, Quarter, Month), 
-                  .SDcols = benchmark.names]
+quarterly.returns <- benchmark.cumret[, lapply(.SD, cumprod), 
+                  by = list(Year, Quarter), 
+                  .SDcols = benchmark.names][, Date := benchmark.returns$Date]
+rownames(quarterly.returns) <- seq(1:nrow(quarterly.returns))
+
+n.sec <- 3
+
+quarterly.returns[, lapply(.SD, function(x) c(head(x, 1), tail(x, 1))), 
+                  by = list(Year, Quarter),
+                  .SDcols = "Date"]
+```
+
+```{r}
+ew.port.value <- rbind(ew.idx.q1[, .(Date, Value)],
+                 ew.idx.q2[, .(Date, Value)],
+                 ew.idx.q3[, .(Date, Value)],
+                 ew.idx.q4[, .(Date, Value)])
+```
+
+```{r}
+ggplot(ew.port.value[, Quarter := quarter(Date)], aes(Date, Value)) +
+   geom_line(aes(col = Quarter))
+```
+
+```{r}
+
 ```
 
