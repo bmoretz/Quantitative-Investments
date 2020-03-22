@@ -270,6 +270,9 @@ ggplot(ew.port.value[, Quarter := quarter(Date)], aes(Date, Value)) +
 ```
 
 ```{r}
+ewport$Quarter <- quarter(ewport$Date)
+
+ewport <- ewport[2:nrow(ewport)]
 
 ```
 
