@@ -1,0 +1,372 @@
+---
+title: ''
+mainfont: Arial
+fontsize: 12pt
+documentclass: report
+header-includes:
+- \PassOptionsToPackage{table}{xcolor}
+- \usepackage{caption}
+- \usepackage{amssymb}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage[table]{xcolor}
+- \usepackage{fancyhdr}
+- \usepackage{boldline}
+- \usepackage{tipa}
+   \definecolor{headergrey}{HTML}{545454}
+   \pagestyle{fancy}
+   \setlength\headheight{30pt}
+   \rhead{\color{headergrey}\today}
+   \fancyhead[L]{\color{headergrey}Moretz, Brandon}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Risk}
+   \rfoot{\color{headergrey}Chapter 1}
+   \lfoot{\color{headergrey}\thepage}
+   \fancyfoot[C]{\rmfamily\color{headergrey}Financial Modeling}
+geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r knitr_setup, include = FALSE}
+
+knitr::opts_chunk$set(
+   echo = T, 
+   eval = TRUE, 
+   dev = 'png', 
+   fig.width = 9, 
+   fig.height = 3.5)
+
+options(knitr.table.format = "latex")
+
+```
+
+```{r report_setup, message = FALSE, warning = FALSE, include = FALSE}
+
+library(data.table, quietly = TRUE, warn.conflicts = FALSE)
+library(ggthemes, quietly = TRUE, warn.conflicts = FALSE)
+library(scales, quietly = TRUE, warn.conflicts = FALSE)
+
+library(knitr, quietly = TRUE, warn.conflicts = FALSE)
+library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(pander, quietly = TRUE, warn.conflicts = FALSE)
+library(formattable, quietly = TRUE, warn.conflicts = FALSE)
+
+library(grid, quietly = TRUE, warn.conflicts = FALSE)
+library(gridExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(extrafont, quietly = TRUE, warn.conflicts = FALSE)
+library(tinytex, quietly = TRUE, warn.conflicts = FALSE)
+
+library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
+library(xts, quietly = TRUE, warn.conflicts = FALSE)
+
+library(here, quietly = TRUE, warn.conflicts = FALSE)
+
+options(tinytex.verbose = TRUE)
+suppressMessages(library("tidyverse"))
+
+pretty_kable <- function(data, title, dig = 2) {
+  kable(data, caption = title, digits = dig) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+      kableExtra::kable_styling(latex_options = "hold_position")
+}
+
+theme_set(theme_light())
+
+# Theme Overrides
+theme_update(axis.text.x = element_text(size = 10),
+             axis.text.y = element_text(size = 10),
+             plot.title = element_text(hjust = 0.5, size = 16, face = "bold", color = "darkgreen"),
+             axis.title = element_text(face = "bold", size = 12, colour = "steelblue4"),
+             plot.subtitle = element_text(face = "bold", size = 8, colour = "darkred"),
+             legend.title = element_text(size = 12, color = "darkred", face = "bold"),
+             legend.position = "right", legend.title.align=0.5,
+             panel.border = element_rect(linetype = "solid", 
+                                         colour = "lightgray"), 
+             plot.margin = unit(c( 0.1, 0.1, 0.1, 0.1), "inches"))
+
+data.dir <- file.path(here::here(), "Financial Modeling", "data")
+
+```
+
+```{r pander_setup, include = FALSE}
+
+knitr::opts_chunk$set(comment = NA)
+
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+
+```
+
+#### Risk Return Trade-off
+
+
+```{r}
+ff.data <- data.table::fread(file.path(data.dir, "F-F_Research_Data_Factors.CSV"))
+
+
+ff.data$Date <- as.yearmon(parse_date(as.character(ff.data$V1), format = "%Y%m"))
+
+ff.data$V1 <- NULL
+
+factor.data <- ff.data[, .(Date, RmxRF = `Mkt-RF` / 100, SMB, HML, Rf = RF / 100)]
+
+FF <- factor.data[Date >= "1963-12-01" &
+                     Date <= "2013-12-31"][, .(Date, RmxRF, Rf)]
+
+FF[, Rm := RmxRF + Rf]
+
+FF$Gross.Rm <- 1 + FF$Rm
+FF$Gross.Rm[1] <- 1
+FF$Gross.Rf <- 1 + FF$Rf
+FF$Gross.Rf[1] <- 1
+
+FF
+
+FF[, Cum.Rm := cumprod(FF$Gross.Rm)]
+FF[, Cum.Rf := cumprod(FF$Gross.Rf)]
+```
+
+```{r}
+y.range <- range(FF$Cum.Rm, FF$Cum.Rf)
+y.range
+
+ggplot(FF) +
+   geom_line(aes(Date, Cum.Rm), col = "darkgreen") +
+   geom_line(aes(Date, Cum.Rf), col = "cornflowerblue") +
+   labs(y = "Cumulative Return", title = "Stocks Vs. Bonds")
+```
+
+```{r}
+FF[, Year := year(Date)]
+
+vol <- FF[, .(Stock.Vol = sd(Rm), Bond.Vol = sd(Rf)), by = Year]
+
+ggplot(vol) +
+   geom_line(aes(Year, Stock.Vol), col = "darkgreen") +
+   geom_line(aes(Year, Bond.Vol), col = "cornflowerblue") +
+   labs(title = "Stock Vol vs Bond Vol")
+```
+
+### Security Risk
+
+```{r}
+date.from <- "2010-12-31"; date.to <- "2013-12-31"
+
+AMZN <- getSymbols("AMZN", from = date.from, to = date.to, auto.assign = F)
+IBM <- getSymbols("IBM", from = date.from, to = date.to, auto.assign = F)
+
+AMZN$Return <- Delt(AMZN$AMZN.Adjusted)
+IBM$Return <- Delt(IBM$IBM.Adjusted)
+
+AMZN <- AMZN[-1]
+IBM <- IBM[-1]
+
+AMZN.var.full <- var(AMZN$Return)
+AMZN.sd.full <- sd(AMZN$Return)
+```
+
+```{r}
+AMZN.returns <- data.table(Date = index(AMZN), AMZN$Return)
+AMZN.returns$Year <- year(AMZN.returns$Date)
+
+AMZN.risk <- melt(AMZN.returns[, .(Mean = lapply(.SD, mean), 
+                          `Std Dev` = lapply(.SD, sd), 
+                          Variance = lapply(.SD, var)), 
+                          by = Year,
+                          .SDcols = c('Return')], id.vars = c("Mean", "Std Dev", "Variance"), value.name = "Year")[, variable := NULL]
+
+
+setcolorder(AMZN.risk, c("Year", "Mean", "Std Dev", "Variance"))
+
+AMZN.risk$Mean <- lapply(AMZN.risk$Mean, function(x) round(x * 252, 4))
+AMZN.risk$`Std Dev` <- lapply(AMZN.risk$`Std Dev`, function(x) round(x * sqrt(252), 4))
+AMZN.risk$Variance <- lapply(AMZN.risk$Variance, function(x) round(x * 252, 4))
+
+AMZN.risk
+```
+
+### Multi Asset Approach
+
+```{r}
+wgt.AMZN <- .25
+wgt.IBM <- .75
+```
+
+```{r}
+port.returns <- data.table(Date = index(AMZN), AMZN = AMZN$Return, IBM = IBM$Return)
+
+sd.AMZN <- sd(port.returns$AMZN.Return) * sqrt(252)
+sd.IBM <- sd(port.returns$IBM.Return) * sqrt(252)
+
+ret.cov <- cov(port.returns$AMZN.Return, port.returns$IBM.Return) * 252
+
+# verify
+ret.correl <- cor(port.returns$AMZN.Return, port.returns$IBM.Return)
+ret.cov.long <- ret.correl * sd.AMZN * sd.IBM
+
+round(ret.cov, 6) == round(ret.cov.long, 6)
+```
+
+```{r}
+port.var <- wgt.AMZN^2*sd.AMZN^2 + wgt.IBM^2*sd.IBM^2 + 2*ret.cov*wgt.AMZN*wgt.IBM
+port.sd <- sqrt(port.var)
+
+port.var; port.sd
+```
+
+### Multi-Asset Matrix
+
+```{r}
+WGT.2asset <- c(0.25, 0.75)
+WGT.2asset
+
+WGT.2asset <- matrix(WGT.2asset, 1)
+tWGT.2asset <- t(WGT.2asset)
+
+mat.Ret <- as.matrix(port.returns[, 2:3])
+
+VCOV.2asset <- cov(mat.Ret) * 252
+
+mat.var2asset <- WGT.2asset %*% VCOV.2asset %*% tWGT.2asset
+
+```
+
+```{r}
+mat.2sdasset <- sqrt(mat.var2asset)
+
+mat.var2asset[1]; mat.2sdasset[1]
+```
+
+### Multiple Assets
+
+```{r}
+port.names <- c("AMZN", "MSFT", "IBM", "TSLA")
+
+getSymbols(port.names, from = date.from, to = date.to, auto.assign = T)
+
+port.returns <- data.table(AMZN$AMZN.Adjusted, IBM$IBM.Adjusted, MSFT$MSFT.Adjusted, TSLA$TSLA.Adjusted)
+port.returns <- data.table(apply(port.returns, 2, Delt))
+port.returns <- port.returns[-1]
+
+
+return.mat <- as.matrix(port.returns)
+
+colnames(return.mat) <- port.names
+
+VCOV <- cov(return.mat)
+
+VCOV.annual <- 252 * VCOV
+VCOV.annual
+
+wgt <- c(.2, .2, .3, .3)
+
+mat.wgt <- matrix(wgt, 1)
+
+tmat.wgt <- t(mat.wgt)
+
+port.var <- mat.wgt %*% VCOV.annual %*% tmat.wgt
+port.sd <- sqrt(port.var)
+
+port.var[1]; port.sd[1]
+```
+
+### Value-At-Risk
+
+```{r}
+ewport <- data.table(cbind(Date = index(AMZN)[-1], port.returns))
+ewport <- ewport[Date >= '2012-12-31' &
+        Date <= '2013-12-31',]
+rownames(ewport) <- seq(1:nrow(ewport))
+
+ewport
+
+ewport$AMZN <- 1 + ewport$AMZN
+ewport$MSFT <- 1 + ewport$MSFT
+ewport$IBM <- 1 + ewport$IBM
+ewport$TSLA <- 1 + ewport$TSLA
+
+# Q1
+
+ew.q1 <- subset(ewport,
+                ewport$Date >= as.Date("2012-12-31") &
+                ewport$Date <= as.Date("2013-03-31"))
+
+ew.q1[1, 2:4] <- 1
+ew.cum.q1 <- ew.q1[, lapply(.SD, cumprod), .SDcols = port.names][, Date := ew.q1$Date]
+
+num.sec <- length(colnames(ew.q1)) - 1
+
+ew.idx.q1 <- ew.cum.q1[, lapply(.SD, function(x)(1/num.sec)*x), .SDcols = port.names][, Date := ew.q1$Date]
+ew.idx.q1[, Value := AMZN + MSFT + IBM + TSLA]
+
+# Q2
+
+ew.q2 <- subset(ewport,
+                ewport$Date >= as.Date("2013-3-31") &
+                ewport$Date <= as.Date("2013-6-30"))
+
+q2.value <- tail(ew.idx.q1, 1)$Value
+
+ew.cum.q2 <- ew.q2[, lapply(.SD, cumprod), .SDcols = port.names][, Date := ew.q2$Date]
+
+ew.idx.q2 <- ew.cum.q2[, lapply(.SD, function(x)(q2.value/num.sec)*x), .SDcols = port.names][, Date := ew.q2$Date]
+ew.idx.q2[, Value := AMZN + MSFT + IBM + TSLA]
+
+# Q3
+
+ew.q3 <- subset(ewport,
+                ewport$Date >= as.Date("2013-6-30") &
+                ewport$Date <= as.Date("2013-9-30"))
+
+q3.value <- tail(ew.idx.q2, 1)$Value
+
+ew.cum.q3 <- ew.q3[, lapply(.SD, cumprod), .SDcols = port.names][, Date := ew.q3$Date]
+
+ew.idx.q3 <- ew.cum.q3[, lapply(.SD, function(x)(q3.value/num.sec)*x), .SDcols = port.names][, Date := ew.q3$Date]
+ew.idx.q3[, Value := AMZN + MSFT + IBM + TSLA]
+
+# Q4
+
+ew.q4 <- subset(ewport,
+                ewport$Date >= as.Date("2013-9-30") &
+                ewport$Date <= as.Date("2013-12-31"))
+
+q3.value <- tail(ew.idx.q3, 1)$Value
+
+ew.cum.q4 <- ew.q4[, lapply(.SD, cumprod), .SDcols = port.names][, Date := ew.q4$Date]
+
+ew.idx.q4 <- ew.cum.q4[, lapply(.SD, function(x)(q3.value/num.sec)*x), .SDcols = port.names][, Date := ew.q4$Date]
+ew.idx.q4[, Value := AMZN + MSFT + IBM + TSLA]
+
+ew.port.value <- rbind(ew.idx.q1[, .(Date, Value)],
+                 ew.idx.q2[, .(Date, Value)],
+                 ew.idx.q3[, .(Date, Value)],
+                 ew.idx.q4[, .(Date, Value)])
+```
+
+```{r}
+port.return <- (1 + port.returns$AMZN) * (1 + port.returns$MSFT) * (1 + port.returns$IBM) * (1 + port.returns$TSLA) - 1 
+
+mean(port.return)
+sd(port.return)
+```
+
