@@ -1,0 +1,191 @@
+---
+title: ''
+mainfont: Arial
+fontsize: 12pt
+documentclass: report
+header-includes:
+- \PassOptionsToPackage{table}{xcolor}
+- \usepackage{caption}
+- \usepackage{amssymb}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage[table]{xcolor}
+- \usepackage{fancyhdr}
+- \usepackage{boldline}
+- \usepackage{tipa}
+   \definecolor{headergrey}{HTML}{545454}
+   \definecolor{msdblue}{HTML}{1C93D1}
+   \pagestyle{fancy}
+   \setlength\headheight{30pt}
+   \rhead{\color{headergrey}\today}
+   \fancyhead[L]{\color{headergrey}Moretz, Brandon}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Options}
+   \rfoot{\color{headergrey}Chapter 8}
+   \lfoot{\color{headergrey}\thepage}
+   \fancyfoot[C]{\rmfamily\color{headergrey}Quantitative Trading with R}
+geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r knitr_setup, include = FALSE}
+
+knitr::opts_chunk$set(
+   echo = T, 
+   eval = TRUE, 
+   dev = 'png', 
+   fig.width = 9, 
+   fig.height = 3.5)
+
+options(knitr.table.format = "latex")
+
+```
+
+```{r report_setup, message = FALSE, warning = FALSE, include = FALSE}
+
+library(knitr, quietly = TRUE, warn.conflicts = FALSE)
+library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(pander, quietly = TRUE, warn.conflicts = FALSE)
+
+library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
+
+library(here, quietly = TRUE, warn.conflicts = FALSE)
+
+library(hflights, quietly = TRUE, warn.conflicts = FALSE)
+library(blotter, quietly = TRUE, warn.conflicts = FALSE)
+library(quantstrat, quietly = TRUE, warn.conflicts = FALSE)
+library(PerformanceAnalytics, quietly = TRUE, warn.conflicts = FALSE)
+library(TTR, quietly = TRUE, warn.conflicts = FALSE)
+library(RQuantLib, quietly = TRUE, warn.conflicts = FALSE)
+
+options(tinytex.verbose = TRUE)
+
+pretty_kable <- function(data, title, dig = 2) {
+  kable(data, caption = title, digits = dig) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+      kableExtra::kable_styling(latex_options = "hold_position")
+}
+
+data.dir <- paste0(here::here(), "/Quantitative Trading")
+```
+
+```{r pander_setup, include = FALSE}
+knitr::opts_chunk$set(comment = NA)
+
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+```
+
+```{r}
+options("getSymbols.warning4.0"=FALSE)
+Sys.setenv(TZ="UTC")
+currency('USD')
+
+initDate = "1990-01-01"
+from = "2003-01-01"
+to = "2013-12-31"
+options(width = 70)
+```
+
+## Options
+
+### R QuantLib
+
+```{r}
+lsf.str("package:RQuantLib")
+```
+
+Closed-form solutions:
+
+$c = SN(d_1) - Ke^{-rT}N(d_2)$
+
+$p = -Ke^{-rT}N(-d_2) - SN(-d_1)$
+
+### Valuation
+
+```{r}
+call_value <- EuropeanOption(type = "call", underlying = 100,
+                             strike = 100, dividendYield = 0, riskFreeRate = 0.03,
+                             maturity = 1.0, volatility = .3)
+
+call_value
+```
+
+```{r}
+class(call_value)
+```
+
+```{r}
+type <- "call"
+underlying <- 20:180
+strike <- 100
+dividendYield <- 0
+riskFreeRate <- 0.03
+maturity <- 1.0
+volatility <- 0.10
+
+# Function to create plots of option values and Greeks.
+
+option_values <- function(type, underlying, strike,
+                          dividendYield, riskFreeRate, maturity, volatility) {
+  # Output list with option values and Greeks
+  
+  out <- list()
+  
+  for(i in seq_along(underlying)) {
+    out[[i]] <- EuropeanOption(type = type, underlying = i,
+                               strike = strike, dividendYield = dividendYield,
+                               riskFreeRate = riskFreeRate, maturity = maturity,
+                               volatility = volatility)
+  }
+  
+  # Set up plot window
+  par(mfrow = c(3, 2))
+  names <- c("Value", "Delta", "Gamma",
+             "Vega", "Theta", "Rho")
+  
+  for(i in 1:6)
+  {
+    plot(unlist(lapply(out, "[", i)), type = "l",
+                       main = paste(names[i], "vs. Underlying"),
+                       xlab = "Underlying", ylab = names[i])
+    grid()
+    abline(v = strike, col = "red")
+  }
+  
+  return(out)
+}
+```
+
+```{r}
+option_values(type, underlying, strike, dividendYield,
+              riskFreeRate, maturity, volatility)
+```
+
+### Implied Volatility
+
+```{r}
+
+```
+
+
