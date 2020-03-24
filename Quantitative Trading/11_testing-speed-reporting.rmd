@@ -30,7 +30,7 @@ header-includes:
    \setlength\headheight{30pt}
    \rhead{\color{headergrey}\today}
    \fancyhead[L]{\color{headergrey}Moretz, Brandon}
-   \fancyhead[C]{\Large\bfseries\color{headergrey}Speed, Testing & Reporting}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Speed, Testing and Reporting}
    \rfoot{\color{headergrey}Chapter 8}
    \lfoot{\color{headergrey}\thepage}
    \fancyfoot[C]{\rmfamily\color{headergrey}Quantitative Trading with R}
