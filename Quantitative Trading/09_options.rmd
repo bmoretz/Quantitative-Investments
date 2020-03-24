@@ -175,9 +175,12 @@ option_values <- function(type, underlying, strike,
   
   return(out)
 }
+
 ```
 
 ```{r}
+par(mar=c(1,1,1,1))
+
 option_values(type, underlying, strike, dividendYield,
               riskFreeRate, maturity, volatility)
 ```
