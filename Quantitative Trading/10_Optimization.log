@@ -1,0 +1,3562 @@
+This is XeTeX, Version 3.14159265-2.6-0.999992 (MiKTeX 2.9.7300 64-bit) (preloaded format=xelatex 2020.3.20)  24 MAR 2020 15:14
+entering extended mode
+**./10_Optimization.tex
+(10_Optimization.tex
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-03-06> ("C:\Program Files\MiKTeX 2.9\tex/latex/base\
+report.cls"
+Document Class: report 2019/12/20 v1.4l Standard LaTeX document class
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\size12.clo"
+File: size12.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count163
+\c@chapter=\count164
+\c@section=\count165
+\c@subsection=\count166
+\c@subsubsection=\count167
+\c@paragraph=\count168
+\c@subparagraph=\count169
+\c@figure=\count170
+\c@table=\count171
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/lm\lmodern.sty"
+Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\amssymb.sty"
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\amsfonts.sty"
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks15
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) ("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsmath.sty"
+Package: amsmath 2020/01/20 v2.17e AMS math features
+\@mathmargin=\skip49
+For additional information on amsmath, use the `?' option.
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amstext.sty"
+Package: amstext 2000/06/29 v2.01 AMS text
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsgen.sty"
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks16
+\ex@=\dimen135
+)) ("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsbsy.sty"
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen136
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsopn.sty"
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count172
+LaTeX Info: Redefining \frac on input line 227.
+\uproot@=\count173
+\leftroot@=\count174
+LaTeX Info: Redefining \overline on input line 389.
+\classnum@=\count175
+\DOTSCASE@=\count176
+LaTeX Info: Redefining \ldots on input line 486.
+LaTeX Info: Redefining \dots on input line 489.
+LaTeX Info: Redefining \cdots on input line 610.
+\Mathstrutbox@=\box45
+\strutbox@=\box46
+\big@size=\dimen137
+LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
+\macc@depth=\count177
+\c@MaxMatrixCols=\count178
+\dotsspace@=\muskip16
+\c@parentequation=\count179
+\dspbrk@lvl=\count180
+\tag@help=\toks17
+\row@=\count181
+\column@=\count182
+\maxfields@=\count183
+\andhelp@=\toks18
+\eqnshift@=\dimen138
+\alignsep@=\dimen139
+\tagshift@=\dimen140
+\tagwidth@=\dimen141
+\totwidth@=\dimen142
+\lineht@=\dimen143
+\@envbody=\toks19
+\multlinegap=\skip50
+\multlinetaggap=\skip51
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2859.
+LaTeX Info: Redefining \] on input line 2860.
+) ("C:\Program Files\MiKTeX 2.9\tex/generic/iftex\ifxetex.sty"
+Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
+("C:\Program Files\MiKTeX 2.9\tex/generic/iftex\iftex.sty"
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+)) ("C:\Program Files\MiKTeX 2.9\tex/generic/iftex\ifluatex.sty"
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
+)
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/unicode-math\unicode-math.
+sty ("C:\Program Files\MiKTeX 2.9\tex/latex/l3kernel\expl3.sty"
+Package: expl3 2020-03-06 L3 programming layer (loader) 
+("C:\Program Files\MiKTeX 2.9\tex/latex/l3backend\l3backend-xdvipdfmx.def"
+File: l3backend-xdvipdfmx.def 2020-03-12 L3 backend support: xdvipdfmx
+\g__graphics_track_int=\count184
+\l__pdf_internal_box=\box47
+\g__pdf_backend_object_int=\count185
+\g__pdf_backend_annotation_int=\count186
+))
+Package: unicode-math 2020/01/31 v0.8q Unicode maths in XeLaTeX and LuaLaTeX
+
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/unicode-math\unicode-math-
+xetex.sty
+Package: unicode-math-xetex 2020/01/31 v0.8q Unicode maths in XeLaTeX and LuaLa
+TeX
+("C:\Program Files\MiKTeX 2.9\tex/latex/l3packages/xparse\xparse.sty"
+Package: xparse 2020-03-06 L3 Experimental document command parser
+\l__xparse_current_arg_int=\count187
+\g__xparse_grabber_int=\count188
+\l__xparse_m_args_int=\count189
+\l__xparse_v_nesting_int=\count190
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/l3packages/l3keys2e\l3keys2e.sty"
+Package: l3keys2e 2020-03-06 LaTeX2e option processing using LaTeX3 keys
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/fontspec\fontspec.sty"
+Package: fontspec 2020/02/21 v2.7i Font selection for XeLaTeX and LuaLaTeX
+("C:\Program Files\MiKTeX 2.9\tex/latex/fontspec\fontspec-xetex.sty"
+Package: fontspec-xetex 2020/02/21 v2.7i Font selection for XeLaTeX and LuaLaTe
+X
+\l__fontspec_script_int=\count191
+\l__fontspec_language_int=\count192
+\l__fontspec_strnum_int=\count193
+\l__fontspec_tmp_int=\count194
+\l__fontspec_tmpa_int=\count195
+\l__fontspec_tmpb_int=\count196
+\l__fontspec_tmpc_int=\count197
+\l__fontspec_em_int=\count198
+\l__fontspec_emdef_int=\count199
+\l__fontspec_strong_int=\count266
+\l__fontspec_strongdef_int=\count267
+\l__fontspec_tmpa_dim=\dimen144
+\l__fontspec_tmpb_dim=\dimen145
+\l__fontspec_tmpc_dim=\dimen146
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\fontenc.sty"
+Package: fontenc 2020/02/11 v2.0o Standard LaTeX package
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/fontspec\fontspec.cfg"))) ("C:\Progra
+m Files\MiKTeX 2.9\tex/latex/base\fix-cm.sty"
+Package: fix-cm 2015/01/14 v1.1t fixes to LaTeX
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\ts1enc.def"
+File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding TS1 on input line 47.
+))
+\g__um_fam_int=\count268
+\g__um_fonts_used_int=\count269
+\l__um_primecount_int=\count270
+\g__um_primekern_muskip=\muskip17
+
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/unicode-math\unicode-math-
+table.tex)))
+
+Package fontspec Info: Arial scale = 0.8311537999406586.
+
+
+Package fontspec Info: Arial scale = 0.8311537999406586.
+
+
+Package fontspec Info: Arial scale = 0.8311537999406586.
+
+
+Package fontspec Info: Arial/B scale = 0.8311537999406586.
+
+
+Package fontspec Info: Arial/B scale = 0.8311537999406586.
+
+
+Package fontspec Info: Arial/I scale = 0.8311537999406586.
+
+
+Package fontspec Info: Arial/I scale = 0.8311537999406586.
+
+
+Package fontspec Info: Arial/BI scale = 0.8311537999406586.
+
+
+Package fontspec Info: Arial/BI scale = 0.8311537999406586.
+
+
+Package fontspec Info: Font family 'Arial(0)' created for font 'Arial' with
+(fontspec)             options [Scale=MatchLowercase,Ligatures=TeX,Scale=1].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[1]"Arial/OT:script=latn;language=dflt;mapping=tex-
+text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"Arial/OT:script=latn;language=dflt;+smcp;mappin
+g=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1]"Arial/B/OT:script=latn;language=dflt;mapping=te
+x-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->s*[1]"Arial/B/OT:script=latn;language=dflt;+smcp;mapp
+ing=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->s*[1]"Arial/I/OT:script=latn;language=dflt;mapping=te
+x-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"Arial/I/OT:script=latn;language=dflt;+smcp;mapp
+ing=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[1]"Arial/BI/OT:script=latn;language=dflt;mapping=t
+ex-text;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->s*[1]"Arial/BI/OT:script=latn;language=dflt;+smcp;map
+ping=tex-text;"
+
+LaTeX Font Info:    Font shape `TU/Arial(0)/m/n' will be
+(Font)              scaled to size 12.0pt on input line 20.
+
+Package fontspec Info: Arial scale = 0.9999975478716753.
+
+
+Package fontspec Info: Arial scale = 0.9999975478716753.
+
+
+Package fontspec Info: Arial scale = 0.9999975478716753.
+
+
+Package fontspec Info: Arial/B scale = 0.9999975478716753.
+
+
+Package fontspec Info: Arial/B scale = 0.9999975478716753.
+
+
+Package fontspec Info: Arial/I scale = 0.9999975478716753.
+
+
+Package fontspec Info: Arial/I scale = 0.9999975478716753.
+
+
+Package fontspec Info: Arial/BI scale = 0.9999975478716753.
+
+
+Package fontspec Info: Arial/BI scale = 0.9999975478716753.
+
+
+Package fontspec Info: Font family 'Arial(1)' created for font 'Arial' with
+(fontspec)             options [Scale=MatchLowercase].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[0.9999975478716753]"Arial/OT:script=latn;language=
+dflt;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->s*[0.9999975478716753]"Arial/OT:script=latn;language=
+dflt;+smcp;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[0.9999975478716753]"Arial/B/OT:script=latn;languag
+e=dflt;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->s*[0.9999975478716753]"Arial/B/OT:script=latn;languag
+e=dflt;+smcp;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->s*[0.9999975478716753]"Arial/I/OT:script=latn;languag
+e=dflt;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->s*[0.9999975478716753]"Arial/I/OT:script=latn;languag
+e=dflt;+smcp;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[0.9999975478716753]"Arial/BI/OT:script=latn;langua
+ge=dflt;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->s*[0.9999975478716753]"Arial/BI/OT:script=latn;langua
+ge=dflt;+smcp;"
+
+LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
+(Font)                  OT1/lmr/m/n --> TU/Arial(1)/m/n on input line 20.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/lmr/m/it --> TU/Arial(1)/m/it on input line 20.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/lmr/bx/n --> TU/Arial(1)/b/n on input line 20.
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/upquote\upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\textcomp.sty"
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+)) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/microtype\microtype.sty
+Package: microtype 2019/11/18 v2.7d Micro-typographical refinements (RS)
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks21
+)
+\MT@toks=\toks22
+\MT@count=\count271
+LaTeX Info: Redefining \textls on input line 790.
+\MT@outer@kern=\dimen147
+LaTeX Info: Redefining \textmicrotypecontext on input line 1354.
+\MT@listname@count=\count272
+
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/microtype\microtype-xetex.
+def
+File: microtype-xetex.def 2019/11/18 v2.7d Definitions specific to xetex (RS)
+LaTeX Info: Redefining \lsstyle on input line 258.
+)
+Package microtype Info: Loading configuration file microtype.cfg.
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/microtype\microtype.cfg
+File: microtype.cfg 2019/11/18 v2.7d microtype main configuration file (RS)
+)) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/parskip\parskip.sty
+Package: parskip 2020-01-22 v2.0d non-zero parskip adjustments
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/kvoptions\kvoptions.sty
+Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/generic/ltxcmds\ltxcmds.sty
+Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/generic/kvsetkeys\kvsetkeys.st
+y
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+)) ("C:\Program Files\MiKTeX 2.9\tex/latex/etoolbox\etoolbox.sty"
+Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count273
+)) ("C:\Program Files\MiKTeX 2.9\tex/latex/xcolor\xcolor.sty"
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics-cfg\color.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: xetex.def on input line 225.
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics-def\xetex.def"
+File: xetex.def 2017/06/24 v5.0h Graphics/color driver for xetex
+)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/xurl\xurl.sty
+Package: xurl 2020/01/24 v 0.09 modify URL breaks
+("C:\Program Files\MiKTeX 2.9\tex/latex/url\url.sty"
+\Urlmuskip=\muskip18
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/bookmark\bookmark.sty
+Package: bookmark 2019/12/03 v1.28 PDF bookmarks (HO)
+("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\hyperref.sty"
+Package: hyperref 2020/01/14 v7.00d Hypertext links for LaTeX
+("C:\Program Files\MiKTeX 2.9\tex/latex/pdftexcmds\pdftexcmds.sty"
+Package: pdftexcmds 2019/11/24 v0.31 Utility functions of pdfTeX for LuaTeX (HO
+)
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/generic/infwarerr\infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode not found.
+)
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/generic/kvdefinekeys\kvdefinekey
+s.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/generic/pdfescape\pdfescape.st
+y
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/hycolor\hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/letltxmacro\letltxmacro.st
+y
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/auxhook\auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+\@linkdim=\dimen148
+\Hy@linkcounter=\count274
+\Hy@pagecounter=\count275
+("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\pd1enc.def"
+File: pd1enc.def 2020/01/14 v7.00d Hyperref: PDFDocEncoding definition (HO)
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/generic/intcalc\intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/generic/etexcmds\etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count276
+Package hyperref Info: Option `unicode' set `true' on input line 4421.
+("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\puenc.def"
+File: puenc.def 2020/01/14 v7.00d Hyperref: PDF Unicode definition (HO)
+)
+Package hyperref Info: Hyper figures OFF on input line 4547.
+Package hyperref Info: Link nesting OFF on input line 4552.
+Package hyperref Info: Hyper index ON on input line 4555.
+Package hyperref Info: Plain pages OFF on input line 4562.
+Package hyperref Info: Backreferencing OFF on input line 4567.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4800.
+\c@Hy@tempcnt=\count277
+LaTeX Info: Redefining \url on input line 5159.
+\XeTeXLinkMargin=\dimen149
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/generic/bitset\bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/generic/bigintcalc\bigintcalc.st
+y
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count278
+\Field@Width=\dimen150
+\Fld@charsize=\dimen151
+Package hyperref Info: Hyper figures OFF on input line 6430.
+Package hyperref Info: Link nesting OFF on input line 6435.
+Package hyperref Info: Hyper index ON on input line 6438.
+Package hyperref Info: backreferencing OFF on input line 6445.
+Package hyperref Info: Link coloring OFF on input line 6450.
+Package hyperref Info: Link coloring with OCG OFF on input line 6455.
+Package hyperref Info: PDF/A mode OFF on input line 6460.
+LaTeX Info: Redefining \ref on input line 6500.
+LaTeX Info: Redefining \pageref on input line 6504.
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/generic/atbegshi\atbegshi.sty
+Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
+)
+\Hy@abspage=\count279
+\c@Item=\count280
+\c@Hfootnote=\count281
+)
+Package hyperref Info: Driver (autodetected): hxetex.
+("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\hxetex.def"
+File: hxetex.def 2020/01/14 v7.00d Hyperref driver for XeTeX
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/generic/stringenc\stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+\pdfm@box=\box48
+\c@Hy@AnnotLevel=\count282
+\HyField@AnnotCount=\count283
+\Fld@listcount=\count284
+\c@bookmark@seq@number=\count285
+
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/rerunfilecheck\rerunfilech
+eck.sty
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/atveryend\atveryend.sty
+Package: atveryend 2019-12-11 v1.11 Hooks at the very end of document (HO)
+)
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/generic/uniquecounter\uniquecoun
+ter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+86.
+)
+\Hy@SectionHShift=\skip52
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/bookmark\bkm-dvipdfm.def
+File: bkm-dvipdfm.def 2019/12/03 v1.28 bookmark driver for dvipdfm (HO)
+\BKM@id=\count286
+)) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/geometry\geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+("C:\Program Files\MiKTeX 2.9\tex/generic/iftex\ifvtex.sty"
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count287
+\Gm@cntv=\count288
+\c@Gm@tempcnt=\count289
+\Gm@bindingoffset=\dimen152
+\Gm@wd@mp=\dimen153
+\Gm@odd@mp=\dimen154
+\Gm@even@mp=\dimen155
+\Gm@layoutwidth=\dimen156
+\Gm@layoutheight=\dimen157
+\Gm@layouthoffset=\dimen158
+\Gm@layoutvoffset=\dimen159
+\Gm@dimlist=\toks23
+("C:\Program Files\MiKTeX 2.9\tex/xelatex/xetexconfig\geometry.cfg")) (C:\Users
+\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/fancyvrb\fancyvrb.sty
+Package: fancyvrb 2020/01/13 v3.5 verbatim text (tvz,hv)
+\FV@CodeLineNo=\count290
+\FV@InFile=\read2
+\FV@TabBox=\box49
+\c@FancyVerbLine=\count291
+\FV@StepNumber=\count292
+\FV@OutFile=\write3
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/framed\framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip53
+\fb@frw=\dimen160
+\fb@frh=\dimen161
+\FrameRule=\dimen162
+\FrameSep=\dimen163
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphicx.sty"
+Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphics.sty"
+Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\trig.sty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/graphics-cfg\graphics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: xetex.def on input line 105.
+)
+\Gin@req@height=\dimen164
+\Gin@req@width=\dimen165
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/grffile\grffile.sty
+Package: grffile 2019/11/11 v2.1 Extended file name support for graphics (legac
+y)
+Package grffile Info: This package is an empty stub for compatibility on input 
+line 40.
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/caption\caption.sty
+Package: caption 2020/01/03 v3.4h Customizing captions (AR)
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/caption\caption3.sty
+Package: caption3 2020/01/03 v1.8h caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 61.
+\captionmargin=\dimen166
+\captionmargin@=\dimen167
+\captionwidth=\dimen168
+\caption@tempdima=\dimen169
+\caption@indent=\dimen170
+\caption@parindent=\dimen171
+\caption@hangindent=\dimen172
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count293
+\c@continuedfloat=\count294
+Package caption Info: hyperref package is loaded.
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/booktabs\booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen173
+\lightrulewidth=\dimen174
+\cmidrulewidth=\dimen175
+\belowrulesep=\dimen176
+\belowbottomsep=\dimen177
+\aboverulesep=\dimen178
+\abovetopsep=\dimen179
+\cmidrulesep=\dimen180
+\cmidrulekern=\dimen181
+\defaultaddspace=\dimen182
+\@cmidla=\count295
+\@cmidlb=\count296
+\@aboverulesep=\dimen183
+\@belowrulesep=\dimen184
+\@thisruleclass=\count297
+\@lastruleclass=\count298
+\@thisrulewidth=\dimen185
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/tools\longtable.sty"
+Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
+\LTleft=\skip54
+\LTright=\skip55
+\LTpre=\skip56
+\LTpost=\skip57
+\LTchunksize=\count299
+\LTcapwidth=\dimen186
+\LT@head=\box50
+\LT@firsthead=\box51
+\LT@foot=\box52
+\LT@lastfoot=\box53
+\LT@cols=\count300
+\LT@rows=\count301
+\c@LT@tables=\count302
+\c@LT@chunks=\count303
+\LT@p@ftn=\toks24
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/tools\array.sty"
+Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
+\col@sep=\dimen187
+\ar@mcellbox=\box54
+\extrarowheight=\dimen188
+\NC@list=\toks25
+\extratabsurround=\skip58
+\backup@length=\skip59
+\ar@cellbox=\box55
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/multirow\multirow.sty
+Package: multirow 2019/05/31 v2.5 Span multiple rows of a table
+\multirow@colwidth=\skip60
+\multirow@cntb=\count304
+\multirow@dima=\skip61
+\bigstrutjot=\dimen189
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/wrapfig\wrapfig.sty
+\wrapoverhang=\dimen190
+\WF@size=\dimen191
+\c@WF@wrappedlines=\count305
+\WF@box=\box56
+\WF@everypar=\toks26
+Package: wrapfig 2003/01/31  v 3.6
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count306
+\float@exts=\toks27
+\float@box=\box57
+\@float@everytoks=\toks28
+\@floatcapt=\box58
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/colortbl\colortbl.sty
+Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+\everycr=\toks29
+\minrowclearance=\skip62
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/pdflscape\pdflscape.sty
+Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\lscape.sty"
+Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: dvipdfm (xetex) on input line 98.
+
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/tabu\tabu.sty
+Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/varwidth\varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box59
+\sift@deathcycles=\count307
+\@vwid@loff=\dimen192
+\@vwid@roff=\dimen193
+)
+\c@taburow=\count308
+\tabu@nbcols=\count309
+\tabu@cnt=\count310
+\tabu@Xcol=\count311
+\tabu@alloc=\count312
+\tabu@nested=\count313
+\tabu@target=\dimen194
+\tabu@spreadtarget=\dimen195
+\tabu@naturalX=\dimen196
+\tabucolX=\dimen197
+\tabu@Xsum=\dimen198
+\extrarowdepth=\dimen199
+\abovetabulinesep=\dimen256
+\belowtabulinesep=\dimen257
+\tabustrutrule=\dimen258
+\tabu@thebody=\toks30
+\tabu@footnotes=\toks31
+\tabu@box=\box60
+\tabu@arstrutbox=\box61
+\tabu@hleads=\box62
+\tabu@vleads=\box63
+\tabu@cellskip=\skip63
+)
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/threeparttable\threepartta
+ble.sty
+Package: threeparttable 2003/06/13  v 3.0
+\@tempboxb=\box64
+)
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/threeparttablex\threepartt
+ablex.sty
+Package: threeparttablex 2013/07/23 v0.3 by daleif
+("C:\Program Files\MiKTeX 2.9\tex/latex/environ\environ.sty"
+Package: environ 2014/05/04 v0.3 A new way to define environments
+("C:\Program Files\MiKTeX 2.9\tex/latex/trimspaces\trimspaces.sty"
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+))
+\TPTL@width=\skip64
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/ulem\ulem.sty
+\UL@box=\box65
+\UL@hyphenbox=\box66
+\UL@skip=\skip65
+\UL@hook=\toks32
+\UL@height=\dimen259
+\UL@pe=\count314
+\UL@pixel=\dimen260
+\ULC@box=\box67
+Package: ulem 2019/11/18
+\ULdepth=\dimen261
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/makecell\makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen262
+\c@nlinenum=\count315
+\TeXr@lab=\toks33
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/fancyhdr\fancyhdr.sty
+Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip66
+\f@nch@O@elh=\skip67
+\f@nch@O@erh=\skip68
+\f@nch@O@olh=\skip69
+\f@nch@O@orh=\skip70
+\f@nch@O@elf=\skip71
+\f@nch@O@erf=\skip72
+\f@nch@O@olf=\skip73
+\f@nch@O@orf=\skip74
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/shipunov\boldline.sty
+Package: boldline 2008/02/04 v0.2 Adjust line width in tables
+
+Package array Warning: Column V is already defined on input line 9.
+
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/tipa\tipa.sty
+Package: tipa 2002/08/08 TIPA version 1.1
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\fontenc.sty"
+Package: fontenc 2020/02/11 v2.0o Standard LaTeX package
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/tipa\t3enc.def
+File: t3enc.def 2001/12/31 T3 encoding
+LaTeX Font Info:    Font shape `TU/Arial(0)/m/sl' in size <12> not available
+(Font)              Font shape `TU/Arial(0)/m/it' tried instead on input line 3
+16.
+LaTeX Font Info:    Font shape `TU/Arial(0)/m/it' will be
+(Font)              scaled to size 12.0pt on input line 316.
+LaTeX Font Info:    Font shape `TU/Arial(0)/b/n' will be
+(Font)              scaled to size 12.0pt on input line 356.
+LaTeX Font Info:    Trying to load font information for T3+lmss on input line 3
+57.
+LaTeX Font Info:    No file T3lmss.fd. on input line 357.
+LaTeX Font Info:    Trying to load font information for T3+cmr on input line 35
+7.
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/tipa\t3cmr.fd
+File: t3cmr.fd 2001/12/31 TIPA font definitions
+)
+
+LaTeX Font Warning: Font shape `T3/lmss/m/n' undefined
+(Font)              using `T3/cmr/m/n' instead on input line 357.
+
+))) (10_Optimization.aux)
+\openout1 = `10_Optimization.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 140.
+LaTeX Font Info:    ... okay on input line 140.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 140.
+LaTeX Font Info:    ... okay on input line 140.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 140.
+LaTeX Font Info:    ... okay on input line 140.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 140.
+LaTeX Font Info:    ... okay on input line 140.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 140.
+LaTeX Font Info:    ... okay on input line 140.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 140.
+LaTeX Font Info:    ... okay on input line 140.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 140.
+LaTeX Font Info:    ... okay on input line 140.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 140.
+LaTeX Font Info:    ... okay on input line 140.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 140.
+LaTeX Font Info:    ... okay on input line 140.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 140.
+LaTeX Font Info:    ... okay on input line 140.
+LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 140.
+LaTeX Font Info:    ... okay on input line 140.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/lmss/m/n --> TU/lmss/m/n on input line 140.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/lmss/bx/n --> TU/lmss/b/n on input line 140.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/m/n on input line 140.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/b/n on input line 140.
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: Font family 'latinmodern-math.otf(0)' created for font
+(fontspec)             'latinmodern-math.otf' with options
+(fontspec)             [Scale=MatchLowercase,BoldItalicFont={},ItalicFont={},Sm
+allCapsFont={},Script=Math,BoldFont={latinmodern-math.otf}].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->s*[1.203140258383906]"[latinmodern-math.otf]/OT:scrip
+t=math;language=dflt;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1.203140258383906]"[latinmodern-math.otf]/OT:scrip
+t=math;language=dflt;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
+
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(0)/m/n' will be
+(Font)              scaled to size 14.43768pt on input line 140.
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: Font family 'latinmodern-math.otf(1)' created for font
+(fontspec)             'latinmodern-math.otf' with options
+(fontspec)             [Scale=MatchLowercase,BoldItalicFont={},ItalicFont={},Sm
+allCapsFont={},Script=Math,SizeFeatures={{Size=10.2-},{Size=7.2-10.2,Font=latin
+modern-math.otf,Style=MathScript},{Size=-7.2,Font=latinmodern-math.otf,Style=Ma
+thScriptScript}},BoldFont={latinmodern-math.otf}].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <10.2->s*[1.203140258383906]"[latinmodern-math.otf]/OT:s
+cript=math;language=dflt;"<7.2-10.2>s*[1.203140258383906]"[latinmodern-math.otf
+]/OT:script=math;language=dflt;+ssty=0;"<-7.2>s*[1.203140258383906]"[latinmoder
+n-math.otf]/OT:script=math;language=dflt;+ssty=1;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1.203140258383906]"[latinmodern-math.otf]/OT:scrip
+t=math;language=dflt;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
+
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 14.43768pt on input line 140.
+LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
+(Font)              `operators' in the math version `normal' on input line 140.
+
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/lmr/m/n --> TU/latinmodern-math.otf(1)/m/n on input
+ line 140.
+LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
+(Font)              `operators' in the math version `bold' on input line 140.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/lmr/bx/n --> TU/latinmodern-math.otf(1)/b/n on inpu
+t line 140.
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203260572409744.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203260572409744.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203260572409744.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203260572409744.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203260572409744.
+
+
+Package fontspec Info: Font family 'latinmodern-math.otf(2)' created for font
+(fontspec)             'latinmodern-math.otf' with options
+(fontspec)             [Scale=MatchLowercase,BoldItalicFont={},ItalicFont={},Sm
+allCapsFont={},Script=Math,SizeFeatures={{Size=10.2-},{Size=7.2-10.2,Font=latin
+modern-math.otf,Style=MathScript},{Size=-7.2,Font=latinmodern-math.otf,Style=Ma
+thScriptScript}},BoldFont={latinmodern-math.otf},ScaleAgain=1.0001,FontAdjustme
+nt={\fontdimen
+(fontspec)             8\font =9.7743pt\relax \fontdimen 9\font
+(fontspec)             =5.68845pt\relax \fontdimen 10\font =6.41032pt\relax
+(fontspec)             \fontdimen 11\font =9.90425pt\relax \fontdimen 12\font
+(fontspec)             =4.981pt\relax \fontdimen 13\font =5.24088pt\relax
+(fontspec)             \fontdimen 14\font =5.24088pt\relax \fontdimen 15\font
+(fontspec)             =4.17249pt\relax \fontdimen 16\font =3.5661pt\relax
+(fontspec)             \fontdimen 17\font =3.5661pt\relax \fontdimen 18\font
+(fontspec)             =3.60942pt\relax \fontdimen 19\font =2.88754pt\relax
+(fontspec)             \fontdimen 22\font =3.60942pt\relax \fontdimen 20\font
+(fontspec)             =0pt\relax \fontdimen 21\font =0pt\relax }].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <10.2->s*[1.203260572409744]"[latinmodern-math.otf]/OT:s
+cript=math;language=dflt;"<7.2-10.2>s*[1.203260572409744]"[latinmodern-math.otf
+]/OT:script=math;language=dflt;+ssty=0;"<-7.2>s*[1.203260572409744]"[latinmoder
+n-math.otf]/OT:script=math;language=dflt;+ssty=1;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+(fontspec)             and font adjustment code:
+(fontspec)             \fontdimen 8\font =9.7743pt\relax \fontdimen 9\font
+(fontspec)             =5.68845pt\relax \fontdimen 10\font =6.41032pt\relax
+(fontspec)             \fontdimen 11\font =9.90425pt\relax \fontdimen 12\font
+(fontspec)             =4.981pt\relax \fontdimen 13\font =5.24088pt\relax
+(fontspec)             \fontdimen 14\font =5.24088pt\relax \fontdimen 15\font
+(fontspec)             =4.17249pt\relax \fontdimen 16\font =3.5661pt\relax
+(fontspec)             \fontdimen 17\font =3.5661pt\relax \fontdimen 18\font
+(fontspec)             =3.60942pt\relax \fontdimen 19\font =2.88754pt\relax
+(fontspec)             \fontdimen 22\font =3.60942pt\relax \fontdimen 20\font
+(fontspec)             =0pt\relax \fontdimen 21\font =0pt\relax 
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1.203260572409744]"[latinmodern-math.otf]/OT:scrip
+t=math;language=dflt;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
+(fontspec)             and font adjustment code:
+(fontspec)             \fontdimen 8\font =9.7743pt\relax \fontdimen 9\font
+(fontspec)             =5.68845pt\relax \fontdimen 10\font =6.41032pt\relax
+(fontspec)             \fontdimen 11\font =9.90425pt\relax \fontdimen 12\font
+(fontspec)             =4.981pt\relax \fontdimen 13\font =5.24088pt\relax
+(fontspec)             \fontdimen 14\font =5.24088pt\relax \fontdimen 15\font
+(fontspec)             =4.17249pt\relax \fontdimen 16\font =3.5661pt\relax
+(fontspec)             \fontdimen 17\font =3.5661pt\relax \fontdimen 18\font
+(fontspec)             =3.60942pt\relax \fontdimen 19\font =2.88754pt\relax
+(fontspec)             \fontdimen 22\font =3.60942pt\relax \fontdimen 20\font
+(fontspec)             =0pt\relax \fontdimen 21\font =0pt\relax 
+
+LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
+(Font)              `symbols' in the math version `normal' on input line 140.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/lmsy/m/n --> TU/latinmodern-math.otf(2)/m/n on inpu
+t line 140.
+LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
+(Font)              `symbols' in the math version `bold' on input line 140.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/lmsy/b/n --> TU/latinmodern-math.otf(2)/b/n on inpu
+t line 140.
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203019944358068.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203019944358068.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203019944358068.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203019944358068.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203140258383906.
+
+
+Package fontspec Info: latinmodern-math scale = 1.203019944358068.
+
+
+Package fontspec Info: Font family 'latinmodern-math.otf(3)' created for font
+(fontspec)             'latinmodern-math.otf' with options
+(fontspec)             [Scale=MatchLowercase,BoldItalicFont={},ItalicFont={},Sm
+allCapsFont={},Script=Math,SizeFeatures={{Size=10.2-},{Size=7.2-10.2,Font=latin
+modern-math.otf,Style=MathScript},{Size=-7.2,Font=latinmodern-math.otf,Style=Ma
+thScriptScript}},BoldFont={latinmodern-math.otf},ScaleAgain=0.9999,FontAdjustme
+nt={\fontdimen
+(fontspec)             8\font =0.57751pt\relax \fontdimen 9\font
+(fontspec)             =2.88754pt\relax \fontdimen 10\font =2.41109pt\relax
+(fontspec)             \fontdimen 11\font =1.60258pt\relax \fontdimen 12\font
+(fontspec)             =8.66261pt\relax \fontdimen 13\font =0pt\relax }].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <10.2->s*[1.203019944358068]"[latinmodern-math.otf]/OT:s
+cript=math;language=dflt;"<7.2-10.2>s*[1.203019944358068]"[latinmodern-math.otf
+]/OT:script=math;language=dflt;+ssty=0;"<-7.2>s*[1.203019944358068]"[latinmoder
+n-math.otf]/OT:script=math;language=dflt;+ssty=1;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+(fontspec)             and font adjustment code:
+(fontspec)             \fontdimen 8\font =0.57751pt\relax \fontdimen 9\font
+(fontspec)             =2.88754pt\relax \fontdimen 10\font =2.41109pt\relax
+(fontspec)             \fontdimen 11\font =1.60258pt\relax \fontdimen 12\font
+(fontspec)             =8.66261pt\relax \fontdimen 13\font =0pt\relax 
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->s*[1.203019944358068]"[latinmodern-math.otf]/OT:scrip
+t=math;language=dflt;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
+(fontspec)             and font adjustment code:
+(fontspec)             \fontdimen 8\font =0.57751pt\relax \fontdimen 9\font
+(fontspec)             =2.88754pt\relax \fontdimen 10\font =2.41109pt\relax
+(fontspec)             \fontdimen 11\font =1.60258pt\relax \fontdimen 12\font
+(fontspec)             =8.66261pt\relax \fontdimen 13\font =0pt\relax 
+
+LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
+(Font)              `largesymbols' in the math version `normal' on input line 1
+40.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/m/n on inpu
+t line 140.
+LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
+(Font)              `largesymbols' in the math version `bold' on input line 140
+.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/b/n on inpu
+t line 140.
+LaTeX Info: Redefining \microtypecontext on input line 140.
+Package microtype Info: Character protrusion enabled (level 2).
+Package microtype Info: Using protrusion set `basicmath'.
+Package microtype Info: No adjustment of tracking.
+Package microtype Info: No adjustment of spacing.
+Package microtype Info: No adjustment of kerning.
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `Arial' (encoding: TU).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+\AtBeginShipoutBox=\box68
+Package hyperref Info: Link coloring OFF on input line 140.
+("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\nameref.sty"
+Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/refcount\refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/generic/gettitlestring\gettitles
+tring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count316
+)
+LaTeX Info: Redefining \ref on input line 140.
+LaTeX Info: Redefining \pageref on input line 140.
+LaTeX Info: Redefining \nameref on input line 140.
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(28.45274pt, 557.38951pt, 28.45274pt)
+* v-part:(T,H,B)=(56.9055pt, 652.70622pt, 85.35826pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=557.38951pt
+* \textheight=652.70622pt
+* \oddsidemargin=-43.81725pt
+* \evensidemargin=-43.81725pt
+* \topmargin=-52.36449pt
+* \headheight=30.0pt
+* \headsep=25.0pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=44.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: longtable package is loaded.
+(C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/caption\ltcaption.sty
+Package: ltcaption 2018/08/26 v1.4a longtable captions (AR)
+)
+Package caption Info: threeparttable package is loaded.
+Package caption Info: wrapfig package is loaded.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Font shape `TU/Arial(0)/m/n' will be
+(Font)              scaled to size 17.28pt on input line 143.
+LaTeX Font Info:    Font shape `TU/Arial(0)/b/n' will be
+(Font)              scaled to size 17.28pt on input line 143.
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <12> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 148.
+File: 10_Optimization_files/figure-latex/unnamed-chunk-1-1.png Graphic file (ty
+pe bmp)
+<10_Optimization_files/figure-latex/unnamed-chunk-1-1.png>
+LaTeX Font Info:    Font shape `TU/Arial(0)/m/n' will be
+(Font)              scaled to size 14.4pt on input line 175.
+LaTeX Font Info:    Font shape `TU/Arial(0)/b/n' will be
+(Font)              scaled to size 14.4pt on input line 175.
+[1
+
+]
+Underfull \vbox (badness 2435) detected at line 255
+ []
+
+[2] [3]
+File: 10_Optimization_files/figure-latex/unnamed-chunk-7-1.png Graphic file (ty
+pe bmp)
+<10_Optimization_files/figure-latex/unnamed-chunk-7-1.png>
+[4] [5] [6]
+File: 10_Optimization_files/figure-latex/unnamed-chunk-11-1.png Graphic file (t
+ype bmp)
+<10_Optimization_files/figure-latex/unnamed-chunk-11-1.png>
+[7]
+File: 10_Optimization_files/figure-latex/unnamed-chunk-12-1.png Graphic file (t
+ype bmp)
+<10_Optimization_files/figure-latex/unnamed-chunk-12-1.png>
+[8]
+Underfull \vbox (badness 10000) detected at line 599
+ []
+
+[9]
+File: 10_Optimization_files/figure-latex/unnamed-chunk-13-1.png Graphic file (t
+ype bmp)
+<10_Optimization_files/figure-latex/unnamed-chunk-13-1.png>
+File: 10_Optimization_files/figure-latex/unnamed-chunk-14-1.png Graphic file (t
+ype bmp)
+<10_Optimization_files/figure-latex/unnamed-chunk-14-1.png>
+[10]
+Underfull \vbox (badness 10000) detected at line 677
+ []
+
+[11] [12]
+Overfull \hbox (987.44205pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 1 bestvalit: 1007.555978 bestmemit:    0.049364   
+ 0.072632    0.331117    0.017377    0.910144    0.093520    0.242536    0.4737
+75    0.221838    0.025660    0.238723    0.800626    0.015647    0.281286    0
+.033592    0.288324    0.071553[] 
+ []
+
+
+Overfull \hbox (987.44205pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 2 bestvalit: 1007.555978 bestmemit:    0.049364   
+ 0.072632    0.331117    0.017377    0.910144    0.093520    0.242536    0.4737
+75    0.221838    0.025660    0.238723    0.800626    0.015647    0.281286    0
+.033592    0.288324    0.071553[] 
+ []
+
+
+Overfull \hbox (981.23805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 3 bestvalit: 977.235934 bestmemit:    0.049364    
+0.072632    0.331117    0.017377    0.910144    0.093520    0.242536    0.47377
+5    0.173615    0.025660    0.238723    0.800626    0.015647    0.281286    0.
+033592    0.288324    0.071553[] 
+ []
+
+
+Overfull \hbox (981.23805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 4 bestvalit: 977.235934 bestmemit:    0.049364    
+0.072632    0.331117    0.017377    0.910144    0.093520    0.242536    0.47377
+5    0.173615    0.025660    0.238723    0.800626    0.015647    0.281286    0.
+033592    0.288324    0.071553[] 
+ []
+
+
+Overfull \hbox (981.23805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 5 bestvalit: 977.235934 bestmemit:    0.049364    
+0.072632    0.331117    0.017377    0.910144    0.093520    0.242536    0.47377
+5    0.173615    0.025660    0.238723    0.800626    0.015647    0.281286    0.
+033592    0.288324    0.071553[] 
+ []
+
+
+Overfull \hbox (981.21405pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 6 bestvalit: 967.236083 bestmemit:    0.049364    
+0.072632    0.331117    0.017377    0.910144    0.093520    0.242536    0.47377
+5    0.173615    0.050940    0.151396    0.813626    0.038055    0.296181    0.
+031783    0.288324    0.071553[] 
+ []
+
+
+Overfull \hbox (981.21404pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 7 bestvalit: 920.540270 bestmemit:    0.049364    
+0.072632    0.331117    0.017377    0.910144    0.093520    0.242536    0.47377
+5    0.173615    0.050940    0.151396    0.813626    0.038055    0.296181    0.
+016583    0.237083    0.059161[] 
+ []
+
+
+Overfull \hbox (981.21404pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 8 bestvalit: 920.540270 bestmemit:    0.049364    
+0.072632    0.331117    0.017377    0.910144    0.093520    0.242536    0.47377
+5    0.173615    0.050940    0.151396    0.813626    0.038055    0.296181    0.
+016583    0.237083    0.059161[] 
+ []
+
+
+Overfull \hbox (981.19006pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 9 bestvalit: 914.160062 bestmemit:    0.049364    
+0.072632    0.331117    0.017377    0.910144    0.093520    0.242536    0.47377
+5    0.173615    0.050940    0.151396    0.813626    0.038055    0.285625    0.
+016583    0.237083    0.059161[] 
+ []
+
+
+Overfull \hbox (987.35806pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 10 bestvalit: 865.127033 bestmemit:    0.192919   
+ 0.350608    0.110167    0.253413    0.529861    0.271837    0.246457    0.4647
+85    0.261671    0.091880    0.120108    0.263580    0.025368    0.295602    0
+.220026    0.239932    0.001590[] 
+ []
+
+
+Overfull \hbox (987.37007pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 11 bestvalit: 846.878038 bestmemit:    0.192919   
+ 0.350608    0.110167    0.253413    0.529861    0.271837    0.246457    0.4647
+85    0.261671    0.091880    0.120108    0.263580    0.004590    0.284391    0
+.220026    0.239932    0.001590[] 
+ []
+
+
+Overfull \hbox (987.40608pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 12 bestvalit: 749.461572 bestmemit:    0.192919   
+ 0.350608    0.110167    0.253413    0.518442    0.257233    0.321356    0.4788
+02    0.205289    0.010727    0.020161    0.263580    0.004590    0.284391    0
+.220026    0.239932    0.001590[] 
+ []
+
+
+Overfull \hbox (987.43008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 13 bestvalit: 705.115055 bestmemit:    0.192919   
+ 0.350608    0.110167    0.253413    0.518442    0.257233    0.321356    0.4788
+02    0.122927    0.010727    0.020161    0.263580    0.004590    0.284391    0
+.220026    0.239932    0.001590[] 
+ []
+
+[13]
+Overfull \hbox (987.43008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 14 bestvalit: 705.115055 bestmemit:    0.192919   
+ 0.350608    0.110167    0.253413    0.518442    0.257233    0.321356    0.4788
+02    0.122927    0.010727    0.020161    0.263580    0.004590    0.284391    0
+.220026    0.239932    0.001590[] 
+ []
+
+
+Overfull \hbox (987.43008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 15 bestvalit: 705.115055 bestmemit:    0.192919   
+ 0.350608    0.110167    0.253413    0.518442    0.257233    0.321356    0.4788
+02    0.122927    0.010727    0.020161    0.263580    0.004590    0.284391    0
+.220026    0.239932    0.001590[] 
+ []
+
+
+Overfull \hbox (987.41809pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 16 bestvalit: 705.115055 bestmemit:    0.192919   
+ 0.350608    0.110167    0.253413    0.518442    0.257233    0.321356    0.4788
+02    0.122927    0.010727    0.020161    0.263580    0.004590    0.284391    0
+.220026    0.239932    0.001590[] 
+ []
+
+
+Overfull \hbox (987.43008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 17 bestvalit: 705.115055 bestmemit:    0.192919   
+ 0.350608    0.110167    0.253413    0.518442    0.257233    0.321356    0.4788
+02    0.122927    0.010727    0.020161    0.263580    0.004590    0.284391    0
+.220026    0.239932    0.001590[] 
+ []
+
+
+Overfull \hbox (987.32208pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 18 bestvalit: 650.526641 bestmemit:    0.192919   
+ 0.376964    0.062290    0.228816    0.459560    0.257233    0.321356    0.4788
+02    0.122927    0.010727    0.020161    0.263580    0.004590    0.284391    0
+.220026    0.239932    0.001590[] 
+ []
+
+
+Overfull \hbox (987.31009pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 19 bestvalit: 650.526641 bestmemit:    0.192919   
+ 0.376964    0.062290    0.228816    0.459560    0.257233    0.321356    0.4788
+02    0.122927    0.010727    0.020161    0.263580    0.004590    0.284391    0
+.220026    0.239932    0.001590[] 
+ []
+
+
+Overfull \hbox (987.34605pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 20 bestvalit: 629.878602 bestmemit:    0.247533   
+ 0.262076    0.056284    0.118840    0.477533    0.122586    0.177442    0.3718
+36    0.101316    0.156294    0.187241    0.217963    0.036788    0.299297    0
+.159798    0.340166    0.175463[] 
+ []
+
+
+Overfull \hbox (987.38208pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 21 bestvalit: 621.495957 bestmemit:    0.283592   
+ 0.134343    0.071410    0.045854    0.434495    0.067068    0.190303    0.4295
+76    0.300555    0.228876    0.022390    0.198823    0.068420    0.157637    0
+.398933    0.235864    0.223618[] 
+ []
+
+
+Overfull \hbox (987.37009pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 22 bestvalit: 578.101421 bestmemit:    0.345019   
+ 0.380309    0.159426    0.099805    0.647664    0.028061    0.060143    0.1408
+75    0.320591    0.230263    0.224445    0.228614    0.032261    0.081385    0
+.074276    0.256175    0.093660[] 
+ []
+
+
+Overfull \hbox (987.35808pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 23 bestvalit: 543.621953 bestmemit:    0.192919   
+ 0.376964    0.000738    0.228816    0.459560    0.257233    0.321356    0.4788
+02    0.122927    0.010727    0.020161    0.263580    0.004590    0.126408    0
+.220026    0.239932    0.001590[] 
+ []
+
+
+Overfull \hbox (987.41808pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 24 bestvalit: 520.473477 bestmemit:    0.192919   
+ 0.270117    0.057458    0.228816    0.459560    0.257233    0.321356    0.4788
+02    0.122927    0.010727    0.020161    0.263580    0.004590    0.126408    0
+.220026    0.239932    0.001590[] 
+ []
+
+
+Overfull \hbox (987.33408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 25 bestvalit: 514.048004 bestmemit:    0.345019   
+ 0.380309    0.159426    0.099805    0.647664    0.028061    0.060143    0.1408
+75    0.283404    0.179600    0.216692    0.236041    0.032261    0.002244    0
+.118794    0.241295    0.093660[] 
+ []
+
+
+Overfull \hbox (987.32208pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 26 bestvalit: 514.048004 bestmemit:    0.345019   
+ 0.380309    0.159426    0.099805    0.647664    0.028061    0.060143    0.1408
+75    0.283404    0.179600    0.216692    0.236041    0.032261    0.002244    0
+.118794    0.241295    0.093660[] 
+ []
+
+
+Overfull \hbox (987.33408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 27 bestvalit: 514.048004 bestmemit:    0.345019   
+ 0.380309    0.159426    0.099805    0.647664    0.028061    0.060143    0.1408
+75    0.283404    0.179600    0.216692    0.236041    0.032261    0.002244    0
+.118794    0.241295    0.093660[] 
+ []
+
+
+Overfull \hbox (987.46605pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 28 bestvalit: 462.755776 bestmemit:    0.258154   
+ 0.237097    0.274182    0.353164    0.458728    0.282946    0.052973    0.2421
+12    0.041833    0.205729    0.004077    0.083428    0.080123    0.193181    0
+.052920    0.284661    0.043370[] 
+ []
+
+
+Overfull \hbox (987.33406pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 29 bestvalit: 445.636738 bestmemit:    0.244059   
+ 0.226129    0.015148    0.069122    0.644477    0.098279    0.168359    0.3613
+17    0.063341    0.043539    0.069748    0.188027    0.239478    0.129364    0
+.119584    0.108362    0.317587[] 
+ []
+
+
+Overfull \hbox (987.32208pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 30 bestvalit: 424.491459 bestmemit:    0.368875   
+ 0.271234    0.146875    0.162155    0.529944    0.076062    0.166205    0.1977
+50    0.089766    0.120171    0.122193    0.357297    0.010669    0.110947    0
+.029534    0.119703    0.176787[] 
+ []
+
+
+Overfull \hbox (987.47806pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 31 bestvalit: 385.787142 bestmemit:    0.258154   
+ 0.314877    0.246640    0.175446    0.489453    0.192485    0.052973    0.2421
+12    0.041833    0.205729    0.004077    0.083428    0.080123    0.193181    0
+.052920    0.284661    0.043370[] 
+ []
+
+
+Overfull \hbox (987.40605pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 32 bestvalit: 362.863866 bestmemit:    0.405948   
+ 0.238053    0.108594    0.280348    0.098374    0.180476    0.095426    0.4076
+19    0.118155    0.140150    0.022854    0.211187    0.085335    0.012498    0
+.098234    0.226392    0.170589[] 
+ []
+
+
+Overfull \hbox (987.28604pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 33 bestvalit: 345.441675 bestmemit:    0.125508   
+ 0.255596    0.067563    0.197917    0.469680    0.060791    0.196326    0.1461
+99    0.103436    0.346596    0.010862    0.171518    0.080832    0.141680    0
+.077381    0.296446    0.105748[] 
+ []
+
+
+Overfull \hbox (987.41803pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 34 bestvalit: 275.362501 bestmemit:    0.328747   
+ 0.183639    0.108594    0.280348    0.098374    0.180476    0.095426    0.4076
+19    0.118155    0.140150    0.022854    0.211187    0.085335    0.012498    0
+.098234    0.226392    0.056089[] 
+ []
+
+
+Overfull \hbox (987.41803pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 35 bestvalit: 275.362501 bestmemit:    0.328747   
+ 0.183639    0.108594    0.280348    0.098374    0.180476    0.095426    0.4076
+19    0.118155    0.140150    0.022854    0.211187    0.085335    0.012498    0
+.098234    0.226392    0.056089[] 
+ []
+
+
+Overfull \hbox (987.40604pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 36 bestvalit: 275.362501 bestmemit:    0.328747   
+ 0.183639    0.108594    0.280348    0.098374    0.180476    0.095426    0.4076
+19    0.118155    0.140150    0.022854    0.211187    0.085335    0.012498    0
+.098234    0.226392    0.056089[] 
+ []
+
+
+Overfull \hbox (987.38205pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 37 bestvalit: 274.955498 bestmemit:    0.328747   
+ 0.183639    0.108594    0.280348    0.098374    0.180476    0.095426    0.3441
+64    0.164485    0.156059    0.022854    0.211187    0.085335    0.012498    0
+.098234    0.226392    0.056089[] 
+ []
+
+
+Overfull \hbox (987.39407pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 38 bestvalit: 244.397948 bestmemit:    0.227003   
+ 0.091115    0.193014    0.204493    0.265447    0.048365    0.202090    0.3820
+55    0.031289    0.059495    0.014232    0.105873    0.031535    0.025937    0
+.264769    0.289053    0.121299[] 
+ []
+
+
+Overfull \hbox (987.38208pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 39 bestvalit: 244.397948 bestmemit:    0.227003   
+ 0.091115    0.193014    0.204493    0.265447    0.048365    0.202090    0.3820
+55    0.031289    0.059495    0.014232    0.105873    0.031535    0.025937    0
+.264769    0.289053    0.121299[] 
+ []
+
+
+Overfull \hbox (987.38208pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 40 bestvalit: 213.604990 bestmemit:    0.183308   
+ 0.032627    0.193014    0.204493    0.265447    0.048365    0.202090    0.3820
+55    0.031289    0.059495    0.014232    0.105873    0.031535    0.025937    0
+.264769    0.289053    0.121299[] 
+ []
+
+
+Overfull \hbox (987.37009pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 41 bestvalit: 202.724836 bestmemit:    0.183308   
+ 0.032627    0.193014    0.204493    0.265447    0.048365    0.202090    0.3820
+55    0.031289    0.059495    0.013165    0.079002    0.016244    0.025937    0
+.264769    0.289053    0.121299[] 
+ []
+
+
+Overfull \hbox (987.3821pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 42 bestvalit: 202.455485 bestmemit:    0.183308   
+ 0.032627    0.193014    0.204493    0.265447    0.048365    0.201136    0.3820
+55    0.031289    0.059495    0.013165    0.079002    0.016244    0.025937    0
+.264769    0.289053    0.121299[] 
+ []
+
+
+Overfull \hbox (987.41805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 43 bestvalit: 174.251209 bestmemit:    0.086601   
+ 0.053898    0.177028    0.317305    0.248699    0.104269    0.223343    0.3161
+61    0.062040    0.075975    0.041803    0.104404    0.055851    0.123339    0
+.118149    0.023526    0.185848[] 
+ []
+
+
+Overfull \hbox (987.44203pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 44 bestvalit: 172.355236 bestmemit:    0.086601   
+ 0.053898    0.177028    0.317305    0.248699    0.104269    0.223343    0.3161
+61    0.062040    0.075975    0.041803    0.104404    0.055851    0.102773    0
+.131503    0.023526    0.185848[] 
+ []
+
+
+Overfull \hbox (987.41805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 45 bestvalit: 149.816221 bestmemit:    0.086601   
+ 0.053898    0.177028    0.317305    0.248699    0.104269    0.192070    0.2990
+57    0.023036    0.071776    0.044442    0.104404    0.055851    0.102773    0
+.131503    0.023526    0.185848[] 
+ []
+
+
+Overfull \hbox (987.45406pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 46 bestvalit: 136.310761 bestmemit:    0.086601   
+ 0.053898    0.177028    0.317305    0.181034    0.115476    0.192070    0.2990
+57    0.023036    0.071776    0.044442    0.104404    0.055851    0.102773    0
+.131503    0.023526    0.185848[] 
+ []
+
+
+Overfull \hbox (987.46605pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 47 bestvalit: 136.310761 bestmemit:    0.086601   
+ 0.053898    0.177028    0.317305    0.181034    0.115476    0.192070    0.2990
+57    0.023036    0.071776    0.044442    0.104404    0.055851    0.102773    0
+.131503    0.023526    0.185848[] 
+ []
+
+
+Overfull \hbox (987.46605pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 48 bestvalit: 136.310761 bestmemit:    0.086601   
+ 0.053898    0.177028    0.317305    0.181034    0.115476    0.192070    0.2990
+57    0.023036    0.071776    0.044442    0.104404    0.055851    0.102773    0
+.131503    0.023526    0.185848[] 
+ []
+
+
+Overfull \hbox (987.45406pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 49 bestvalit: 136.310761 bestmemit:    0.086601   
+ 0.053898    0.177028    0.317305    0.181034    0.115476    0.192070    0.2990
+57    0.023036    0.071776    0.044442    0.104404    0.055851    0.102773    0
+.131503    0.023526    0.185848[] 
+ []
+
+
+Overfull \hbox (987.46603pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 50 bestvalit: 135.535671 bestmemit:    0.086601   
+ 0.053898    0.177028    0.317305    0.181034    0.115476    0.192070    0.2990
+57    0.025368    0.066117    0.044442    0.104404    0.055851    0.102773    0
+.131503    0.023526    0.185848[] 
+ []
+
+
+Overfull \hbox (987.44203pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 51 bestvalit: 122.201291 bestmemit:    0.047002   
+ 0.053898    0.177028    0.317305    0.181034    0.115476    0.192070    0.2990
+57    0.025368    0.066117    0.044442    0.104404    0.055851    0.102773    0
+.131503    0.016163    0.166640[] 
+ []
+
+
+Overfull \hbox (987.35806pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 52 bestvalit: 105.110603 bestmemit:    0.035052   
+ 0.101880    0.126616    0.239715    0.255789    0.079208    0.065089    0.2648
+94    0.080024    0.081651    0.078395    0.163926    0.096271    0.025592    0
+.161350    0.018195    0.140588[] 
+ []
+
+
+Overfull \hbox (981.11804pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 53 bestvalit: 99.097719 bestmemit:    0.009671    
+0.112835    0.149656    0.261549    0.227466    0.057440    0.065089    0.26489
+4    0.080024    0.081651    0.078395    0.147165    0.067009    0.022141    0.
+145652    0.068840    0.149019[] 
+ []
+
+
+Overfull \hbox (981.11804pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 54 bestvalit: 99.097719 bestmemit:    0.009671    
+0.112835    0.149656    0.261549    0.227466    0.057440    0.065089    0.26489
+4    0.080024    0.081651    0.078395    0.147165    0.067009    0.022141    0.
+145652    0.068840    0.149019[] 
+ []
+
+
+Overfull \hbox (981.10603pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 55 bestvalit: 94.494036 bestmemit:    0.009671    
+0.089295    0.149656    0.261549    0.227466    0.057440    0.065089    0.26489
+4    0.080024    0.081651    0.078395    0.147165    0.067009    0.022141    0.
+145652    0.068840    0.149019[] 
+ []
+
+
+Overfull \hbox (981.09404pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 56 bestvalit: 94.494036 bestmemit:    0.009671    
+0.089295    0.149656    0.261549    0.227466    0.057440    0.065089    0.26489
+4    0.080024    0.081651    0.078395    0.147165    0.067009    0.022141    0.
+145652    0.068840    0.149019[] 
+ []
+
+
+Overfull \hbox (981.09402pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 57 bestvalit: 89.970486 bestmemit:    0.009671    
+0.089295    0.149656    0.261549    0.227466    0.057440    0.065089    0.26489
+4    0.080024    0.051698    0.084630    0.147165    0.067009    0.022141    0.
+145652    0.068840    0.149019[] 
+ []
+
+
+Overfull \hbox (981.09402pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 58 bestvalit: 89.970486 bestmemit:    0.009671    
+0.089295    0.149656    0.261549    0.227466    0.057440    0.065089    0.26489
+4    0.080024    0.051698    0.084630    0.147165    0.067009    0.022141    0.
+145652    0.068840    0.149019[] 
+ []
+
+[14]
+Overfull \hbox (981.19006pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 59 bestvalit: 76.357258 bestmemit:    0.034723    
+0.116886    0.174321    0.271535    0.185747    0.064639    0.134781    0.19342
+3    0.014676    0.074339    0.027029    0.129950    0.117955    0.014945    0.
+074767    0.100859    0.123679[] 
+ []
+
+
+Overfull \hbox (981.22607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 60 bestvalit: 75.932985 bestmemit:    0.058253    
+0.088467    0.154155    0.230291    0.130262    0.086032    0.081613    0.26662
+7    0.079580    0.084524    0.096023    0.083174    0.044868    0.106647    0.
+134878    0.017807    0.115833[] 
+ []
+
+
+Overfull \hbox (981.26205pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 61 bestvalit: 74.822250 bestmemit:    0.058253    
+0.088467    0.154155    0.230291    0.130262    0.086032    0.092965    0.24878
+3    0.079580    0.084524    0.096023    0.083174    0.044868    0.106647    0.
+134878    0.017807    0.115833[] 
+ []
+
+
+Overfull \hbox (981.19006pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 62 bestvalit: 68.874269 bestmemit:    0.034723    
+0.116886    0.174321    0.271535    0.185747    0.064639    0.134781    0.19342
+3    0.014676    0.074339    0.020759    0.108413    0.100819    0.014945    0.
+074767    0.100859    0.123679[] 
+ []
+
+
+Overfull \hbox (981.23807pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 63 bestvalit: 66.069185 bestmemit:    0.058253    
+0.088467    0.154155    0.230291    0.102878    0.088932    0.110988    0.23363
+0    0.084144    0.065570    0.079234    0.076680    0.051253    0.106647    0.
+134878    0.017807    0.115833[] 
+ []
+
+
+Overfull \hbox (981.17804pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 64 bestvalit: 60.317773 bestmemit:    0.179219    
+0.092570    0.103734    0.192268    0.096466    0.098977    0.103095    0.29482
+2    0.105572    0.043051    0.072843    0.075892    0.064567    0.037833    0.
+061046    0.113945    0.038472[] 
+ []
+
+
+Overfull \hbox (981.16603pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 65 bestvalit: 55.211888 bestmemit:    0.179219    
+0.092570    0.103734    0.192268    0.096466    0.105966    0.097294    0.30148
+0    0.084760    0.022322    0.072843    0.075892    0.064567    0.037833    0.
+061046    0.113945    0.038472[] 
+ []
+
+
+Overfull \hbox (981.23804pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 66 bestvalit: 54.176235 bestmemit:    0.061634    
+0.121516    0.143536    0.190512    0.207992    0.047843    0.083052    0.24538
+8    0.088230    0.026019    0.023731    0.112731    0.048941    0.040150    0.
+094637    0.128745    0.068703[] 
+ []
+
+
+Overfull \hbox (981.22606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 67 bestvalit: 50.626440 bestmemit:    0.061634    
+0.121516    0.143536    0.190512    0.207992    0.047843    0.083052    0.24538
+8    0.088230    0.026019    0.023731    0.112731    0.038645    0.015106    0.
+094637    0.128745    0.068703[] 
+ []
+
+
+Overfull \hbox (981.17805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 68 bestvalit: 39.666711 bestmemit:    0.061634    
+0.121516    0.143536    0.178047    0.226536    0.028018    0.053637    0.19681
+7    0.090495    0.032080    0.023731    0.112731    0.038645    0.015106    0.
+094637    0.128745    0.068703[] 
+ []
+
+
+Overfull \hbox (981.17805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 69 bestvalit: 37.813224 bestmemit:    0.082659    
+0.242125    0.046473    0.008860    0.157213    0.055064    0.059385    0.19219
+4    0.085956    0.072710    0.020216    0.078215    0.068758    0.022000    0.
+123669    0.189447    0.099900[] 
+ []
+
+
+Overfull \hbox (981.21407pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 70 bestvalit: 31.809850 bestmemit:    0.145411    
+0.091830    0.111033    0.137647    0.130032    0.106004    0.073167    0.25447
+1    0.084138    0.030657    0.047669    0.053644    0.056393    0.037833    0.
+061046    0.113945    0.026066[] 
+ []
+
+
+Overfull \hbox (981.20207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 71 bestvalit: 29.642137 bestmemit:    0.145411    
+0.091830    0.111033    0.137647    0.130032    0.106004    0.073167    0.25447
+1    0.084138    0.030657    0.047669    0.053644    0.056393    0.037833    0.
+061046    0.094317    0.026066[] 
+ []
+
+
+Overfull \hbox (981.20207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 72 bestvalit: 29.642137 bestmemit:    0.145411    
+0.091830    0.111033    0.137647    0.130032    0.106004    0.073167    0.25447
+1    0.084138    0.030657    0.047669    0.053644    0.056393    0.037833    0.
+061046    0.094317    0.026066[] 
+ []
+
+
+Overfull \hbox (981.23807pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 73 bestvalit: 24.937960 bestmemit:    0.145411    
+0.091830    0.111033    0.137647    0.130032    0.106004    0.073167    0.25447
+1    0.084138    0.030657    0.040569    0.043490    0.050838    0.051392    0.
+037988    0.081352    0.026066[] 
+ []
+
+
+Overfull \hbox (981.17807pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 74 bestvalit: 24.641393 bestmemit:    0.124495    
+0.074443    0.109657    0.128895    0.133730    0.071201    0.062220    0.22894
+7    0.074509    0.045129    0.009349    0.037167    0.078626    0.064449    0.
+096897    0.105803    0.038116[] 
+ []
+
+
+Overfull \hbox (981.17807pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 75 bestvalit: 24.641393 bestmemit:    0.124495    
+0.074443    0.109657    0.128895    0.133730    0.071201    0.062220    0.22894
+7    0.074509    0.045129    0.009349    0.037167    0.078626    0.064449    0.
+096897    0.105803    0.038116[] 
+ []
+
+
+Overfull \hbox (981.15407pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 76 bestvalit: 21.352671 bestmemit:    0.124495    
+0.074443    0.123563    0.123897    0.129396    0.040805    0.061489    0.20368
+1    0.072750    0.063522    0.009349    0.037167    0.078626    0.064449    0.
+096897    0.105803    0.038116[] 
+ []
+
+
+Overfull \hbox (981.16606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 77 bestvalit: 21.352671 bestmemit:    0.124495    
+0.074443    0.123563    0.123897    0.129396    0.040805    0.061489    0.20368
+1    0.072750    0.063522    0.009349    0.037167    0.078626    0.064449    0.
+096897    0.105803    0.038116[] 
+ []
+
+
+Overfull \hbox (981.16606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 78 bestvalit: 21.352671 bestmemit:    0.124495    
+0.074443    0.123563    0.123897    0.129396    0.040805    0.061489    0.20368
+1    0.072750    0.063522    0.009349    0.037167    0.078626    0.064449    0.
+096897    0.105803    0.038116[] 
+ []
+
+
+Overfull \hbox (981.15407pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 79 bestvalit: 21.352671 bestmemit:    0.124495    
+0.074443    0.123563    0.123897    0.129396    0.040805    0.061489    0.20368
+1    0.072750    0.063522    0.009349    0.037167    0.078626    0.064449    0.
+096897    0.105803    0.038116[] 
+ []
+
+
+Overfull \hbox (981.16606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 80 bestvalit: 21.352671 bestmemit:    0.124495    
+0.074443    0.123563    0.123897    0.129396    0.040805    0.061489    0.20368
+1    0.072750    0.063522    0.009349    0.037167    0.078626    0.064449    0.
+096897    0.105803    0.038116[] 
+ []
+
+
+Overfull \hbox (981.13007pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 81 bestvalit: 18.896688 bestmemit:    0.082659    
+0.242125    0.046473    0.008860    0.157213    0.055064    0.059385    0.18711
+6    0.091010    0.045865    0.011627    0.063818    0.064094    0.000667    0.
+096386    0.131899    0.061465[] 
+ []
+
+
+Overfull \hbox (981.20207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 82 bestvalit: 16.311111 bestmemit:    0.124495    
+0.074443    0.115184    0.098525    0.124683    0.052276    0.041637    0.19043
+2    0.072750    0.063522    0.009349    0.037167    0.078626    0.064449    0.
+096897    0.105803    0.038116[] 
+ []
+
+
+Overfull \hbox (981.20207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 83 bestvalit: 16.311111 bestmemit:    0.124495    
+0.074443    0.115184    0.098525    0.124683    0.052276    0.041637    0.19043
+2    0.072750    0.063522    0.009349    0.037167    0.078626    0.064449    0.
+096897    0.105803    0.038116[] 
+ []
+
+
+Overfull \hbox (981.20207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 84 bestvalit: 16.201430 bestmemit:    0.124495    
+0.074443    0.115184    0.098525    0.124683    0.050867    0.041637    0.19043
+2    0.072750    0.063522    0.009349    0.037167    0.078626    0.064449    0.
+096897    0.105803    0.038116[] 
+ []
+
+
+Overfull \hbox (981.13005pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 85 bestvalit: 14.662095 bestmemit:    0.090094    
+0.065424    0.096383    0.110919    0.141361    0.047626    0.048442    0.20423
+6    0.080291    0.052964    0.032891    0.034723    0.098082    0.051664    0.
+095841    0.091535    0.036621[] 
+ []
+
+
+Overfull \hbox (981.11806pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 86 bestvalit: 14.662095 bestmemit:    0.090094    
+0.065424    0.096383    0.110919    0.141361    0.047626    0.048442    0.20423
+6    0.080291    0.052964    0.032891    0.034723    0.098082    0.051664    0.
+095841    0.091535    0.036621[] 
+ []
+
+
+Overfull \hbox (981.23805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 87 bestvalit: 10.322132 bestmemit:    0.073564    
+0.093780    0.113179    0.095526    0.144753    0.059074    0.035168    0.24446
+4    0.050051    0.027894    0.016944    0.022575    0.055998    0.031662    0.
+111347    0.067014    0.045714[] 
+ []
+
+
+Overfull \hbox (975.02205pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 88 bestvalit: 9.020106 bestmemit:    0.073564    0
+.093780    0.113179    0.095526    0.144753    0.059074    0.026360    0.224001
+    0.055911    0.027894    0.016944    0.022575    0.055998    0.031662    0.1
+11347    0.067014    0.045714[] 
+ []
+
+
+Overfull \hbox (975.04607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 89 bestvalit: 8.258545 bestmemit:    0.073564    0
+.093780    0.113179    0.095526    0.144753    0.059074    0.026360    0.224001
+    0.055911    0.027894    0.023871    0.032637    0.055998    0.031662    0.1
+11347    0.067014    0.045714[] 
+ []
+
+
+Overfull \hbox (975.02206pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 90 bestvalit: 7.453538 bestmemit:    0.073564    0
+.089337    0.108825    0.077529    0.158499    0.063396    0.020621    0.221602
+    0.051664    0.034318    0.008171    0.032637    0.055998    0.031662    0.1
+11347    0.067014    0.045714[] 
+ []
+
+
+Overfull \hbox (974.99806pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 91 bestvalit: 7.353135 bestmemit:    0.069904    0
+.089337    0.108825    0.077529    0.158499    0.063396    0.020621    0.221602
+    0.051664    0.034318    0.008171    0.032637    0.055998    0.031662    0.1
+11347    0.067014    0.047381[] 
+ []
+
+
+Overfull \hbox (975.01007pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 92 bestvalit: 7.172975 bestmemit:    0.069904    0
+.089337    0.108825    0.077529    0.158499    0.063396    0.020621    0.221602
+    0.051664    0.034318    0.008171    0.032637    0.055998    0.028033    0.1
+11347    0.067014    0.047381[] 
+ []
+
+
+Overfull \hbox (975.01007pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 93 bestvalit: 7.172975 bestmemit:    0.069904    0
+.089337    0.108825    0.077529    0.158499    0.063396    0.020621    0.221602
+    0.051664    0.034318    0.008171    0.032637    0.055998    0.028033    0.1
+11347    0.067014    0.047381[] 
+ []
+
+
+Overfull \hbox (975.03407pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 94 bestvalit: 6.459164 bestmemit:    0.082342    0
+.109040    0.116559    0.143140    0.132129    0.057366    0.029140    0.164145
+    0.075914    0.032758    0.027700    0.046535    0.025195    0.005302    0.0
+86232    0.073926    0.030088[] 
+ []
+
+
+Overfull \hbox (975.04607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 95 bestvalit: 5.273129 bestmemit:    0.082342    0
+.109040    0.116559    0.143140    0.132129    0.057366    0.029140    0.164145
+    0.075914    0.032758    0.027700    0.046535    0.025195    0.005302    0.0
+64611    0.069173    0.030088[] 
+ []
+
+
+Overfull \hbox (975.03406pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 96 bestvalit: 4.179123 bestmemit:    0.081202    0
+.122667    0.122781    0.135294    0.117598    0.049500    0.032752    0.162242
+    0.067463    0.032758    0.027700    0.046535    0.025195    0.005302    0.0
+67895    0.056129    0.030598[] 
+ []
+
+
+Overfull \hbox (975.04607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 97 bestvalit: 4.179123 bestmemit:    0.081202    0
+.122667    0.122781    0.135294    0.117598    0.049500    0.032752    0.162242
+    0.067463    0.032758    0.027700    0.046535    0.025195    0.005302    0.0
+67895    0.056129    0.030598[] 
+ []
+
+
+Overfull \hbox (975.05804pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 98 bestvalit: 3.940177 bestmemit:    0.081202    0
+.122667    0.122781    0.135294    0.108731    0.052842    0.033823    0.160167
+    0.067463    0.032758    0.027700    0.046535    0.025195    0.005302    0.0
+67895    0.056129    0.030598[] 
+ []
+
+
+Overfull \hbox (975.03406pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 99 bestvalit: 2.407084 bestmemit:    0.100055    0
+.079066    0.100288    0.078997    0.107260    0.068656    0.037685    0.195032
+    0.073997    0.024447    0.021335    0.047210    0.050442    0.043608    0.0
+31036    0.061584    0.025843[] 
+ []
+
+
+Overfull \hbox (981.23807pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 100 bestvalit: 2.407084 bestmemit:    0.100055    
+0.079066    0.100288    0.078997    0.107260    0.068656    0.037685    0.19503
+2    0.073997    0.024447    0.021335    0.047210    0.050442    0.043608    0.
+031036    0.061584    0.025843[] 
+ []
+
+
+Overfull \hbox (981.22607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 101 bestvalit: 2.024285 bestmemit:    0.100055    
+0.079066    0.100288    0.078997    0.107260    0.068656    0.037685    0.19503
+2    0.073997    0.024447    0.021335    0.033637    0.050442    0.043608    0.
+031036    0.061584    0.025843[] 
+ []
+
+
+Overfull \hbox (981.22607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 102 bestvalit: 2.024285 bestmemit:    0.100055    
+0.079066    0.100288    0.078997    0.107260    0.068656    0.037685    0.19503
+2    0.073997    0.024447    0.021335    0.033637    0.050442    0.043608    0.
+031036    0.061584    0.025843[] 
+ []
+
+
+Overfull \hbox (981.20209pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 103 bestvalit: 1.449727 bestmemit:    0.100055    
+0.079066    0.100288    0.068639    0.094283    0.068656    0.037685    0.19503
+2    0.073997    0.024447    0.021335    0.033637    0.050442    0.043608    0.
+031036    0.061584    0.025843[] 
+ []
+
+[15]
+Overfull \hbox (981.21408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 104 bestvalit: 1.443780 bestmemit:    0.100055    
+0.079066    0.100288    0.068639    0.094283    0.068656    0.037685    0.19503
+2    0.073997    0.024447    0.021335    0.033637    0.050172    0.043608    0.
+031036    0.061584    0.025843[] 
+ []
+
+
+Overfull \hbox (981.25008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 105 bestvalit: 1.384013 bestmemit:    0.076892    
+0.090643    0.097815    0.101456    0.123878    0.044326    0.040316    0.19048
+2    0.035412    0.029499    0.022573    0.020173    0.051739    0.032282    0.
+051132    0.053391    0.044179[] 
+ []
+
+
+Overfull \hbox (981.23807pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 106 bestvalit: 1.384013 bestmemit:    0.076892    
+0.090643    0.097815    0.101456    0.123878    0.044326    0.040316    0.19048
+2    0.035412    0.029499    0.022573    0.020173    0.051739    0.032282    0.
+051132    0.053391    0.044179[] 
+ []
+
+
+Overfull \hbox (981.25008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 107 bestvalit: 1.134773 bestmemit:    0.076892    
+0.090643    0.097815    0.101456    0.121476    0.034022    0.040795    0.19048
+2    0.035412    0.029499    0.022573    0.020173    0.051739    0.032282    0.
+051132    0.053391    0.044179[] 
+ []
+
+
+Overfull \hbox (981.25008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 108 bestvalit: 1.134773 bestmemit:    0.076892    
+0.090643    0.097815    0.101456    0.121476    0.034022    0.040795    0.19048
+2    0.035412    0.029499    0.022573    0.020173    0.051739    0.032282    0.
+051132    0.053391    0.044179[] 
+ []
+
+
+Overfull \hbox (981.20206pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 109 bestvalit: 1.104434 bestmemit:    0.076892    
+0.090643    0.097815    0.101946    0.127176    0.036363    0.030702    0.18889
+5    0.033561    0.030841    0.022597    0.022096    0.051739    0.032282    0.
+051132    0.053391    0.044179[] 
+ []
+
+
+Overfull \hbox (981.29808pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 110 bestvalit: 1.004727 bestmemit:    0.071789    
+0.071852    0.106540    0.087329    0.079394    0.063242    0.046717    0.18123
+7    0.074200    0.030132    0.038586    0.035773    0.038191    0.044598    0.
+040112    0.050484    0.027449[] 
+ []
+
+
+Overfull \hbox (981.26207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 111 bestvalit: 0.850381 bestmemit:    0.085949    
+0.074523    0.112448    0.082881    0.057318    0.057499    0.026014    0.20560
+8    0.070882    0.048900    0.021984    0.032852    0.048367    0.024476    0.
+066486    0.041392    0.021427[] 
+ []
+
+
+Overfull \hbox (981.26207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 112 bestvalit: 0.850381 bestmemit:    0.085949    
+0.074523    0.112448    0.082881    0.057318    0.057499    0.026014    0.20560
+8    0.070882    0.048900    0.021984    0.032852    0.048367    0.024476    0.
+066486    0.041392    0.021427[] 
+ []
+
+
+Overfull \hbox (981.14207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 113 bestvalit: 0.731297 bestmemit:    0.068853    
+0.080248    0.094666    0.101946    0.127176    0.036363    0.030702    0.18889
+5    0.033561    0.030841    0.026995    0.029529    0.046505    0.032695    0.
+047628    0.050914    0.041930[] 
+ []
+
+
+Overfull \hbox (981.10606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 114 bestvalit: 0.690656 bestmemit:    0.068853    
+0.080248    0.094666    0.101946    0.127176    0.036363    0.027770    0.18889
+5    0.033561    0.030841    0.026995    0.029529    0.046505    0.032695    0.
+047628    0.050914    0.041930[] 
+ []
+
+
+Overfull \hbox (981.20207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 115 bestvalit: 0.399341 bestmemit:    0.074774    
+0.061281    0.093123    0.081290    0.090563    0.049546    0.026244    0.18426
+9    0.054791    0.026771    0.025349    0.025269    0.048330    0.040131    0.
+048226    0.073948    0.037478[] 
+ []
+
+
+Overfull \hbox (981.25006pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 116 bestvalit: 0.365192 bestmemit:    0.075111    
+0.062020    0.088048    0.073505    0.087728    0.049849    0.031307    0.18393
+2    0.058516    0.026420    0.024793    0.023133    0.051274    0.042865    0.
+048951    0.079773    0.030096[] 
+ []
+
+
+Overfull \hbox (981.26207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 117 bestvalit: 0.365192 bestmemit:    0.075111    
+0.062020    0.088048    0.073505    0.087728    0.049849    0.031307    0.18393
+2    0.058516    0.026420    0.024793    0.023133    0.051274    0.042865    0.
+048951    0.079773    0.030096[] 
+ []
+
+
+Overfull \hbox (981.25006pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 118 bestvalit: 0.333407 bestmemit:    0.075111    
+0.062020    0.088048    0.073505    0.087728    0.049849    0.026999    0.18388
+8    0.058516    0.026420    0.024793    0.023133    0.051274    0.042865    0.
+048951    0.079773    0.030096[] 
+ []
+
+
+Overfull \hbox (981.19003pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 119 bestvalit: 0.264786 bestmemit:    0.066703    
+0.075399    0.083340    0.074334    0.099984    0.044961    0.027767    0.19438
+2    0.034221    0.037160    0.021265    0.022334    0.051275    0.033808    0.
+050307    0.069946    0.031421[] 
+ []
+
+
+Overfull \hbox (981.20204pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 120 bestvalit: 0.264786 bestmemit:    0.066703    
+0.075399    0.083340    0.074334    0.099984    0.044961    0.027767    0.19438
+2    0.034221    0.037160    0.021265    0.022334    0.051275    0.033808    0.
+050307    0.069946    0.031421[] 
+ []
+
+
+Overfull \hbox (981.23805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 121 bestvalit: 0.226891 bestmemit:    0.066703    
+0.075399    0.083340    0.074334    0.095555    0.035568    0.027767    0.19438
+2    0.034221    0.037160    0.021265    0.022334    0.051275    0.033808    0.
+050307    0.069946    0.031421[] 
+ []
+
+
+Overfull \hbox (981.23805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 122 bestvalit: 0.226891 bestmemit:    0.066703    
+0.075399    0.083340    0.074334    0.095555    0.035568    0.027767    0.19438
+2    0.034221    0.037160    0.021265    0.022334    0.051275    0.033808    0.
+050307    0.069946    0.031421[] 
+ []
+
+
+Overfull \hbox (981.23805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 123 bestvalit: 0.226891 bestmemit:    0.066703    
+0.075399    0.083340    0.074334    0.095555    0.035568    0.027767    0.19438
+2    0.034221    0.037160    0.021265    0.022334    0.051275    0.033808    0.
+050307    0.069946    0.031421[] 
+ []
+
+
+Overfull \hbox (981.23805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 124 bestvalit: 0.219955 bestmemit:    0.081217    
+0.058277    0.098744    0.072789    0.056010    0.057499    0.026014    0.20690
+8    0.051990    0.035420    0.022025    0.028007    0.046333    0.028745    0.
+064639    0.052311    0.021381[] 
+ []
+
+
+Overfull \hbox (981.23805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 125 bestvalit: 0.219955 bestmemit:    0.081217    
+0.058277    0.098744    0.072789    0.056010    0.057499    0.026014    0.20690
+8    0.051990    0.035420    0.022025    0.028007    0.046333    0.028745    0.
+064639    0.052311    0.021381[] 
+ []
+
+
+Overfull \hbox (981.22604pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 126 bestvalit: 0.219955 bestmemit:    0.081217    
+0.058277    0.098744    0.072789    0.056010    0.057499    0.026014    0.20690
+8    0.051990    0.035420    0.022025    0.028007    0.046333    0.028745    0.
+064639    0.052311    0.021381[] 
+ []
+
+
+Overfull \hbox (981.28606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 127 bestvalit: 0.213170 bestmemit:    0.081217    
+0.058277    0.098744    0.072789    0.056010    0.057499    0.026014    0.20690
+8    0.051990    0.035420    0.022025    0.028007    0.046333    0.028745    0.
+058819    0.052311    0.021381[] 
+ []
+
+
+Overfull \hbox (981.27406pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 128 bestvalit: 0.212147 bestmemit:    0.081217    
+0.052361    0.098744    0.072789    0.056010    0.057499    0.026014    0.20690
+8    0.051990    0.035420    0.022025    0.028007    0.046333    0.028745    0.
+058819    0.052311    0.021381[] 
+ []
+
+
+Overfull \hbox (981.26205pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 129 bestvalit: 0.212147 bestmemit:    0.081217    
+0.052361    0.098744    0.072789    0.056010    0.057499    0.026014    0.20690
+8    0.051990    0.035420    0.022025    0.028007    0.046333    0.028745    0.
+058819    0.052311    0.021381[] 
+ []
+
+
+Overfull \hbox (981.27406pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 130 bestvalit: 0.212147 bestmemit:    0.081217    
+0.052361    0.098744    0.072789    0.056010    0.057499    0.026014    0.20690
+8    0.051990    0.035420    0.022025    0.028007    0.046333    0.028745    0.
+058819    0.052311    0.021381[] 
+ []
+
+
+Overfull \hbox (981.26207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 131 bestvalit: 0.211633 bestmemit:    0.081217    
+0.052361    0.098744    0.072789    0.056010    0.057499    0.026014    0.20690
+8    0.051990    0.035420    0.022025    0.027836    0.051184    0.028745    0.
+058819    0.052311    0.021381[] 
+ []
+
+
+Overfull \hbox (981.28607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 132 bestvalit: 0.211447 bestmemit:    0.081217    
+0.052361    0.098744    0.072789    0.056010    0.057499    0.026014    0.20682
+4    0.050769    0.035310    0.022025    0.027836    0.051184    0.028745    0.
+058819    0.052311    0.021381[] 
+ []
+
+
+Overfull \hbox (981.28607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 133 bestvalit: 0.211447 bestmemit:    0.081217    
+0.052361    0.098744    0.072789    0.056010    0.057499    0.026014    0.20682
+4    0.050769    0.035310    0.022025    0.027836    0.051184    0.028745    0.
+058819    0.052311    0.021381[] 
+ []
+
+
+Overfull \hbox (981.28607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 134 bestvalit: 0.211447 bestmemit:    0.081217    
+0.052361    0.098744    0.072789    0.056010    0.057499    0.026014    0.20682
+4    0.050769    0.035310    0.022025    0.027836    0.051184    0.028745    0.
+058819    0.052311    0.021381[] 
+ []
+
+
+Overfull \hbox (981.28607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 135 bestvalit: 0.211447 bestmemit:    0.081217    
+0.052361    0.098744    0.072789    0.056010    0.057499    0.026014    0.20682
+4    0.050769    0.035310    0.022025    0.027836    0.051184    0.028745    0.
+058819    0.052311    0.021381[] 
+ []
+
+
+Overfull \hbox (981.27406pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 136 bestvalit: 0.211447 bestmemit:    0.081217    
+0.052361    0.098744    0.072789    0.056010    0.057499    0.026014    0.20682
+4    0.050769    0.035310    0.022025    0.027836    0.051184    0.028745    0.
+058819    0.052311    0.021381[] 
+ []
+
+
+Overfull \hbox (981.32207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 137 bestvalit: 0.211108 bestmemit:    0.071507    
+0.052510    0.097875    0.077082    0.042918    0.069547    0.033218    0.20087
+0    0.048957    0.033477    0.020981    0.034955    0.047077    0.025749    0.
+061802    0.050811    0.027088[] 
+ []
+
+
+Overfull \hbox (981.20206pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 138 bestvalit: 0.209455 bestmemit:    0.082982    
+0.042813    0.096147    0.079438    0.063406    0.046342    0.030602    0.20048
+8    0.072196    0.027733    0.022919    0.030519    0.040255    0.021967    0.
+058332    0.050690    0.029747[] 
+ []
+
+
+Overfull \hbox (981.27405pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 139 bestvalit: 0.208581 bestmemit:    0.073851    
+0.052530    0.093913    0.076342    0.054405    0.047309    0.040263    0.20480
+3    0.052584    0.028755    0.025602    0.025957    0.053448    0.026506    0.
+054674    0.056918    0.032432[] 
+ []
+
+
+Overfull \hbox (981.28606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 140 bestvalit: 0.208531 bestmemit:    0.073851    
+0.052370    0.093913    0.076342    0.054405    0.047309    0.040263    0.20480
+3    0.052584    0.028755    0.025602    0.025957    0.053448    0.026506    0.
+054674    0.056918    0.032432[] 
+ []
+
+
+Overfull \hbox (981.28606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 141 bestvalit: 0.208531 bestmemit:    0.073851    
+0.052370    0.093913    0.076342    0.054405    0.047309    0.040263    0.20480
+3    0.052584    0.028755    0.025602    0.025957    0.053448    0.026506    0.
+054674    0.056918    0.032432[] 
+ []
+
+
+Overfull \hbox (981.21408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 142 bestvalit: 0.208137 bestmemit:    0.082360    
+0.051261    0.096600    0.072763    0.050927    0.057499    0.026014    0.20682
+4    0.050769    0.035310    0.022025    0.025370    0.051511    0.031829    0.
+062023    0.052592    0.026625[] 
+ []
+
+
+Overfull \hbox (981.23808pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 143 bestvalit: 0.207475 bestmemit:    0.082360    
+0.051261    0.096600    0.072763    0.050927    0.057499    0.026014    0.20682
+4    0.050407    0.032115    0.022025    0.025370    0.051511    0.031829    0.
+062023    0.052592    0.026625[] 
+ []
+
+
+Overfull \hbox (981.21408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 144 bestvalit: 0.207356 bestmemit:    0.082360    
+0.051261    0.096600    0.072763    0.050927    0.057499    0.025659    0.20612
+8    0.051184    0.032115    0.022025    0.025370    0.051511    0.031829    0.
+062023    0.052592    0.026625[] 
+ []
+
+
+Overfull \hbox (981.20207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 145 bestvalit: 0.205482 bestmemit:    0.080151    
+0.059574    0.091676    0.072060    0.046509    0.056936    0.028077    0.19381
+3    0.056432    0.052283    0.027475    0.021075    0.049663    0.025913    0.
+049059    0.065730    0.024722[] 
+ []
+
+
+Overfull \hbox (981.19006pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 146 bestvalit: 0.205482 bestmemit:    0.080151    
+0.059574    0.091676    0.072060    0.046509    0.056936    0.028077    0.19381
+3    0.056432    0.052283    0.027475    0.021075    0.049663    0.025913    0.
+049059    0.065730    0.024722[] 
+ []
+
+
+Overfull \hbox (981.20206pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 147 bestvalit: 0.205050 bestmemit:    0.077346    
+0.059479    0.091895    0.076504    0.050856    0.050701    0.028799    0.20458
+9    0.058531    0.029494    0.024652    0.026985    0.048050    0.025967    0.
+054818    0.051006    0.038360[] 
+ []
+
+
+Overfull \hbox (981.26205pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 148 bestvalit: 0.203717 bestmemit:    0.080151    
+0.059574    0.090625    0.074220    0.044231    0.054906    0.028077    0.19381
+3    0.056432    0.052283    0.027475    0.021075    0.049663    0.025913    0.
+049059    0.065730    0.024722[] 
+ []
+
+[16]
+Overfull \hbox (981.25005pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 149 bestvalit: 0.203717 bestmemit:    0.080151    
+0.059574    0.090625    0.074220    0.044231    0.054906    0.028077    0.19381
+3    0.056432    0.052283    0.027475    0.021075    0.049663    0.025913    0.
+049059    0.065730    0.024722[] 
+ []
+
+
+Overfull \hbox (981.17805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 150 bestvalit: 0.203139 bestmemit:    0.075629    
+0.058976    0.089977    0.069138    0.037492    0.058493    0.023408    0.20455
+9    0.054407    0.038002    0.027168    0.039165    0.049076    0.032219    0.
+057196    0.059540    0.022332[] 
+ []
+
+
+Overfull \hbox (981.22606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 151 bestvalit: 0.202374 bestmemit:    0.075604    
+0.057366    0.089105    0.073385    0.037492    0.058493    0.023408    0.20455
+9    0.054407    0.038002    0.026938    0.039395    0.049880    0.030953    0.
+059360    0.056389    0.022417[] 
+ []
+
+
+Overfull \hbox (981.22606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 152 bestvalit: 0.202374 bestmemit:    0.075604    
+0.057366    0.089105    0.073385    0.037492    0.058493    0.023408    0.20455
+9    0.054407    0.038002    0.026938    0.039395    0.049880    0.030953    0.
+059360    0.056389    0.022417[] 
+ []
+
+
+Overfull \hbox (981.1901pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 153 bestvalit: 0.201429 bestmemit:    0.079216    
+0.051944    0.089236    0.075846    0.042672    0.054545    0.026725    0.19731
+9    0.059104    0.045630    0.033594    0.027914    0.049091    0.027116    0.
+050502    0.065228    0.022988[] 
+ []
+
+
+Overfull \hbox (981.1901pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 154 bestvalit: 0.201429 bestmemit:    0.079216    
+0.051944    0.089236    0.075846    0.042672    0.054545    0.026725    0.19731
+9    0.059104    0.045630    0.033594    0.027914    0.049091    0.027116    0.
+050502    0.065228    0.022988[] 
+ []
+
+
+Overfull \hbox (981.27405pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 155 bestvalit: 0.200226 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.024618    0.20047
+2    0.056687    0.038610    0.028810    0.033038    0.050956    0.034255    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.26204pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 156 bestvalit: 0.200226 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.024618    0.20047
+2    0.056687    0.038610    0.028810    0.033038    0.050956    0.034255    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.27405pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 157 bestvalit: 0.200226 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.024618    0.20047
+2    0.056687    0.038610    0.028810    0.033038    0.050956    0.034255    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.27405pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 158 bestvalit: 0.200226 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.024618    0.20047
+2    0.056687    0.038610    0.028810    0.033038    0.050956    0.034255    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.26205pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 159 bestvalit: 0.200185 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.024618    0.20047
+2    0.056687    0.040429    0.033186    0.028603    0.051915    0.034255    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.23805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 160 bestvalit: 0.199569 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.024618    0.20047
+2    0.054500    0.040429    0.033186    0.028603    0.051915    0.034255    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.23805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 161 bestvalit: 0.199569 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.024618    0.20047
+2    0.054500    0.040429    0.033186    0.028603    0.051915    0.034255    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.25006pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 162 bestvalit: 0.199389 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.023271    0.20070
+6    0.058784    0.040759    0.029832    0.028603    0.051915    0.034255    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.26205pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 163 bestvalit: 0.199358 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.023271    0.20070
+6    0.058784    0.040759    0.029832    0.028603    0.051915    0.033273    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.26205pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 164 bestvalit: 0.199358 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.023271    0.20070
+6    0.058784    0.040759    0.029832    0.028603    0.051915    0.033273    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.26205pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 165 bestvalit: 0.199358 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.023271    0.20070
+6    0.058784    0.040759    0.029832    0.028603    0.051915    0.033273    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.27405pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 166 bestvalit: 0.199332 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.023271    0.20070
+6    0.058784    0.040759    0.030041    0.028488    0.051915    0.033273    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.28604pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 167 bestvalit: 0.199332 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.023271    0.20070
+6    0.058784    0.040759    0.030041    0.028488    0.051915    0.033273    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.28604pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 168 bestvalit: 0.199332 bestmemit:    0.077103    
+0.050728    0.091793    0.078587    0.037492    0.058493    0.023271    0.20070
+6    0.058784    0.040759    0.030041    0.028488    0.051915    0.033273    0.
+054777    0.057057    0.026065[] 
+ []
+
+
+Overfull \hbox (981.22607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 169 bestvalit: 0.198308 bestmemit:    0.078580    
+0.053412    0.090098    0.079460    0.036895    0.051306    0.027145    0.19470
+8    0.052800    0.039714    0.030323    0.026055    0.054461    0.040420    0.
+068327    0.053836    0.024567[] 
+ []
+
+
+Overfull \hbox (981.25008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 170 bestvalit: 0.198308 bestmemit:    0.078580    
+0.053412    0.090098    0.079460    0.036895    0.051306    0.027145    0.19470
+8    0.052800    0.039714    0.030323    0.026055    0.054461    0.040420    0.
+068327    0.053836    0.024567[] 
+ []
+
+
+Overfull \hbox (981.23808pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 171 bestvalit: 0.197858 bestmemit:    0.078068    
+0.053412    0.090098    0.079460    0.036895    0.051306    0.027145    0.19470
+8    0.052800    0.039714    0.030323    0.026055    0.054461    0.040420    0.
+068327    0.052046    0.026533[] 
+ []
+
+
+Overfull \hbox (981.23808pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 172 bestvalit: 0.197858 bestmemit:    0.078068    
+0.053412    0.090098    0.079460    0.036895    0.051306    0.027145    0.19470
+8    0.052800    0.039714    0.030323    0.026055    0.054461    0.040420    0.
+068327    0.052046    0.026533[] 
+ []
+
+
+Overfull \hbox (981.22609pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 173 bestvalit: 0.197834 bestmemit:    0.078678    
+0.051929    0.090579    0.081844    0.040682    0.050911    0.027069    0.19507
+1    0.054285    0.039242    0.028464    0.023105    0.052301    0.042094    0.
+071618    0.047806    0.026515[] 
+ []
+
+
+Overfull \hbox (981.22609pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 174 bestvalit: 0.197834 bestmemit:    0.078678    
+0.051929    0.090579    0.081844    0.040682    0.050911    0.027069    0.19507
+1    0.054285    0.039242    0.028464    0.023105    0.052301    0.042094    0.
+071618    0.047806    0.026515[] 
+ []
+
+
+Overfull \hbox (981.21408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 175 bestvalit: 0.196713 bestmemit:    0.078678    
+0.051929    0.090579    0.081844    0.040682    0.050911    0.027069    0.19507
+1    0.054285    0.039242    0.028464    0.023105    0.052301    0.042094    0.
+071618    0.045009    0.026515[] 
+ []
+
+
+Overfull \hbox (981.20207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 176 bestvalit: 0.196713 bestmemit:    0.078678    
+0.051929    0.090579    0.081844    0.040682    0.050911    0.027069    0.19507
+1    0.054285    0.039242    0.028464    0.023105    0.052301    0.042094    0.
+071618    0.045009    0.026515[] 
+ []
+
+
+Overfull \hbox (981.21408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 177 bestvalit: 0.196713 bestmemit:    0.078678    
+0.051929    0.090579    0.081844    0.040682    0.050911    0.027069    0.19507
+1    0.054285    0.039242    0.028464    0.023105    0.052301    0.042094    0.
+071618    0.045009    0.026515[] 
+ []
+
+
+Overfull \hbox (981.21408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 178 bestvalit: 0.196713 bestmemit:    0.078678    
+0.051929    0.090579    0.081844    0.040682    0.050911    0.027069    0.19507
+1    0.054285    0.039242    0.028464    0.023105    0.052301    0.042094    0.
+071618    0.045009    0.026515[] 
+ []
+
+
+Overfull \hbox (981.20207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 179 bestvalit: 0.196713 bestmemit:    0.078678    
+0.051929    0.090579    0.081844    0.040682    0.050911    0.027069    0.19507
+1    0.054285    0.039242    0.028464    0.023105    0.052301    0.042094    0.
+071618    0.045009    0.026515[] 
+ []
+
+
+Overfull \hbox (981.21408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 180 bestvalit: 0.196713 bestmemit:    0.078678    
+0.051929    0.090579    0.081844    0.040682    0.050911    0.027069    0.19507
+1    0.054285    0.039242    0.028464    0.023105    0.052301    0.042094    0.
+071618    0.045009    0.026515[] 
+ []
+
+
+Overfull \hbox (981.21408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 181 bestvalit: 0.196713 bestmemit:    0.078678    
+0.051929    0.090579    0.081844    0.040682    0.050911    0.027069    0.19507
+1    0.054285    0.039242    0.028464    0.023105    0.052301    0.042094    0.
+071618    0.045009    0.026515[] 
+ []
+
+
+Overfull \hbox (981.22607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 182 bestvalit: 0.196161 bestmemit:    0.080318    
+0.055575    0.089687    0.078663    0.033560    0.056397    0.024531    0.19753
+2    0.061100    0.037745    0.030849    0.025932    0.051289    0.037334    0.
+063448    0.045343    0.030756[] 
+ []
+
+
+Overfull \hbox (981.22607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 183 bestvalit: 0.196161 bestmemit:    0.080318    
+0.055575    0.089687    0.078663    0.033560    0.056397    0.024531    0.19753
+2    0.061100    0.037745    0.030849    0.025932    0.051289    0.037334    0.
+063448    0.045343    0.030756[] 
+ []
+
+
+Overfull \hbox (981.22607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 184 bestvalit: 0.196161 bestmemit:    0.080318    
+0.055575    0.089687    0.078663    0.033560    0.056397    0.024531    0.19753
+2    0.061100    0.037745    0.030849    0.025932    0.051289    0.037334    0.
+063448    0.045343    0.030756[] 
+ []
+
+
+Overfull \hbox (981.26207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 185 bestvalit: 0.195679 bestmemit:    0.081488    
+0.049854    0.087843    0.080520    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.048204    0.032847    0.
+062033    0.048425    0.029460[] 
+ []
+
+
+Overfull \hbox (981.25006pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 186 bestvalit: 0.195331 bestmemit:    0.081488    
+0.049854    0.087843    0.080520    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.032847    0.
+062033    0.048425    0.029460[] 
+ []
+
+
+Overfull \hbox (981.22607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 187 bestvalit: 0.195330 bestmemit:    0.081488    
+0.049854    0.087843    0.080520    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.035836    0.
+062432    0.047496    0.029460[] 
+ []
+
+
+Overfull \hbox (981.22607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 188 bestvalit: 0.195330 bestmemit:    0.081488    
+0.049854    0.087843    0.080520    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.035836    0.
+062432    0.047496    0.029460[] 
+ []
+
+
+Overfull \hbox (981.21407pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 189 bestvalit: 0.195330 bestmemit:    0.081488    
+0.049854    0.087843    0.080520    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.035836    0.
+062432    0.047496    0.029460[] 
+ []
+
+
+Overfull \hbox (981.21408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 190 bestvalit: 0.195141 bestmemit:    0.081042    
+0.050225    0.090846    0.081356    0.029615    0.055786    0.029383    0.19773
+0    0.060048    0.037357    0.042547    0.026037    0.049318    0.032761    0.
+062499    0.047935    0.025018[] 
+ []
+
+
+Overfull \hbox (981.20207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 191 bestvalit: 0.195056 bestmemit:    0.080567    
+0.049854    0.087843    0.080520    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.035836    0.
+062432    0.047496    0.028971[] 
+ []
+
+
+Overfull \hbox (981.20207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 192 bestvalit: 0.195056 bestmemit:    0.080567    
+0.049854    0.087843    0.080520    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.035836    0.
+062432    0.047496    0.028971[] 
+ []
+
+
+Overfull \hbox (981.20207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 193 bestvalit: 0.195056 bestmemit:    0.080567    
+0.049854    0.087843    0.080520    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.035836    0.
+062432    0.047496    0.028971[] 
+ []
+
+[17]
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 194 bestvalit: 0.194891 bestmemit:    0.080567    
+0.049854    0.085867    0.081114    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.035836    0.
+062432    0.047496    0.028971[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 195 bestvalit: 0.194891 bestmemit:    0.080567    
+0.049854    0.085867    0.081114    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.035836    0.
+062432    0.047496    0.028971[] 
+ []
+
+
+Overfull \hbox (981.17809pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 196 bestvalit: 0.194891 bestmemit:    0.080567    
+0.049854    0.085867    0.081114    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.035836    0.
+062432    0.047496    0.028971[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 197 bestvalit: 0.194891 bestmemit:    0.080567    
+0.049854    0.085867    0.081114    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.035836    0.
+062432    0.047496    0.028971[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 198 bestvalit: 0.194891 bestmemit:    0.080567    
+0.049854    0.085867    0.081114    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.035836    0.
+062432    0.047496    0.028971[] 
+ []
+
+
+Overfull \hbox (981.17809pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 199 bestvalit: 0.194891 bestmemit:    0.080567    
+0.049854    0.085867    0.081114    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.035836    0.
+062432    0.047496    0.028971[] 
+ []
+
+
+Overfull \hbox (981.20209pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 200 bestvalit: 0.194891 bestmemit:    0.080567    
+0.049854    0.085867    0.081114    0.038535    0.052796    0.026275    0.19312
+2    0.059505    0.039834    0.040057    0.026450    0.049589    0.035836    0.
+062432    0.047496    0.028971[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 201 bestvalit: 0.194100 bestmemit:    0.079903    
+0.057727    0.086214    0.080404    0.031972    0.057623    0.024277    0.19099
+7    0.061273    0.037860    0.037515    0.026154    0.046188    0.035699    0.
+069772    0.043692    0.032422[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 202 bestvalit: 0.194100 bestmemit:    0.079903    
+0.057727    0.086214    0.080404    0.031972    0.057623    0.024277    0.19099
+7    0.061273    0.037860    0.037515    0.026154    0.046188    0.035699    0.
+069772    0.043692    0.032422[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 203 bestvalit: 0.194100 bestmemit:    0.079903    
+0.057727    0.086214    0.080404    0.031972    0.057623    0.024277    0.19099
+7    0.061273    0.037860    0.037515    0.026154    0.046188    0.035699    0.
+069772    0.043692    0.032422[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 204 bestvalit: 0.194100 bestmemit:    0.079903    
+0.057727    0.086214    0.080404    0.031972    0.057623    0.024277    0.19099
+7    0.061273    0.037860    0.037515    0.026154    0.046188    0.035699    0.
+069772    0.043692    0.032422[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 205 bestvalit: 0.194100 bestmemit:    0.079903    
+0.057727    0.086214    0.080404    0.031972    0.057623    0.024277    0.19099
+7    0.061273    0.037860    0.037515    0.026154    0.046188    0.035699    0.
+069772    0.043692    0.032422[] 
+ []
+
+
+Overfull \hbox (981.17807pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 206 bestvalit: 0.194100 bestmemit:    0.079903    
+0.057727    0.086214    0.080404    0.031972    0.057623    0.024277    0.19099
+7    0.061273    0.037860    0.037515    0.026154    0.046188    0.035699    0.
+069772    0.043692    0.032422[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 207 bestvalit: 0.194100 bestmemit:    0.079903    
+0.057727    0.086214    0.080404    0.031972    0.057623    0.024277    0.19099
+7    0.061273    0.037860    0.037515    0.026154    0.046188    0.035699    0.
+069772    0.043692    0.032422[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 208 bestvalit: 0.194100 bestmemit:    0.079903    
+0.057727    0.086214    0.080404    0.031972    0.057623    0.024277    0.19099
+7    0.061273    0.037860    0.037515    0.026154    0.046188    0.035699    0.
+069772    0.043692    0.032422[] 
+ []
+
+
+Overfull \hbox (981.15407pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 209 bestvalit: 0.194009 bestmemit:    0.079903    
+0.057727    0.086214    0.080404    0.031972    0.057623    0.023560    0.19099
+7    0.061273    0.037860    0.037515    0.026154    0.046188    0.035699    0.
+069772    0.043692    0.032422[] 
+ []
+
+
+Overfull \hbox (981.17807pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 210 bestvalit: 0.193792 bestmemit:    0.079819    
+0.057845    0.087073    0.079512    0.031919    0.055542    0.023560    0.19099
+7    0.061273    0.037860    0.037515    0.026154    0.046188    0.035699    0.
+069772    0.043984    0.034325[] 
+ []
+
+
+Overfull \hbox (981.2141pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 211 bestvalit: 0.192815 bestmemit:    0.073419    
+0.055464    0.089351    0.080706    0.027133    0.057664    0.021427    0.19573
+7    0.061962    0.044439    0.039504    0.025646    0.051420    0.035406    0.
+067405    0.039757    0.033105[] 
+ []
+
+
+Overfull \hbox (981.2141pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 212 bestvalit: 0.192815 bestmemit:    0.073419    
+0.055464    0.089351    0.080706    0.027133    0.057664    0.021427    0.19573
+7    0.061962    0.044439    0.039504    0.025646    0.051420    0.035406    0.
+067405    0.039757    0.033105[] 
+ []
+
+
+Overfull \hbox (981.2141pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 213 bestvalit: 0.192815 bestmemit:    0.073419    
+0.055464    0.089351    0.080706    0.027133    0.057664    0.021427    0.19573
+7    0.061962    0.044439    0.039504    0.025646    0.051420    0.035406    0.
+067405    0.039757    0.033105[] 
+ []
+
+
+Overfull \hbox (981.2141pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 214 bestvalit: 0.192815 bestmemit:    0.073419    
+0.055464    0.089351    0.080706    0.027133    0.057664    0.021427    0.19573
+7    0.061962    0.044439    0.039504    0.025646    0.051420    0.035406    0.
+067405    0.039757    0.033105[] 
+ []
+
+
+Overfull \hbox (981.1901pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 215 bestvalit: 0.192797 bestmemit:    0.073419    
+0.055464    0.089351    0.080706    0.027133    0.055999    0.021427    0.19573
+7    0.061962    0.044439    0.039504    0.025646    0.051420    0.035406    0.
+067405    0.039757    0.033105[] 
+ []
+
+
+Overfull \hbox (981.17809pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 216 bestvalit: 0.192797 bestmemit:    0.073419    
+0.055464    0.089351    0.080706    0.027133    0.055999    0.021427    0.19573
+7    0.061962    0.044439    0.039504    0.025646    0.051420    0.035406    0.
+067405    0.039757    0.033105[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 217 bestvalit: 0.192669 bestmemit:    0.073419    
+0.055464    0.089351    0.080706    0.027133    0.055999    0.021427    0.19573
+7    0.063201    0.045135    0.040769    0.025646    0.051420    0.035406    0.
+067405    0.039757    0.033105[] 
+ []
+
+
+Overfull \hbox (981.20209pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 218 bestvalit: 0.192025 bestmemit:    0.076158    
+0.048437    0.088312    0.073768    0.028050    0.053765    0.026217    0.19654
+1    0.059083    0.040668    0.043973    0.029508    0.052721    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 219 bestvalit: 0.192025 bestmemit:    0.076158    
+0.048437    0.088312    0.073768    0.028050    0.053765    0.026217    0.19654
+1    0.059083    0.040668    0.043973    0.029508    0.052721    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.20209pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 220 bestvalit: 0.192025 bestmemit:    0.076158    
+0.048437    0.088312    0.073768    0.028050    0.053765    0.026217    0.19654
+1    0.059083    0.040668    0.043973    0.029508    0.052721    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.20209pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 221 bestvalit: 0.192025 bestmemit:    0.076158    
+0.048437    0.088312    0.073768    0.028050    0.053765    0.026217    0.19654
+1    0.059083    0.040668    0.043973    0.029508    0.052721    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 222 bestvalit: 0.191851 bestmemit:    0.076158    
+0.047506    0.088156    0.074541    0.024198    0.055114    0.025821    0.19674
+8    0.059288    0.039650    0.044136    0.030668    0.052518    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.16608pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 223 bestvalit: 0.191605 bestmemit:    0.076158    
+0.047506    0.087957    0.075149    0.024568    0.055114    0.025821    0.19674
+8    0.059288    0.039650    0.044136    0.030668    0.052518    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.1901pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 224 bestvalit: 0.191551 bestmemit:    0.076158    
+0.047506    0.087957    0.075149    0.024568    0.055114    0.026771    0.19737
+6    0.058554    0.038675    0.045360    0.030668    0.052518    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.1901pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 225 bestvalit: 0.191551 bestmemit:    0.076158    
+0.047506    0.087957    0.075149    0.024568    0.055114    0.026771    0.19731
+9    0.058554    0.038675    0.045360    0.030668    0.052518    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.17809pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 226 bestvalit: 0.191551 bestmemit:    0.076158    
+0.047506    0.087957    0.075149    0.024568    0.055114    0.026771    0.19731
+9    0.058554    0.038675    0.045360    0.030668    0.052518    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.1901pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 227 bestvalit: 0.191551 bestmemit:    0.076158    
+0.047506    0.087957    0.075149    0.024568    0.055114    0.026771    0.19731
+9    0.058554    0.038675    0.045360    0.030668    0.052518    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.1901pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 228 bestvalit: 0.191551 bestmemit:    0.076158    
+0.047506    0.087957    0.075149    0.024568    0.055114    0.026771    0.19731
+9    0.058554    0.038675    0.045360    0.030668    0.052518    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.17809pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 229 bestvalit: 0.191551 bestmemit:    0.076158    
+0.047506    0.087957    0.075149    0.024568    0.055114    0.026771    0.19731
+9    0.058554    0.038675    0.045360    0.030668    0.052518    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.1901pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 230 bestvalit: 0.191551 bestmemit:    0.076158    
+0.047506    0.087957    0.075149    0.024568    0.055114    0.026771    0.19731
+9    0.058554    0.038675    0.045360    0.030668    0.052518    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.1901pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 231 bestvalit: 0.191551 bestmemit:    0.076158    
+0.047506    0.087957    0.075149    0.024568    0.055114    0.026771    0.19731
+9    0.058554    0.038675    0.045360    0.030668    0.052518    0.047595    0.
+064606    0.040904    0.029494[] 
+ []
+
+
+Overfull \hbox (981.2141pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 232 bestvalit: 0.191455 bestmemit:    0.075459    
+0.044492    0.088193    0.076617    0.029370    0.053440    0.027340    0.19528
+2    0.060700    0.036085    0.047226    0.028205    0.051969    0.042135    0.
+069436    0.042585    0.030653[] 
+ []
+
+
+Overfull \hbox (981.16609pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 233 bestvalit: 0.190313 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054838    0.028423    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.16609pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 234 bestvalit: 0.190313 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054838    0.028423    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.16609pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 235 bestvalit: 0.190313 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054838    0.028423    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.15408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 236 bestvalit: 0.190313 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054838    0.028423    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.16609pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 237 bestvalit: 0.190313 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054838    0.028423    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.16609pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 238 bestvalit: 0.190313 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054838    0.028423    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+[18]
+Overfull \hbox (981.13008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 239 bestvalit: 0.190209 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054838    0.027463    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.14209pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 240 bestvalit: 0.190209 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054838    0.027463    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.14209pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 241 bestvalit: 0.190209 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054838    0.027463    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.14209pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 242 bestvalit: 0.190209 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054838    0.027463    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.14209pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 243 bestvalit: 0.190209 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054838    0.027463    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.14209pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 244 bestvalit: 0.190209 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054838    0.027463    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.1421pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 245 bestvalit: 0.190208 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054759    0.027463    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.1301pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 246 bestvalit: 0.190208 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.054759    0.027463    0.19584
+7    0.061695    0.036677    0.049725    0.029292    0.052928    0.043593    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.10608pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 247 bestvalit: 0.189971 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.053692    0.026783    0.19623
+9    0.064166    0.036669    0.049275    0.029251    0.051884    0.043321    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.10608pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 248 bestvalit: 0.189971 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.053692    0.026783    0.19623
+9    0.064166    0.036669    0.049275    0.029251    0.051884    0.043321    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.09407pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 249 bestvalit: 0.189971 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.053692    0.026783    0.19623
+9    0.064166    0.036669    0.049275    0.029251    0.051884    0.043321    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.15407pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 250 bestvalit: 0.189925 bestmemit:    0.073977    
+0.040140    0.088193    0.076405    0.026651    0.052244    0.028125    0.19655
+4    0.064166    0.036669    0.049275    0.029251    0.051884    0.043321    0.
+069395    0.041168    0.030767[] 
+ []
+
+
+Overfull \hbox (981.20206pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 251 bestvalit: 0.189837 bestmemit:    0.073128    
+0.040859    0.088140    0.076405    0.026651    0.052244    0.028125    0.19655
+4    0.064166    0.036669    0.049275    0.029251    0.051884    0.042608    0.
+071358    0.040269    0.030834[] 
+ []
+
+
+Overfull \hbox (981.26205pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 252 bestvalit: 0.189701 bestmemit:    0.077352    
+0.047823    0.089816    0.078870    0.022724    0.054486    0.022008    0.19316
+3    0.064664    0.038368    0.047184    0.025510    0.052604    0.041547    0.
+070689    0.042159    0.030347[] 
+ []
+
+
+Overfull \hbox (981.28606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 253 bestvalit: 0.189547 bestmemit:    0.073128    
+0.040859    0.088140    0.076405    0.026651    0.052244    0.028125    0.19655
+4    0.065221    0.037417    0.050302    0.027972    0.051884    0.042608    0.
+071358    0.040269    0.030834[] 
+ []
+
+
+Overfull \hbox (981.28606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 254 bestvalit: 0.189547 bestmemit:    0.073128    
+0.040859    0.088140    0.076405    0.026651    0.052244    0.028125    0.19655
+4    0.065221    0.037417    0.050302    0.027972    0.051884    0.042608    0.
+071358    0.040269    0.030834[] 
+ []
+
+
+Overfull \hbox (981.28606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 255 bestvalit: 0.189547 bestmemit:    0.073128    
+0.040859    0.088140    0.076405    0.026651    0.052244    0.028125    0.19655
+4    0.065221    0.037417    0.050302    0.027972    0.051884    0.042608    0.
+071358    0.040269    0.030834[] 
+ []
+
+
+Overfull \hbox (981.28604pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 256 bestvalit: 0.189470 bestmemit:    0.073128    
+0.040859    0.088140    0.076405    0.026651    0.052244    0.028125    0.19655
+4    0.065221    0.037417    0.050302    0.027103    0.051884    0.042608    0.
+071358    0.040269    0.030834[] 
+ []
+
+
+Overfull \hbox (981.29805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 257 bestvalit: 0.189470 bestmemit:    0.073128    
+0.040859    0.088140    0.076405    0.026651    0.052244    0.028125    0.19655
+4    0.065221    0.037417    0.050302    0.027103    0.051884    0.042608    0.
+071358    0.040269    0.030834[] 
+ []
+
+
+Overfull \hbox (981.29805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 258 bestvalit: 0.189470 bestmemit:    0.073128    
+0.040859    0.088140    0.076405    0.026651    0.052244    0.028125    0.19655
+4    0.065221    0.037417    0.050302    0.027103    0.051884    0.042608    0.
+071358    0.040269    0.030834[] 
+ []
+
+
+Overfull \hbox (981.28604pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 259 bestvalit: 0.189470 bestmemit:    0.073128    
+0.040859    0.088140    0.076405    0.026651    0.052244    0.028125    0.19655
+4    0.065221    0.037417    0.050302    0.027103    0.051884    0.042608    0.
+071358    0.040269    0.030834[] 
+ []
+
+
+Overfull \hbox (981.28604pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 260 bestvalit: 0.189470 bestmemit:    0.073128    
+0.040859    0.088140    0.076405    0.026651    0.052244    0.028125    0.19655
+4    0.065221    0.037417    0.050302    0.027103    0.051884    0.042608    0.
+071358    0.040269    0.030834[] 
+ []
+
+
+Overfull \hbox (981.28604pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 261 bestvalit: 0.189470 bestmemit:    0.073128    
+0.040859    0.088140    0.076405    0.026651    0.052244    0.028125    0.19655
+4    0.065221    0.037417    0.050302    0.027103    0.051884    0.042608    0.
+071358    0.040269    0.030834[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 262 bestvalit: 0.189075 bestmemit:    0.072986    
+0.044398    0.087539    0.079250    0.024209    0.053488    0.023199    0.19215
+7    0.066797    0.037504    0.046675    0.026113    0.050359    0.042814    0.
+075258    0.045139    0.031146[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 263 bestvalit: 0.189075 bestmemit:    0.072986    
+0.044398    0.087539    0.079250    0.024209    0.053488    0.023199    0.19215
+7    0.066797    0.037504    0.046675    0.026113    0.050359    0.042814    0.
+075258    0.045139    0.031146[] 
+ []
+
+
+Overfull \hbox (981.19008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 264 bestvalit: 0.189075 bestmemit:    0.072986    
+0.044398    0.087539    0.079250    0.024209    0.053488    0.023199    0.19215
+7    0.066797    0.037504    0.046675    0.026113    0.050359    0.042814    0.
+075258    0.045139    0.031146[] 
+ []
+
+
+Overfull \hbox (981.28606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 265 bestvalit: 0.188832 bestmemit:    0.075417    
+0.043638    0.087031    0.075720    0.022612    0.054293    0.024137    0.19443
+1    0.063643    0.035243    0.053089    0.026077    0.051002    0.042105    0.
+076723    0.043151    0.029565[] 
+ []
+
+
+Overfull \hbox (981.27406pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 266 bestvalit: 0.188832 bestmemit:    0.075417    
+0.043638    0.087031    0.075720    0.022612    0.054293    0.024137    0.19443
+1    0.063643    0.035243    0.053089    0.026077    0.051002    0.042105    0.
+076723    0.043151    0.029565[] 
+ []
+
+
+Overfull \hbox (981.27406pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 267 bestvalit: 0.188765 bestmemit:    0.075417    
+0.043638    0.087031    0.075720    0.022612    0.054293    0.024137    0.19443
+1    0.063643    0.035243    0.053089    0.026077    0.051002    0.042105    0.
+076723    0.043151    0.029779[] 
+ []
+
+
+Overfull \hbox (981.17805pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 268 bestvalit: 0.188442 bestmemit:    0.076098    
+0.044344    0.084216    0.079900    0.023952    0.054085    0.025150    0.19575
+8    0.060517    0.036928    0.049495    0.026794    0.052696    0.051187    0.
+071765    0.035195    0.030259[] 
+ []
+
+
+Overfull \hbox (981.16606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 269 bestvalit: 0.188442 bestmemit:    0.076098    
+0.044344    0.084216    0.079900    0.023952    0.054085    0.025150    0.19575
+8    0.060517    0.036928    0.049495    0.026794    0.052696    0.051187    0.
+071765    0.035195    0.030259[] 
+ []
+
+
+Overfull \hbox (981.19006pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 270 bestvalit: 0.188442 bestmemit:    0.076098    
+0.044344    0.084216    0.079900    0.023952    0.054085    0.025150    0.19575
+8    0.060517    0.036928    0.049495    0.026794    0.052696    0.051187    0.
+071765    0.035195    0.030259[] 
+ []
+
+
+Overfull \hbox (981.17807pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 271 bestvalit: 0.188301 bestmemit:    0.076098    
+0.044344    0.084216    0.079900    0.023952    0.054085    0.025150    0.19575
+8    0.060517    0.036928    0.049495    0.026794    0.052696    0.052236    0.
+071765    0.035195    0.030259[] 
+ []
+
+
+Overfull \hbox (981.17807pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 272 bestvalit: 0.188301 bestmemit:    0.076098    
+0.044344    0.084216    0.079900    0.023952    0.054085    0.025150    0.19575
+8    0.060517    0.036928    0.049495    0.026794    0.052696    0.052236    0.
+071765    0.035195    0.030259[] 
+ []
+
+
+Overfull \hbox (981.22607pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 273 bestvalit: 0.187996 bestmemit:    0.074459    
+0.039840    0.088140    0.077321    0.024760    0.052244    0.027080    0.19498
+6    0.068348    0.036974    0.051628    0.026063    0.050145    0.045354    0.
+071545    0.038479    0.031097[] 
+ []
+
+
+Overfull \hbox (981.27408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 274 bestvalit: 0.187910 bestmemit:    0.074459    
+0.039840    0.088140    0.077321    0.024760    0.052244    0.027080    0.19498
+6    0.068348    0.036974    0.051628    0.025744    0.050331    0.047218    0.
+071545    0.038479    0.031097[] 
+ []
+
+
+Overfull \hbox (981.27408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 275 bestvalit: 0.187885 bestmemit:    0.074459    
+0.039840    0.088140    0.077321    0.024760    0.052244    0.027080    0.19498
+6    0.068348    0.036974    0.051628    0.025622    0.050331    0.047218    0.
+071545    0.038479    0.031097[] 
+ []
+
+
+Overfull \hbox (981.26207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 276 bestvalit: 0.187885 bestmemit:    0.074459    
+0.039840    0.088140    0.077321    0.024760    0.052244    0.027080    0.19498
+6    0.068348    0.036974    0.051628    0.025622    0.050331    0.047218    0.
+071545    0.038479    0.031097[] 
+ []
+
+
+Overfull \hbox (981.27408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 277 bestvalit: 0.187885 bestmemit:    0.074459    
+0.039840    0.088140    0.077321    0.024760    0.052244    0.027080    0.19498
+6    0.068348    0.036974    0.051628    0.025622    0.050331    0.047218    0.
+071545    0.038479    0.031097[] 
+ []
+
+
+Overfull \hbox (981.22609pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 278 bestvalit: 0.187870 bestmemit:    0.074459    
+0.039840    0.088140    0.077321    0.024760    0.052244    0.027080    0.19498
+6    0.068348    0.036974    0.051628    0.025562    0.049976    0.047767    0.
+071545    0.038479    0.031097[] 
+ []
+
+
+Overfull \hbox (981.21408pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 279 bestvalit: 0.187870 bestmemit:    0.074459    
+0.039840    0.088140    0.077321    0.024760    0.052244    0.027080    0.19498
+6    0.068348    0.036974    0.051628    0.025562    0.049976    0.047767    0.
+071545    0.038479    0.031097[] 
+ []
+
+
+Overfull \hbox (981.22609pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 280 bestvalit: 0.187870 bestmemit:    0.074459    
+0.039840    0.088140    0.077321    0.024760    0.052244    0.027080    0.19498
+6    0.068348    0.036974    0.051628    0.025562    0.049976    0.047767    0.
+071545    0.038479    0.031097[] 
+ []
+
+
+Overfull \hbox (981.22609pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 281 bestvalit: 0.187870 bestmemit:    0.074459    
+0.039840    0.088140    0.077321    0.024760    0.052244    0.027080    0.19498
+6    0.068348    0.036974    0.051628    0.025562    0.049976    0.047767    0.
+071545    0.038479    0.031097[] 
+ []
+
+
+Overfull \hbox (981.26204pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 282 bestvalit: 0.187347 bestmemit:    0.073221    
+0.041160    0.086549    0.076631    0.020531    0.053998    0.024695    0.19502
+0    0.067268    0.035721    0.053514    0.028284    0.050700    0.047025    0.
+073282    0.039314    0.030865[] 
+ []
+
+
+Overfull \hbox (981.26204pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 283 bestvalit: 0.187347 bestmemit:    0.073221    
+0.041160    0.086549    0.076631    0.020531    0.053998    0.024695    0.19502
+0    0.067268    0.035721    0.053514    0.028284    0.050700    0.047025    0.
+073282    0.039314    0.030865[] 
+ []
+
+[19]
+Overfull \hbox (981.25005pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 284 bestvalit: 0.187310 bestmemit:    0.073221    
+0.041160    0.086549    0.076631    0.020531    0.053998    0.024695    0.19502
+0    0.067268    0.035721    0.053514    0.028284    0.050608    0.047207    0.
+073282    0.039314    0.030865[] 
+ []
+
+
+Overfull \hbox (981.20207pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 285 bestvalit: 0.187238 bestmemit:    0.076065    
+0.041688    0.086512    0.078046    0.021915    0.053661    0.025164    0.19491
+6    0.066074    0.035691    0.053238    0.028107    0.052590    0.047563    0.
+071301    0.035380    0.030951[] 
+ []
+
+
+Overfull \hbox (981.25003pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 286 bestvalit: 0.187205 bestmemit:    0.073221    
+0.041160    0.086549    0.076631    0.020531    0.053998    0.024695    0.19502
+0    0.067268    0.035721    0.053514    0.028284    0.051103    0.047207    0.
+073282    0.039314    0.030865[] 
+ []
+
+
+Overfull \hbox (981.29803pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 287 bestvalit: 0.187181 bestmemit:    0.073221    
+0.041160    0.086549    0.076631    0.020531    0.054427    0.024204    0.19563
+0    0.067268    0.035721    0.053514    0.028284    0.051103    0.047207    0.
+073282    0.039314    0.030865[] 
+ []
+
+
+Overfull \hbox (981.29803pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 288 bestvalit: 0.187181 bestmemit:    0.073221    
+0.041160    0.086549    0.076631    0.020531    0.054427    0.024204    0.19563
+0    0.067268    0.035721    0.053514    0.028284    0.051103    0.047207    0.
+073282    0.039314    0.030865[] 
+ []
+
+
+Overfull \hbox (981.28603pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 289 bestvalit: 0.187181 bestmemit:    0.073221    
+0.041160    0.086549    0.076631    0.020531    0.054427    0.024204    0.19563
+0    0.067268    0.035721    0.053514    0.028284    0.051103    0.047207    0.
+073282    0.039314    0.030865[] 
+ []
+
+
+Overfull \hbox (981.28603pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 290 bestvalit: 0.187181 bestmemit:    0.073221    
+0.041160    0.086549    0.076631    0.020531    0.054427    0.024204    0.19563
+0    0.067268    0.035721    0.053514    0.028284    0.051103    0.047207    0.
+073282    0.039314    0.030865[] 
+ []
+
+
+Overfull \hbox (981.28603pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 291 bestvalit: 0.187181 bestmemit:    0.073221    
+0.041160    0.086549    0.076631    0.020531    0.054427    0.024204    0.19563
+0    0.067268    0.035721    0.053514    0.028284    0.051103    0.047207    0.
+073282    0.039314    0.030865[] 
+ []
+
+
+Overfull \hbox (981.21407pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 292 bestvalit: 0.186885 bestmemit:    0.073049    
+0.038779    0.086075    0.077693    0.022246    0.054480    0.024011    0.19638
+9    0.066016    0.036762    0.052440    0.028824    0.051740    0.050750    0.
+073436    0.035581    0.030339[] 
+ []
+
+
+Overfull \hbox (981.16606pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 293 bestvalit: 0.186806 bestmemit:    0.073049    
+0.038779    0.086075    0.077693    0.022246    0.054480    0.024011    0.19638
+9    0.066016    0.036762    0.052061    0.029534    0.052120    0.054014    0.
+072926    0.034137    0.030339[] 
+ []
+
+
+Overfull \hbox (981.20206pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 294 bestvalit: 0.186760 bestmemit:    0.076659    
+0.038176    0.084435    0.076555    0.022469    0.054409    0.025809    0.19532
+4    0.066186    0.037018    0.055410    0.027440    0.050698    0.047851    0.
+073054    0.038025    0.030406[] 
+ []
+
+
+Overfull \hbox (981.20206pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 295 bestvalit: 0.186760 bestmemit:    0.076659    
+0.038176    0.084435    0.076555    0.022469    0.054409    0.025809    0.19532
+4    0.066186    0.037018    0.055410    0.027440    0.050698    0.047851    0.
+073054    0.038025    0.030406[] 
+ []
+
+
+Overfull \hbox (981.19006pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 296 bestvalit: 0.186760 bestmemit:    0.076659    
+0.038176    0.084435    0.076555    0.022469    0.054409    0.025809    0.19532
+4    0.066186    0.037018    0.055410    0.027440    0.050698    0.047851    0.
+073054    0.038025    0.030406[] 
+ []
+
+
+Overfull \hbox (981.20206pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 297 bestvalit: 0.186760 bestmemit:    0.076659    
+0.038176    0.084435    0.076555    0.022469    0.054409    0.025809    0.19532
+4    0.066186    0.037018    0.055410    0.027440    0.050698    0.047851    0.
+073054    0.038025    0.030406[] 
+ []
+
+
+Overfull \hbox (981.20206pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 298 bestvalit: 0.186760 bestmemit:    0.076659    
+0.038176    0.084435    0.076555    0.022469    0.054409    0.025809    0.19532
+4    0.066186    0.037018    0.055410    0.027440    0.050698    0.047851    0.
+073054    0.038025    0.030406[] 
+ []
+
+
+Overfull \hbox (981.10608pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 299 bestvalit: 0.186636 bestmemit:    0.074332    
+0.037670    0.085463    0.079272    0.023262    0.051856    0.025267    0.19385
+8    0.064933    0.036926    0.055694    0.027732    0.051566    0.049588    0.
+072936    0.038598    0.029356[] 
+ []
+
+
+Overfull \hbox (981.13008pt too wide) in paragraph at lines 1039--1039
+[]\TU/lmtt/m/n/12 Iteration: 300 bestvalit: 0.186636 bestmemit:    0.074332    
+0.037670    0.085463    0.079272    0.023262    0.051856    0.025267    0.19385
+8    0.064933    0.036926    0.055694    0.027732    0.051566    0.049588    0.
+072936    0.038598    0.029356[] 
+ []
+
+
+Underfull \vbox (badness 2617) detected at line 1081
+ []
+
+[20]
+File: 10_Optimization_files/figure-latex/unnamed-chunk-15-1.png Graphic file (t
+ype bmp)
+<10_Optimization_files/figure-latex/unnamed-chunk-15-1.png>
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1115.
+[21]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1115.
+(10_Optimization.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1115.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1115.
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 22122 strings out of 414221
+ 376285 string characters out of 2902595
+ 906268 words of memory out of 3000000
+ 39359 multiletter control sequences out of 15000+200000
+ 533692 words of font info for 53 fonts, out of 3000000 for 9000
+ 1348 hyphenation exceptions out of 8191
+ 53i,11n,121p,816b,467s stack positions out of 5000i,500n,10000p,200000b,50000s
+
+Output written on 10_Optimization.pdf (21 pages).
+
+! miktex-dvipdfmx: major issue: User/administrator updates are out-of-sync.
+! xelatex: major issue: User/administrator updates are out-of-sync.

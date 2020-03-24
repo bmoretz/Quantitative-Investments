@@ -209,7 +209,7 @@ newton_alternate <- function(f, tol = 1E-12, x0 = 1, N = 20) {
   return(p[1:(i-1)])
 }
 
-newton_alternative(f_expr, x0 = 10)
+newton_alternate(f_expr, x0 = 10)
 ```
 
 ### Brute Force
@@ -294,6 +294,10 @@ rates <- c(0.025, 0.03, 0.034, 0.039, 0.04,
            0.074, 0.076, 0.082, 0.088, 0.09)
 maturities <- 1:20
 
+```
+
+```{r}
+
 plot(maturities, rates,
      xlab = "years",
      main = "Yields",
@@ -301,9 +305,7 @@ plot(maturities, rates,
      cex.lab = 0.8,
      cex.axis = 0.8)
 grid()
-```
 
-```{r}
 poly_5 <- function(x, p) {
   f <- p[1] + p[2] * x + p[3] * x^2 +
     p[4] * x^3 + p[5] * x^4 + p[6] * x^5
@@ -325,6 +327,14 @@ lines(poly_5(maturities, out_5$par), lwd = 1.5, lty = 2, col = "darkblue")
 ```
 
 ```{r}
+plot(maturities, rates,
+     xlab = "years",
+     main = "Yields",
+     cex.main = 0.8,
+     cex.lab = 0.8,
+     cex.axis = 0.8)
+grid()
+
 poly_7 <- function(x, p) {
   f <- p[1] + p[2] * x + 
     p[3] * x^2 + p[4] * x^3 + 

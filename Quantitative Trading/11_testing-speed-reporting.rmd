@@ -1,0 +1,169 @@
+---
+title: ''
+mainfont: Arial
+fontsize: 12pt
+documentclass: report
+header-includes:
+- \PassOptionsToPackage{table}{xcolor}
+- \usepackage{caption}
+- \usepackage{amssymb}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage[table]{xcolor}
+- \usepackage{fancyhdr}
+- \usepackage{boldline}
+- \usepackage{tipa}
+   \definecolor{headergrey}{HTML}{545454}
+   \definecolor{msdblue}{HTML}{1C93D1}
+   \pagestyle{fancy}
+   \setlength\headheight{30pt}
+   \rhead{\color{headergrey}\today}
+   \fancyhead[L]{\color{headergrey}Moretz, Brandon}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Speed, Testing & Reporting}
+   \rfoot{\color{headergrey}Chapter 8}
+   \lfoot{\color{headergrey}\thepage}
+   \fancyfoot[C]{\rmfamily\color{headergrey}Quantitative Trading with R}
+geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r knitr_setup, include = FALSE}
+
+knitr::opts_chunk$set(
+   echo = T, 
+   eval = TRUE, 
+   dev = 'png', 
+   fig.width = 9, 
+   fig.height = 3.5)
+
+options(knitr.table.format = "latex")
+
+```
+
+```{r report_setup, message = FALSE, warning = FALSE, include = FALSE}
+
+library(knitr, quietly = TRUE, warn.conflicts = FALSE)
+library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(pander, quietly = TRUE, warn.conflicts = FALSE)
+
+library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
+
+library(here, quietly = TRUE, warn.conflicts = FALSE)
+
+library(hflights, quietly = TRUE, warn.conflicts = FALSE)
+library(blotter, quietly = TRUE, warn.conflicts = FALSE)
+library(quantstrat, quietly = TRUE, warn.conflicts = FALSE)
+library(PerformanceAnalytics, quietly = TRUE, warn.conflicts = FALSE)
+
+library(microbenchmark, quietly = TRUE, warn.conflicts = FALSE)
+library(compiler, quietly = TRUE, warn.conflicts = FALSE)
+library(Rcpp, quietly = TRUE, warn.conflicts = FALSE)
+
+options(tinytex.verbose = TRUE)
+
+pretty_kable <- function(data, title, dig = 2) {
+  kable(data, caption = title, digits = dig) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+      kableExtra::kable_styling(latex_options = "hold_position")
+}
+
+data.dir <- paste0(here::here(), "/Quantitative Trading")
+```
+
+```{r pander_setup, include = FALSE}
+knitr::opts_chunk$set(comment = NA)
+
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+```
+
+## Speed, Testing & Reporting
+
+```{r}
+sum_with_loop_in_r <- function(max_value) {
+  sum <- 0
+  for(i in 1:max_value) {
+    sum <- sum + 1
+  }
+  return(sum)
+}
+
+sum_with_vectorization_in_r <- function(max_value) {
+  numbers <- as.double(1:max_value)
+  return(sum(numbers))
+}
+```
+
+```{r}
+microbenchmark(loop = sum_with_loop_in_r(1e5),
+               vectorized = sum_with_vectorization_in_r(1e5))
+```
+
+Compiler pkg
+
+```{r}
+compiled_sum_with_loop_in_r <- cmpfun(sum_with_loop_in_r)
+
+microbenchmark(loop = sum_with_loop_in_r(1e5),
+               vectorized = sum_with_vectorization_in_r(1e5),
+               compiled = compiled_sum_with_loop_in_r(1e5))
+
+```
+
+```{r}
+lapply
+```
+
+```{r}
+# Create a C++ Function
+cppFunction('
+  long add_cpp(long max_value) {
+    long sum = 0;
+    for(long i = 1; i <= max_value; ++i) {
+      sum = sum + i;
+    }
+    return sum;
+  }
+')
+
+add_cpp(1e5)
+```
+
+```{r}
+microbenchmark(loop = sum_with_loop_in_r(1e5),
+               vectorized = sum_with_vectorization_in_r(1e5),
+               compiled = compiled_sum_with_loop_in_r(1e5),
+               compiled_cpp = add_cpp(1e5))
+```
+
+```{r}
+sourceCpp(file.path(data.dir, "add_2.cpp"))
+
+add_2_cpp(100)
+```
+
+```{r}
+
+```
+
