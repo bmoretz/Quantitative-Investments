@@ -1,0 +1,350 @@
+---
+title: ''
+mainfont: Arial
+fontsize: 12pt
+documentclass: report
+header-includes:
+- \PassOptionsToPackage{table}{xcolor}
+- \usepackage{caption}
+- \usepackage{amssymb}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage[table]{xcolor}
+- \usepackage{fancyhdr}
+- \usepackage{boldline}
+- \usepackage{tipa}
+   \definecolor{headergrey}{HTML}{545454}
+   \pagestyle{fancy}
+   \setlength\headheight{30pt}
+   \rhead{\color{headergrey}\today}
+   \fancyhead[L]{\color{headergrey}Moretz, Brandon}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Factor Models}
+   \rfoot{\color{headergrey}Chapter 5}
+   \lfoot{\color{headergrey}\thepage}
+   \fancyfoot[C]{\rmfamily\color{headergrey}Financial Modeling}
+geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r knitr_setup, include = FALSE}
+
+knitr::opts_chunk$set(
+   echo = T, 
+   eval = TRUE, 
+   dev = 'png', 
+   fig.width = 9, 
+   fig.height = 3.5)
+
+options(knitr.table.format = "latex")
+
+```
+
+```{r report_setup, message = FALSE, warning = FALSE, include = FALSE}
+
+library(data.table, quietly = TRUE, warn.conflicts = FALSE)
+library(ggthemes, quietly = TRUE, warn.conflicts = FALSE)
+library(scales, quietly = TRUE, warn.conflicts = FALSE)
+
+library(knitr, quietly = TRUE, warn.conflicts = FALSE)
+library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(pander, quietly = TRUE, warn.conflicts = FALSE)
+library(formattable, quietly = TRUE, warn.conflicts = FALSE)
+
+library(grid, quietly = TRUE, warn.conflicts = FALSE)
+library(gridExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(extrafont, quietly = TRUE, warn.conflicts = FALSE)
+library(tinytex, quietly = TRUE, warn.conflicts = FALSE)
+
+library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
+library(xts, quietly = TRUE, warn.conflicts = FALSE)
+
+library(here, quietly = TRUE, warn.conflicts = FALSE)
+
+options(tinytex.verbose = TRUE)
+suppressMessages(library("tidyverse"))
+
+pretty_kable <- function(data, title, dig = 2) {
+  kable(data, caption = title, digits = dig) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+      kableExtra::kable_styling(latex_options = "hold_position")
+}
+
+theme_set(theme_light())
+
+# Theme Overrides
+theme_update(axis.text.x = element_text(size = 10),
+             axis.text.y = element_text(size = 10),
+             plot.title = element_text(hjust = 0.5, size = 16, face = "bold", color = "darkgreen"),
+             axis.title = element_text(face = "bold", size = 12, colour = "steelblue4"),
+             plot.subtitle = element_text(face = "bold", size = 8, colour = "darkred"),
+             legend.title = element_text(size = 12, color = "darkred", face = "bold"),
+             legend.position = "right", legend.title.align=0.5,
+             panel.border = element_rect(linetype = "solid", 
+                                         colour = "lightgray"), 
+             plot.margin = unit(c( 0.1, 0.1, 0.1, 0.1), "inches"))
+
+data.dir <- file.path(here::here(), "Financial Modeling", "data")
+
+```
+
+```{r pander_setup, include = FALSE}
+
+knitr::opts_chunk$set(comment = NA)
+
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+
+```
+
+## Factor Models
+
+### CAPM
+
+Hypothetical Portfolio of AMZN, TSLA, IBM & MSFT
+
+```{r}
+names <- c("AMZN", "MSFT", "TSLA", "IBM")
+date.from <- "2010-12-31"; date.to <- "2013-12-31"
+
+getMonthlyReturns <- function(name, from = date.from, to = date.to) {
+   prices <- getSymbols(name, from = date.from, to = date.to, auto.assign = F)
+   monthly <- to.monthly(prices)
+   returns <- Delt(monthly[, 6])[-1]
+   
+   ret.data <- data.table(Month = index(returns), Company = name, Return = returns[, 1])
+   colnames(ret.data) <- c("Month", "Company", "Return")
+   
+   return(ret.data)
+}
+
+returns <- data.table::rbindlist(lapply(names, getMonthlyReturns))
+
+portfolio <- dcast(returns, Month ~ Company, value.var = c("Return"))
+
+port.return <- data.table(Month = portfolio$Month, Return = rowMeans(portfolio[, 2:4]))
+```
+
+S&P500
+
+```{r}
+SPX <- getMonthlyReturns("^GSPC")
+```
+
+```{r}
+rf.data <- data.table::fread(file.path(data.dir, "DGS3MO.csv"))
+rf.data$DATE <- as.Date(rf.data$DATE)
+rf.data$DGS3MO <- as.numeric(rf.data$DGS3MO)
+
+rf <- rf.data[DATE >= date.from & DATE <= date.to]
+
+rfm <- to.monthly(rf)
+options(scipen="100")
+rf.monthly <- (1 + rfm[, 1]/100) ^(1/12)-1
+colnames(rf.monthly) <- c("RiskFreeRate")
+rf.monthly <- rf.monthly[-1]
+
+risk.free <- data.table(index(rf.monthly), Return = rf.monthly$RiskFreeRate)
+colnames(risk.free) <- c("Month", "Return")
+```
+
+```{r}
+consolidated <- merge(port.return[, .(Month, Portfolio = Return)], 
+                      SPX[, .(Month, Market = Return)],
+                      by = "Month")
+consolidated <- merge(consolidated, risk.free[, .(Month, RiskFree = Return)],
+                      by = "Month")
+
+consolidated[, ':='(ExcessReturn = Portfolio - RiskFree, 
+                    ExcessMarket = Market - RiskFree) ]
+
+consolidated
+
+CAPM <- lm(ExcessReturn ~ ExcessMarket, data = consolidated)
+
+summary(CAPM)
+
+beta <- summary(CAPM)$coefficients[2]
+beta
+
+beta.pval <- summary(CAPM)$coefficients[8]
+beta.pval
+```
+
+### Market Model
+
+```{r}
+reg <- lm(Portfolio ~ Market, data = consolidated)
+
+beta.mktmod <- summary(reg)$coefficients[2]
+
+adj.beta.mktmod <- (2/3)*beta.mktmod+(1/3)*1
+adj.beta.mktmod
+```
+
+
+#### Rolling Window Regression
+
+AMZN vs. SPX
+
+```{r}
+AMZN <- getSymbols("AMZN", from = date.from, to = date.to, auto.assign = F)
+SPX <- getSymbols("^GSPC", from = date.from, to = date.to, auto.assign = F)
+
+AMZN.ret <- diff(log(AMZN$AMZN.Close))
+SPX.ret <- diff(log(SPX$GSPC.Adjusted))
+
+returns <- cbind(AMZN.ret, SPX.ret)
+colnames(returns) <- c("AMZN", "SPX")
+
+coeffs <- rollapply(returns, width = 252,
+                    FUN = function(X){
+                       roll.reg <- lm(AMZN ~ SPX,
+                                      data = as.data.frame(X))
+                       return(roll.reg$coef)
+                    },
+                    by.column = F)
+
+coeffs <- na.omit(coeffs)
+
+names(coeffs) <- c("Alpha", "Beta")
+
+coeffs <- as.data.table(coeffs)
+```
+
+```{r}
+p1 <- ggplot(coeffs) +
+   geom_line(aes(index, Alpha), col = "darkred") +
+   geom_hline(yintercept = 0) +
+   labs(title = "AMZN Alpha")
+
+p2 <- ggplot(coeffs) +
+   geom_line(aes(index, Beta), col = "cornflowerblue") +
+   geom_hline(yintercept = 1) +
+   labs(title = "AMZN Beta")
+
+grid.arrange(p1, p2, nrow = 2)
+```
+
+### Farma-French Three Factor
+
+```{r}
+ff.data <- data.table::fread(file.path(data.dir, "F-F_Research_Data_Factors.CSV"))
+ff.data$Date <- as.yearmon(parse_date(as.character(ff.data$V1), format = "%Y%m"))
+ff.data$V1 <- NULL
+
+factor.data <- ff.data[, .(Month = Date, RmxRF = `Mkt-RF` / 100, SMB = SMB / 100, HML = HML / 100, Rf = RF / 100)]
+
+FF <- factor.data[Month >= "2011-1-1" &
+                     Month <= "2013-12-31"][, .(Month, RmxRF, SMB, HML, Rf)]
+
+FF.data <- merge(port.return, FF, by = "Month")[, Excess := Return - Rf]
+
+FF.reg <- lm(Excess ~ RmxRF + SMB + HML, data = FF.data)
+
+summary(FF.reg)
+```
+
+```{r}
+betas <- rbind(
+      cbind(summary(FF.reg)$coefficient[2],
+            summary(FF.reg)$coefficient[14],
+            summary(FF.reg)$adj.r.squared),
+      cbind(summary(CAPM)$coefficient[2],
+            summary(CAPM)$coefficient[8],
+            summary(CAPM)$adj.r.squared))
+
+colnames(betas) <- paste(c("Beta", "p-Value", "Adj. R-Squared"))
+rownames(betas) <- paste(c("Farma-Frech", "CAPM"))
+
+betas
+```
+
+### Event Studies
+
+```{r}
+date.from <- "2012-7-20"; date.to <- "2013-7-24"
+
+NFLX <- getSymbols("NFLX", from = date.from, to = date.to, auto.assign = F)
+SPX <- getSymbols("^GSPC", from = date.from, to = date.to, auto.assign = F)
+
+firm.data <- merge(NFLX$NFLX.Adjusted, SPX$GSPC.Adjusted)
+colnames(firm.data) <- c("Firm", "Mkt")
+
+firm.returns <- data.table(Date = index(firm.data)[-1],
+                           apply(firm.data, 2, function(x) diff(log(x)) * 100))
+
+N <- nrow(firm.returns)
+actual <- firm.returns[N]
+
+mkt.model <- lm(Firm ~ Mkt, data = firm.returns[1:N-1])
+
+summary(mkt.model)
+
+event.window <- data.table(actual)
+event.window$Pred <- predict(mkt.model, newdata = data.table(Mkt = actual$Mkt))
+event.window$Ab.Ret <- event.window$Firm -event.window$Pred
+event.window$tStat <- event.window$Ab.Ret/summary(mkt.model)$sigma
+event.window$pval <- 2 * (1 - pt(abs(event.window$tStat), df = nrow(firm.data)-2))
+
+event.window
+```
+
+```{r}
+NFLX.df <- as.data.table(NFLX)
+
+ggplot(NFLX.df, aes(index, NFLX.Adjusted)) +
+   geom_line(col ="cornflowerblue") +
+   labs(title = "NFLX July '12 - July - '13")
+```
+
+```{r}
+NFLX.df <- subset(NFLX.df, index >= "2013-1-1")
+
+ggplot(NFLX.df, aes(index, NFLX.Adjusted)) +
+   geom_line(col ="cornflowerblue") +
+   labs(title = "NFLX July '12 - July - '13")
+
+head(subset(firm.returns, Date >= "2013-1-1"), 20)
+```
+
+Remove the huge jump in Jan
+
+```{r}
+firm.subset <- firm.returns[Date >= "2013-1-28"]
+
+N <- nrow(firm.subset)
+actual <- firm.subset[N]
+
+mkt.model2 <- lm(Firm ~ Mkt, data = firm.subset[1:N-1])
+
+summary(mkt.model2)
+
+event.window <- data.table(actual)
+event.window$Pred <- predict(mkt.model2, newdata = data.table(Mkt = actual$Mkt))
+event.window$Ab.Ret <- event.window$Firm -event.window$Pred
+event.window$tStat <- event.window$Ab.Ret/summary(mkt.model2)$sigma
+event.window$pval <- 2 * (1 - pt(abs(event.window$tStat), df = nrow(firm.data)-2))
+
+event.window
+```
+

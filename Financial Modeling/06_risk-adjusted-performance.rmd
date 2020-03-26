@@ -1,0 +1,267 @@
+---
+title: ''
+mainfont: Arial
+fontsize: 12pt
+documentclass: report
+header-includes:
+- \PassOptionsToPackage{table}{xcolor}
+- \usepackage{caption}
+- \usepackage{amssymb}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage[table]{xcolor}
+- \usepackage{fancyhdr}
+- \usepackage{boldline}
+- \usepackage{tipa}
+   \definecolor{headergrey}{HTML}{545454}
+   \pagestyle{fancy}
+   \setlength\headheight{30pt}
+   \rhead{\color{headergrey}\today}
+   \fancyhead[L]{\color{headergrey}Moretz, Brandon}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Risk Adjusted Performance}
+   \rfoot{\color{headergrey}Chapter 6}
+   \lfoot{\color{headergrey}\thepage}
+   \fancyfoot[C]{\rmfamily\color{headergrey}Financial Modeling}
+geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r knitr_setup, include = FALSE}
+
+knitr::opts_chunk$set(
+   echo = T, 
+   eval = TRUE, 
+   dev = 'png', 
+   fig.width = 9, 
+   fig.height = 3.5)
+
+options(knitr.table.format = "latex")
+
+```
+
+```{r report_setup, message = FALSE, warning = FALSE, include = FALSE}
+
+library(data.table, quietly = TRUE, warn.conflicts = FALSE)
+library(ggthemes, quietly = TRUE, warn.conflicts = FALSE)
+library(scales, quietly = TRUE, warn.conflicts = FALSE)
+
+library(knitr, quietly = TRUE, warn.conflicts = FALSE)
+library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(pander, quietly = TRUE, warn.conflicts = FALSE)
+library(formattable, quietly = TRUE, warn.conflicts = FALSE)
+
+library(grid, quietly = TRUE, warn.conflicts = FALSE)
+library(gridExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(extrafont, quietly = TRUE, warn.conflicts = FALSE)
+library(tinytex, quietly = TRUE, warn.conflicts = FALSE)
+
+library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
+library(xts, quietly = TRUE, warn.conflicts = FALSE)
+
+library(here, quietly = TRUE, warn.conflicts = FALSE)
+
+options(tinytex.verbose = TRUE)
+suppressMessages(library("tidyverse"))
+
+pretty_kable <- function(data, title, dig = 2) {
+  kable(data, caption = title, digits = dig) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+      kableExtra::kable_styling(latex_options = "hold_position")
+}
+
+theme_set(theme_light())
+
+# Theme Overrides
+theme_update(axis.text.x = element_text(size = 10),
+             axis.text.y = element_text(size = 10),
+             plot.title = element_text(hjust = 0.5, size = 16, face = "bold", color = "darkgreen"),
+             axis.title = element_text(face = "bold", size = 12, colour = "steelblue4"),
+             plot.subtitle = element_text(face = "bold", size = 8, colour = "darkred"),
+             legend.title = element_text(size = 12, color = "darkred", face = "bold"),
+             legend.position = "right", legend.title.align=0.5,
+             panel.border = element_rect(linetype = "solid", 
+                                         colour = "lightgray"), 
+             plot.margin = unit(c( 0.1, 0.1, 0.1, 0.1), "inches"))
+
+data.dir <- file.path(here::here(), "Financial Modeling", "data")
+
+```
+
+```{r pander_setup, include = FALSE}
+
+knitr::opts_chunk$set(comment = NA)
+
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+
+```
+
+## Risk-Adjusted Perfomance
+
+Hypothetical Portfolio of AMZN, TSLA, IBM & MSFT
+
+Indices: SPX / SPY
+
+```{r}
+names <- c("AMZN", "MSFT", "TSLA", "IBM")
+date.from <- "2010-12-31"; date.to <- "2013-12-31"
+
+getMonthlyReturns <- function(name, from = date.from, to = date.to) {
+   prices <- getSymbols(name, from = date.from, to = date.to, auto.assign = F)
+   monthly <- to.monthly(prices)
+   returns <- Delt(monthly[, 6])[-1]
+   
+   ret.data <- data.table(Month = index(returns), Company = name, Return = returns[, 1])
+   colnames(ret.data) <- c("Month", "Company", "Return")
+   
+   return(ret.data)
+}
+
+returns <- data.table::rbindlist(lapply(names, getMonthlyReturns))
+
+portfolio <- dcast(returns, Month ~ Company, value.var = c("Return"))
+
+port.return <- data.table(Month = portfolio$Month, Return = rowMeans(portfolio[, 2:4]))[, .(Month, Company = "Portfolio", Return)]
+
+indices <- c("SPY", "^GPSC")
+
+index.returns <- data.table::rbindlist(lapply(indices, getMonthlyReturns))
+
+combined <- rbind(port.return, index.returns)
+
+consolidated <- dcast(combined, Month ~ Company, value.var = c("Return"))
+colnames(consolidated) <- c("Month", "Portfolio", "SPY", "SPX")
+
+consolidated
+```
+
+```{r}
+ggplot(melt(consolidated, id.var = "Month"), aes(Month, value, fill = variable)) +
+   geom_bar(stat = "identity") +
+   labs(title = "Portfolio vs Benchmarks")
+```
+
+### Sharpe Ratio
+
+```{r}
+Rf <- 0.0007
+
+sharpe_ratio <- function(returns, periods = 12, rf = 0.0003) ((mean(returns) * periods) - rf) / (sd(returns) * sqrt(periods))
+
+sharpe_ratios <- list(Portfolio = sharpe_ratio(consolidated$Portfolio),
+                      SPY = sharpe_ratio(consolidated$SPX))
+
+```
+
+### Roy's Safty First Ratio
+
+```{r}
+mar <- 0.015
+
+roys_sf_ratio <- function(returns, periods = 12, mar = 0.0015) ((mean(returns) * periods) - mar) / (sd(returns) * sqrt(periods))
+
+roysf_ratios <- list( Portfolio = roys_sf_ratio(consolidated$Portfolio),
+                           Benchmark = roys_sf_ratio(consolidated$SPX))
+roysf_ratios
+```
+
+### Treynor Ratio
+
+```{r}
+reg <- lm(Portfolio ~ SPX, data = consolidated)
+
+portfolio.beta <- coef(reg)[2]
+
+treynor.ratio <- function(port, bench, periods = 12, rf = 0.0007) {
+   reg <- lm(port ~ bench)
+   beta <- coef(reg)[2]
+   
+   (mean(port) * 12 - rf) / beta
+}
+
+port.treynor <- treynor.ratio(consolidated$Portfolio, consolidated$SPX)
+bench.treynor <- treynor.ratio(consolidated$SPY, consolidated$SPX)
+
+treynor_ratios <- list(Portfolio = port.treynor, Benchmark = bench.treynor)
+treynor_ratios
+```
+
+### Sortino Ratio
+
+```{r}
+period.mar <- mar/12
+
+
+dd.port <- sd(consolidated$Portfolio[which(consolidated$Portfolio < period.mar)]) * sqrt(12)
+port.Sortino.ratio <- ((mean(consolidated$Portfolio) * 12) - Rf) / dd.port
+
+dd.bench <- sd(consolidated$SPY[which(consolidated$SPY < period.mar)]) * sqrt(12)
+bench.Sortino.ratio <- ((mean(consolidated$SPY) * 12) - Rf) / dd.port
+
+sorinto_ratios <- list(Portfolio = port.Sortino.ratio, Benchmark = bench.Sortino.ratio)
+sorinto_ratios
+```
+
+### Information Ratio
+
+```{r}
+
+active.return <- with(consolidated, Portfolio - SPX)
+alpha.port <- mean(active.return) * 12
+tracking.error <- sd(active.return) * sqrt(12)
+
+port.information.ratio <- alpha.port / tracking.error
+port.information.ratio
+
+passive.return <- with(consolidated, SPY - SPX)
+alpha.bench <- mean(passive.return) * 12
+tracking.error <- sd(passive.return) * sqrt(12)
+
+bench.information.ratio <- alpha.bench / tracking.error
+bench.information.ratio
+
+information_ratios <- list(Portfolio = port.information.ratio, 
+                                 Benchmark = bench.information.ratio)
+information_ratios
+```
+
+### Consolidated Risk Table
+
+```{r}
+risk.table <- data.table(Asset = c("Portfolio", "Benchmark"), 
+                         Sharpe = sharpe_ratios, 
+                         `Roy SF` = roysf_ratios, 
+                         Treynor = treynor_ratios, 
+                         Sorinto = sorinto_ratios, 
+                         Information = information_ratios)
+
+formatted <- melt(risk.table, id.var = "Asset", variable.name = "Metric", value.name = "Value")
+
+formatted
+```
+
+```{r}
+ggplot(formatted, aes(Metric, Value, fill = Asset)) +
+   geom_bar(stat = "identity", position = "stack")
+```
+

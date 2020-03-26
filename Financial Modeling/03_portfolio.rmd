@@ -30,7 +30,7 @@ header-includes:
    \rhead{\color{headergrey}\today}
    \fancyhead[L]{\color{headergrey}Moretz, Brandon}
    \fancyhead[C]{\Large\bfseries\color{headergrey}Portfolio Returns}
-   \rfoot{\color{headergrey}Chapter 1}
+   \rfoot{\color{headergrey}Chapter 3}
    \lfoot{\color{headergrey}\thepage}
    \fancyfoot[C]{\rmfamily\color{headergrey}Financial Modeling}
 geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm

@@ -1,7 +1,7 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (MiKTeX 2.9.7300 64-bit) (preloaded format=xelatex 2020.3.20)  25 MAR 2020 15:07
+This is XeTeX, Version 3.14159265-2.6-0.999992 (MiKTeX 2.9.7300 64-bit) (preloaded format=xelatex 2020.3.20)  25 MAR 2020 15:08
 entering extended mode
-**./11_testing-speed-reporting.tex
-(11_testing-speed-reporting.tex
+**./04_risk.tex
+(04_risk.tex
 LaTeX2e <2020-02-02> patch level 5
 L3 programming layer <2020-03-06> ("C:\Program Files\MiKTeX 2.9\tex/latex/base\
 report.cls"
@@ -729,8 +729,8 @@ File: t3cmr.fd 2001/12/31 TIPA font definitions
 LaTeX Font Warning: Font shape `T3/lmss/m/n' undefined
 (Font)              using `T3/cmr/m/n' instead on input line 357.
 
-))) (11_testing-speed-reporting.aux)
-\openout1 = `11_testing-speed-reporting.aux'.
+))) (04_risk.aux)
+\openout1 = `04_risk.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 140.
 LaTeX Font Info:    ... okay on input line 140.
@@ -1083,35 +1083,53 @@ Package: ltcaption 2018/08/26 v1.4a longtable captions (AR)
 Package caption Info: threeparttable package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Font shape `TU/Arial(0)/m/n' will be
-(Font)              scaled to size 17.28pt on input line 143.
-LaTeX Font Info:    Font shape `TU/Arial(0)/b/n' will be
-(Font)              scaled to size 17.28pt on input line 143.
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <12> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 147.
+LaTeX Font Info:    Font shape `TU/Arial(0)/m/n' will be
+(Font)              scaled to size 17.28pt on input line 213.
+LaTeX Font Info:    Font shape `TU/Arial(0)/b/n' will be
+(Font)              scaled to size 17.28pt on input line 213.
 [1
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 275.
+File: 04_risk_files/figure-latex/unnamed-chunk-2-1.png Graphic file (type bmp)
+<04_risk_files/figure-latex/unnamed-chunk-2-1.png>
+File: 04_risk_files/figure-latex/unnamed-chunk-3-1.png Graphic file (type bmp)
+<04_risk_files/figure-latex/unnamed-chunk-3-1.png>
 [2]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 275.
-(11_testing-speed-reporting.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 275.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 275.
+LaTeX Font Info:    Font shape `TU/Arial(0)/m/n' will be
+(Font)              scaled to size 14.4pt on input line 246.
+LaTeX Font Info:    Font shape `TU/Arial(0)/b/n' will be
+(Font)              scaled to size 14.4pt on input line 246.
+[3] [4] [5] [6]
+Underfull \vbox (badness 10000) detected at line 560
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 560
+ []
+
+[7]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 584.
+[8]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 584.
+(04_risk.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 584.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 584.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 22061 strings out of 414221
- 373847 string characters out of 2902595
- 834459 words of memory out of 3000000
- 39310 multiletter control sequences out of 15000+200000
- 533676 words of font info for 51 fonts, out of 3000000 for 9000
+ 22091 strings out of 414221
+ 374545 string characters out of 2902595
+ 837435 words of memory out of 3000000
+ 39333 multiletter control sequences out of 15000+200000
+ 533692 words of font info for 53 fonts, out of 3000000 for 9000
  1348 hyphenation exceptions out of 8191
- 53i,11n,121p,827b,466s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 53i,11n,121p,808b,467s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on 11_testing-speed-reporting.pdf (2 pages).
+Output written on 04_risk.pdf (8 pages).
 
 ! miktex-dvipdfmx: major issue: User/administrator updates are out-of-sync.
 ! xelatex: major issue: User/administrator updates are out-of-sync.
