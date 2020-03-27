@@ -143,7 +143,7 @@ portfolio <- dcast(returns, Month ~ Company, value.var = c("Return"))
 
 port.return <- data.table(Month = portfolio$Month, Return = rowMeans(portfolio[, 2:4]))[, .(Month, Company = "Portfolio", Return)]
 
-indices <- c("SPY", "^GPSC")
+indices <- c("SPY", "^GSPC")
 
 index.returns <- data.table::rbindlist(lapply(indices, getMonthlyReturns))
 

@@ -29,8 +29,8 @@ header-includes:
    \setlength\headheight{30pt}
    \rhead{\color{headergrey}\today}
    \fancyhead[L]{\color{headergrey}Moretz, Brandon}
-   \fancyhead[C]{\Large\bfseries\color{headergrey}Risk Adjusted Performance}
-   \rfoot{\color{headergrey}Chapter 6}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Markowitz Mean-Variance Optimization}
+   \rfoot{\color{headergrey}Chapter 7}
    \lfoot{\color{headergrey}\thepage}
    \fancyfoot[C]{\rmfamily\color{headergrey}Financial Modeling}
 geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
@@ -74,6 +74,7 @@ library(tinytex, quietly = TRUE, warn.conflicts = FALSE)
 
 library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
 library(xts, quietly = TRUE, warn.conflicts = FALSE)
+library(quadprog, quietly = TRUE, warn.conflicts = FALSE)
 
 library(here, quietly = TRUE, warn.conflicts = FALSE)
 
@@ -116,14 +117,12 @@ panderOptions('keep.trailing.zeros', TRUE)
 
 ```
 
-## Risk-Adjusted Perfomance
+## Markowitz Mean-Variance Optimization
 
-Hypothetical Portfolio of AMZN, TSLA, IBM & MSFT
-
-Indices: SPX / SPY
+Hypothetical Portfolio of SPY and SPAB
 
 ```{r}
-names <- c("AMZN", "MSFT", "TSLA", "IBM")
+names <- c("SPY", "SPAB")
 date.from <- "2010-12-31"; date.to <- "2013-12-31"
 
 getMonthlyReturns <- function(name, from = date.from, to = date.to) {
@@ -141,127 +140,96 @@ returns <- data.table::rbindlist(lapply(names, getMonthlyReturns))
 
 portfolio <- dcast(returns, Month ~ Company, value.var = c("Return"))
 
-port.return <- data.table(Month = portfolio$Month, Return = rowMeans(portfolio[, 2:4]))[, .(Month, Company = "Portfolio", Return)]
+portfolio.avg <- apply(portfolio[, 2:3], 2, mean)
+portfolio.sd <- apply(portfolio[, 2:3], 2, sd)
+portfolio.covar <- cov(portfolio[, 2:3])[1, 1]
 
-indices <- c("SPY", "^GPSC")
+portfolio.wgt.spy <- data.table(Weight = seq(0, 1, by = 0.01))
+portfolio.wgt.spab <- 1 - portfolio.wgt.spy
 
-index.returns <- data.table::rbindlist(lapply(indices, getMonthlyReturns))
+portfolio.weights <- cbind(Wgt.SPY = portfolio.wgt.spy, Wgt.SPAB = portfolio.wgt.spab)
 
-combined <- rbind(port.return, index.returns)
+portfolio.returns <- portfolio.weights$Wgt.SPY.Weight * portfolio.avg[2] + portfolio.weights$Wgt.SPAB.Weight * portfolio.avg[1]
+portfolio.risk <- portfolio.weights$Wgt.SPY.Weight * portfolio.sd[2] + portfolio.weights$Wgt.SPAB.Weight * portfolio.sd[1]
 
-consolidated <- dcast(combined, Month ~ Company, value.var = c("Return"))
-colnames(consolidated) <- c("Month", "Portfolio", "SPY", "SPX")
+portfolio.profiles <- cbind(portfolio.weights, portfolio.returns, portfolio.risk)
 
-consolidated
+portfolio.profiles[which.min(portfolio.profiles$portfolio.risk)]
 ```
 
 ```{r}
-ggplot(melt(consolidated, id.var = "Month"), aes(Month, value, fill = variable)) +
-   geom_bar(stat = "identity") +
-   labs(title = "Portfolio vs Benchmarks")
+riskFree <- 0.007/12
+
+portfolio.Sharpe <- (portfolio.returns - riskFree) / portfolio.risk
+
+port.stats <- data.table(SPY.Wgt = portfolio.wgt.spy,
+                         SPAB.Wgt = portfolio.wgt.spab,
+                         Return = portfolio.returns,
+                         Risk = portfolio.risk,
+                         Sharpe = portfolio.Sharpe)
+
+port.stats[which.max(port.stats$Sharpe)]
+
+ggplot(port.stats, aes(Risk, Return)) +
+   geom_point() +
+   labs(title = "Mean-Variance Efficient Frontier of Two Assets (Long Way)")
 ```
 
-### Sharpe Ratio
+### Quadratic Way
 
 ```{r}
-Rf <- 0.0007
+mat.ret <- as.matrix(portfolio[, 2:3])
 
-sharpe_ratio <- function(returns, periods = 12, rf = 0.0003) ((mean(returns) * periods) - rf) / (sd(returns) * sqrt(periods))
+tail(mat.ret)
 
-sharpe_ratios <- list(Portfolio = sharpe_ratio(consolidated$Portfolio),
-                      SPY = sharpe_ratio(consolidated$SPX))
+VCOV <- cov(mat.ret)
 
-```
+avg.ret <- matrix(apply(mat.ret, 2, mean))
+colnames(avg.ret) <- paste("Avg.Ret")
+rownames(avg.ret) <- paste(c("Lag", "Spy"))
 
-### Roy's Safty First Ratio
+min.ret <- min(avg.ret)
+max.ret <- max(avg.ret)
 
-```{r}
-mar <- 0.015
+increments <- 100
+tgt.ret <- seq(min.ret, max.ret, length = increments)
 
-roys_sf_ratio <- function(returns, periods = 12, mar = 0.0015) ((mean(returns) * periods) - mar) / (sd(returns) * sqrt(periods))
+head(tgt.ret)
 
-roysf_ratios <- list( Portfolio = roys_sf_ratio(consolidated$Portfolio),
-                           Benchmark = roys_sf_ratio(consolidated$SPX))
-roysf_ratios
-```
+tail(tgt.ret)
 
-### Treynor Ratio
+tgt.sd <- rep(0, length = increments)
+tgt.sd
 
-```{r}
-reg <- lm(Portfolio ~ SPX, data = consolidated)
+wgt <- matrix(0, nrow=increments, ncol = length(avg.ret))
 
-portfolio.beta <- coef(reg)[2]
+head(wgt)
 
-treynor.ratio <- function(port, bench, periods = 12, rf = 0.0007) {
-   reg <- lm(port ~ bench)
-   beta <- coef(reg)[2]
-   
-   (mean(port) * 12 - rf) / beta
+for(i in 1:increments){
+   Dmat <- 2*VCOV
+   dvec <- c(rep(0, length(avg.ret)))
+   Amat <- cbind(rep(1, length(avg.ret)), avg.ret, diag(1, nrow=2))
+   bvec <- c(1, tgt.ret[i], rep(0, 2))
+   soln <- solve.QP(Dmat, dvec, Amat, bvec=bvec, meq=2)
+   tgt.sd[i] <- sqrt(soln$value)
+   wgt[i, ] <- soln$solution
 }
 
-port.treynor <- treynor.ratio(consolidated$Portfolio, consolidated$SPX)
-bench.treynor <- treynor.ratio(consolidated$SPY, consolidated$SPX)
+head(tgt.sd)
+tail(tgt.sd)
 
-treynor_ratios <- list(Portfolio = port.treynor, Benchmark = bench.treynor)
-treynor_ratios
-```
+head(wgt)
 
-### Sortino Ratio
+colnames(wgt) <- c("Lag", "Spy")
+tgt.port <- data.table(cbind(tgt.ret, tgt.sd, wgt))
 
-```{r}
-period.mar <- mar/12
+min.var <- tgt.port[which.min(tgt.port$tgt.sd)]
+max.ret <- tgt.port[which.max(tgt.port$tgt.ret)]
 
-
-dd.port <- sd(consolidated$Portfolio[which(consolidated$Portfolio < period.mar)]) * sqrt(12)
-port.Sortino.ratio <- ((mean(consolidated$Portfolio) * 12) - Rf) / dd.port
-
-dd.bench <- sd(consolidated$SPY[which(consolidated$SPY < period.mar)]) * sqrt(12)
-bench.Sortino.ratio <- ((mean(consolidated$SPY) * 12) - Rf) / dd.port
-
-sorinto_ratios <- list(Portfolio = port.Sortino.ratio, Benchmark = bench.Sortino.ratio)
-sorinto_ratios
-```
-
-### Information Ratio
-
-```{r}
-
-active.return <- with(consolidated, Portfolio - SPX)
-alpha.port <- mean(active.return) * 12
-tracking.error <- sd(active.return) * sqrt(12)
-
-port.information.ratio <- alpha.port / tracking.error
-port.information.ratio
-
-passive.return <- with(consolidated, SPY - SPX)
-alpha.bench <- mean(passive.return) * 12
-tracking.error <- sd(passive.return) * sqrt(12)
-
-bench.information.ratio <- alpha.bench / tracking.error
-bench.information.ratio
-
-information_ratios <- list(Portfolio = port.information.ratio, 
-                                 Benchmark = bench.information.ratio)
-information_ratios
-```
-
-### Consolidated Risk Table
-
-```{r}
-risk.table <- data.table(Asset = c("Portfolio", "Benchmark"), 
-                         Sharpe = sharpe_ratios, 
-                         `Roy SF` = roysf_ratios, 
-                         Treynor = treynor_ratios, 
-                         Sorinto = sorinto_ratios, 
-                         Information = information_ratios)
-
-formatted <- melt(risk.table, id.var = "Asset", variable.name = "Metric", value.name = "Value")
-
-formatted
-```
-
-```{r}
-ggplot(formatted, aes(Metric, Value, fill = Asset)) +
-   geom_bar(stat = "identity", position = "stack")
+ggplot(tgt.port, aes(tgt.sd, tgt.ret)) +
+   geom_point(col = "cornflowerblue") +
+   geom_point(data = min.var, aes(x = tgt.sd, y = tgt.ret), col = "darkgreen", size = 4) +
+   geom_point(data = max.ret, aes(x = tgt.sd, y = tgt.ret), col = "darkred", size = 4) +
+   labs(title = "Efficent Frontier")
 ```
 
