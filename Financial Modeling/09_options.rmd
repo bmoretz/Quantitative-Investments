@@ -191,7 +191,7 @@ ggplot(US.CPI.Index, aes(Date, Inflation)) +
 rate.files <- list.files(data.dir, pattern = "DGS*")
 rate.file.paths <- sapply(rate.files, function(file){ file.path(data.dir, file)})
 
-rates <- lapply(rate.file.paths, data.table::fread)
+rates <- as.lapply(rate.file.paths, data.table::fread)
 dt.rates <- as.data.table(rates)
 
 parse.rate.info <- function(data) {
