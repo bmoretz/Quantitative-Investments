@@ -29,8 +29,8 @@ header-includes:
    \setlength\headheight{30pt}
    \rhead{\color{headergrey}\today}
    \fancyhead[L]{\color{headergrey}Moretz, Brandon}
-   \fancyhead[C]{\Large\bfseries\color{headergrey}Fixed Income}
-   \rfoot{\color{headergrey}Chapter 8}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Options}
+   \rfoot{\color{headergrey}Chapter 9}
    \lfoot{\color{headergrey}\thepage}
    \fancyfoot[C]{\rmfamily\color{headergrey}Financial Modeling}
 geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
@@ -117,171 +117,234 @@ panderOptions('keep.trailing.zeros', TRUE)
 
 ```
 
-## Fixed Income
+## Options
 
-#### Real GDP
-
-```{r}
-gdp.all <- data.table::fread(file.path(data.dir, "imf-dm-export.csv"))
-
-gdp.col.names <- as.character(t(gdp.all[1, ]))
-
-colnames(gdp.all) <- gdp.col.names
-colnames(gdp.all)[1] <- "Country"
-
-gdp.all <- gdp.all[-1]
-
-gdp.all$Country
-
-us.rgdp <- gdp.all[Country == "United States"]
-us.rgdp <- t(us.rgdp)
-
-us.gdp <- data.table(Year = rownames(us.rgdp)[-1], Value = us.rgdp[-1])
-```
 
 ```{r}
-us.gdp$Value <- as.numeric(us.gdp$Value)
-us.gdp$Historical <- ifelse(us.gdp$Year <= 2012, us.gdp$Value, 0)
-us.gdp$Projected <- ifelse(us.gdp$Year > 2012, us.gdp$Value, 0)
-us.gdp$Growth <- ifelse(us.gdp$Value >= 0, "Up", "Down")
-
-ggplot(us.gdp, aes(Year, Value, fill = Growth)) +
-   geom_bar(stat = "identity") +
-   labs(title = "US GDP Growth")
-```
-
-#### Unemployment Rate
-
-```{r}
-US.unempl <- data.table::fread(file.path(data.dir, "UNRATE.csv"))
-
-US.unempl$Date <- as.Date(US.unempl$DATE, "%Y-%m-%d")
-US.unempl$DATE = NULL
-US.unempl <- US.unempl[, .(Date, Unrate = UNRATE)]
-
-US.unempy.avg <- mean(US.unempl$Unrate)
-
-ggplot(US.unempl, aes(Date, Unrate)) +
-   geom_line() +
-   geom_hline(yintercept = US.unempy.avg, col = "darkgreen") +
-   labs(title = "US Unemployment Rate")
-```
-
-#### Inflation Rate
-
-```{r}
-US.CPI <- data.table::fread(file.path(data.dir, "FPCPITOTLZGUSA.csv"))
-us.Lag12 <- Lag(US.CPI$FPCPITOTLZGUSA, k = 12)
-
-US.CPI$Date <- as.Date(US.CPI$DATE, "%Y-%m-%d")
-US.CPI$DATE = NULL
-
-US.CPI.Index <- data.table(Date = US.CPI$Date, CPI = US.CPI$FPCPITOTLZGUSA, us.Lag12)
-US.CPI.Index[, Inflation := (CPI/Lag.12 - 1)*100]
-US.CPI.Index <- US.CPI.Index[!is.na(US.CPI.Index$Inflation)]
-
-ggplot(US.CPI.Index, aes(Date, Inflation)) +
-   geom_line() +
-   labs(title = "U.S. Inflation Rate")
-```
-
-#### US Treasuries
-
-```{r}
-rate.files <- list.files(data.dir, pattern = "DGS*")
-rate.file.paths <- sapply(rate.files, function(file){ file.path(data.dir, file)})
-
-rates <- as.lapply(rate.file.paths, data.table::fread)
-dt.rates <- as.data.table(rates)
-
-parse.rate.info <- function(data) {
+expry.date <- "2020-05-08"
    
-   colnames(data) -> cols
-   mat <- as.matrix(data)
+options <- getOptionChain("AMZN", Exp = expry.date)
+
+options
+
+calls <- options$calls
+calls
+
+puts <- options$puts
+puts
+```
+
+```{r}
+calls <- options$calls[, c(1:2, 6)]
+
+AMZN <- getSymbols("AMZN", from = "2020-3-30", to = "2020-3-31", auto.assign = F)
+
+last <- AMZN$AMZN.Close
+
+```
+
+### Volatility
+
+```{r}
+AMZN <- getSymbols("AMZN", from = "2017-3-30", to = "2020-3-31", auto.assign = F)
+
+volatility <- data.table(AMZN$AMZN.Adjusted)
+colnames(volatility) <- c("Adj")
+
+volatility$Ret <- c(NA, diff(log(volatility$Adj)))
+
+hist.vol <- sd(volatility[-1]$Ret) * sqrt(252)
+hist.vol
+```
+
+```{r}
+price <- as.numeric(last$AMZN.Close)
+
+call.delta <- abs(calls$Strike - price)
+closest.calls <- head(sort(call.delta), 2)
+
+bs.call <- calls[call.delta == closest.calls, 1:2]
+
+put.delta <- abs(puts$Strike - price)
+closest.puts <- head(sort(put.delta), 2)
+
+bs.put <- puts[closest.puts, 1:2]
+
+TTM <- as.numeric(as.Date(expry.date) - as.Date("2020-3-31"))
+
+```
+
+```{r}
+rfr <- 0.0007
+
+d1 <- (log(price/bs.call$Strike) + (rfr+0.5*(hist.vol^2)) * TTM)/(hist.vol*sqrt(TTM))
+d2 <- d1 - hist.vol * sqrt(TTM)
+
+bs.call$optval <- price * pnorm(d1, mean = 0, sd = 1) -
+   bs.call$Strike * exp(-rfr * TTM) * pnorm(d2, mean = 0, sd = 1)
+
+nd1 =- d1
+nd1
+
+nd2 =- d2
+nd2
+
+bs.put$optval <- bs.put$Strike *
+   exp(-rfr*TTM)*pnorm(nd2, mean = 0, sd = 1) -
+   price * pnorm(nd1, mean = 0, sd = 1)
+
+bs.put
+```
+
+### Black-Scholes-Merton OPM Function
+
+```{r}
+bsm.option <- function(S, K, T, riskfree, sigma, type) {
+   d1 <- (log(S/K) + (riskfree + 0.5*sigma^2)*T)/(sigma * sqrt(T))
+   d2 <- d1 - sigma * sqrt(T)
+   if(type == "C") {
+      opt.val <- S * pnorm(d1) - K * exp(-riskfree*T) * pnorm(d2)
+   }
+   if(type == "P") {
+      opt.val <- K * exp(-riskfree*T)*pnorm(-d2)-S*pnorm(-d1)
+   }
    
-   dt <- data.table(Date = as.Date(mat[, 1], "%Y-%m-%d"),
-                     Rate = as.numeric(mat[, 2]))
-   colnames(dt) <- c("Date", cols[2])
-   dt
+   opt.val
 }
 
-rate.3m <- parse.rate.info(rates$DGS3MO.csv)
-rate.6m <- parse.rate.info(rates$DGS6MO.csv)
-rate.1y <- parse.rate.info(rates$DGS1.csv)
-rate.2y <- parse.rate.info(rates$DGS2.csv)
-rate.3y <- parse.rate.info(rates$DGS3.csv)
-rate.5y <- parse.rate.info(rates$DGS5.csv)
-rate.7y <- parse.rate.info(rates$DGS7.csv)
-rate.10y <- parse.rate.info(rates$DGS10.csv)
-rate.20y <- parse.rate.info(rates$DGS20.csv)
-rate.30y <- parse.rate.info(rates$DGS30.csv)
+cbind(bs.call, BSM = bsm.option(bs.call$Strike, price, TTM, rfr, hist.vol, "C"))
 
-rate.combined <- merge(rate.3m, rate.6m, by = "Date")
-rate.combined <- merge(rate.combined, rate.1y, by = "Date")
-rate.combined <- merge(rate.combined, rate.2y, by = "Date")
-rate.combined <- merge(rate.combined, rate.3y, by = "Date")
-rate.combined <- merge(rate.combined, rate.5y, by = "Date")
-rate.combined <- merge(rate.combined, rate.7y, by = "Date")
-rate.combined <- merge(rate.combined, rate.10y, by = "Date")
-rate.combined <- merge(rate.combined, rate.20y, by = "Date")
-rate.combined <- merge(rate.combined, rate.30y, by = "Date")
+cbind(bs.put, BSM = bsm.option(bs.put$Strike, price, TTM, rfr, hist.vol, "P"))
+```
 
-rate.long <- melt(rate.combined, id.vars = "Date", value.name = "Rate", variable.name = "Period")
+### Put-Call Parity
 
-ggplot(rate.long, aes(Date, Rate, group = Period)) +
-   geom_line() +
-   facet_wrap(~Period)
+```{r}
+bs.call$optval.pcparity <- bs.put$optval - bs.put$Strike * exp(-rfr * TTM) + price
+bs.call
+
+bs.put$optval.pcparity <- bs.call$optval + bs.call$Strike * exp(-rfr * TTM) - price
+bs.put
+```
+
+### The Greeks
+
+```{r}
+greeks.call <- bs.call[, 1:2]
+greeks.call$delta <- pnorm(d1, mean=0, sd = 1)
+greeks.call$gamma <- dnorm(d1, mean = 0, sd = 1) / (price*hist.vol*sqrt(TTM))
+greeks.call$vega <- price * dnorm(d1, mean = 0, sd = 1) * sqrt(TTM)
+greeks.call$theta <- -((price*hist.vol*dnorm(d1, mean =0, sd = 1)) /
+   (2*sqrt(TTM))) - (rfr*greeks.call$Strike*exp(-rfr*TTM) * 
+      pnorm(d2))
+greeks.call$rho <- greeks.call$Strike * TTM * exp(-rfr * TTM) *
+   pnorm(d2)
+greeks.call$type <- c("call")
+
+greeks.call
+```
+
+
+```{r}
+greeks.put <- bs.put[, 1:2]
+greeks.put$delta <- pnorm(d1) - 1
+greeks.put$gamma <- dnorm(d1) / (price*hist.vol*sqrt(TTM))
+greeks.put$vega <- price * dnorm(d1) * sqrt(TTM)
+greeks.put$theta <- -((price*hist.vol*dnorm(d1))/2*sqrt(TTM)) + 
+   (rfr*greeks.put$Strike*exp(-rfr*TTM)) *
+   pnorm(nd2)
+greeks.put$rho <- -greeks.put$Strike * TTM * exp(-rfr * TTM)
+greeks.put$type <- c("put")
+
+greeks.put
+```
+
+### Implied Volatility
+
+```{r}
+iv.opt <- function(S, K, T, riskfree, price, type) {
+   sigma <- hist.vol
+   sigma.up <- 1
+   sigma.down <- 0.001
+   count <- 0
+   epsilon <- bsm.option(S, K, TTM, riskfree, sigma, type) - price
+   while(abs(epsilon) > 0.00001 && count < 1000) {
+      if(epsilon < 0) {
+         sigma.down <- -sigma
+         sigma <- (sigma.up + sigma)/2
+      } else {
+         sigma.up <- sigma
+         sigma <- (sigma.down+sigma)/2
+      }
+      epsilon <- bsm.option(S, K, TTM, riskfree, sigma, type) - price
+      count <- count + 1
+   
+      if(count == 1000) {
+         return(NA)
+      } else {
+         return(sigma)  
+      }
+   }
+}
+
+bs.call
+
+iv.opt(price, 1935, TTM, rfr, 1280.417, "C")
+```
+
+### Market Risk
+
+```{r}
+vix_raw <- data.table::fread(file.path(data.dir, "VIXCLS.csv"))
+
+vix_raw$DATE <- as.Date(vix_raw$DATE)
+vix_raw$VIXCLS <- as.numeric(vix_raw$VIXCLS)
+
+colnames(vix_raw) <- c("Date", "Price")
+
+vix_raw <- na.omit(vix_raw)
+vix_raw
 ```
 
 ```{r}
-current.rates <- rate.combined[Date >= "1990-1-1"]
+spx_raw <- data.table::fread(file.path(data.dir, "SP500.csv"))
 
-current.rates <- current.rates[complete.cases(current.rates)]
-current.rates[, sign.diff := DGS30 - DGS3MO]
-current.rates[, inverted := sign.diff == min(sign.diff)]
+spx_raw$DATE <- as.Date(spx_raw$DATE)
+spx_raw$SP500 <- as.numeric(spx_raw$SP500)
 
-inverted <- current.rates[inverted == T]
-inverted
+colnames(spx_raw) <- c("Date", "Price")
 
-current.rates[, upward := sign.diff == max(sign.diff)]
+spx_raw <- na.omit(spx_raw)
 
-upward <- current.rates[upward == T]
-upward
+spx_raw
 ```
 
 ```{r}
-current.rates[, abs.diff := abs(DGS30 - DGS3MO)]
-current.rates[, flat := abs.diff == min(abs.diff)]
-
-flat <- current.rates[flat == T]
-flat
-
-current.rates[, abs.diff2 := abs(DGS30 - DGS10)]
-current.rates[, flat2 := abs.diff2 == min(abs.diff2)]
-
-flat2 <- current.rates[flat2 == T]
-
+spx <- data.table(Date = spx_raw$Date, 
+                  Return = c(NA, diff(log(spx_raw$Price))))
+vix <- data.table(Date = vix_raw$Date,
+                  Return = c(NA, diff(log(vix_raw$Price))))
 ```
 
 ```{r}
-rate.info <- rbind(inverted[, 1:11], upward[, 1:11], flat[, 1:11], flat2[, 1:11])
+spx$sd <- c(rep(NA, 29), rollapply(spx$Return, 30, sd, na.rm = T) * sqrt(252) * 100)
+vix$sd <- c(rep(NA, 29), rollapply(vix$Return, 30, sd, na.rm = T) * sqrt(252) * 100)
 
-rate.info.flat <- melt(rate.info, id.vars = "Date")
+combined <- merge(spx, vix, by = "Date")
+colnames(combined) <- c("Date", "SPX", "SPX.Vol", "VIX", "VIX.Vol")
 
-ggplot(rate.info.flat, aes(Date, value, group = variable)) +
-    geom_line(aes(col = variable))
-```
-
-### Inverted Yield Curves
+combined
+``` 
 
 ```{r}
-slope <- merge(rate.3m, rate.30y, by = "Date")
-
-ggplot(slope) +
-   geom_line(aes(Date, DGS3MO), col = "darkgreen") +
-   geom_line(aes(Date, DGS30), col = "darkblue") +
-   geom_rect(data = slope[1], mapping = aes(xmin = as.Date("2020-2-15"), xmax = as.Date("2020-3-30"), ymin = 0, ymax = Inf), fill = "darkred", alpha = 0.25) +
-   labs(title = "3M vs. 30 Year")
+ggplot(combined) +
+   geom_line(data = vix_raw, aes(Date, Price), col = "darkgreen") +
+   geom_line(aes(Date, VIX.Vol), col = "darkred")
 ```
 
+### Binomial OPM
+
+```{r}
+
+```
 
