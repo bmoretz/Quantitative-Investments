@@ -1,0 +1,166 @@
+---
+title: ''
+mainfont: Arial
+fontsize: 12pt
+documentclass: report
+header-includes:
+- \PassOptionsToPackage{table}{xcolor}
+- \usepackage{caption}
+- \usepackage{amssymb}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage[table]{xcolor}
+- \usepackage{fancyhdr}
+- \usepackage{boldline}
+- \usepackage{tipa}
+   \definecolor{headergrey}{HTML}{545454}
+   \definecolor{msdblue}{HTML}{1C93D1}
+   \pagestyle{fancy}
+   \setlength\headheight{30pt}
+   \rhead{\color{headergrey}\today}
+   \fancyhead[L]{\color{headergrey}Moretz, Brandon}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Speed, Testing and Reporting}
+   \rfoot{\color{headergrey}Chapter 8}
+   \lfoot{\color{headergrey}\thepage}
+   \fancyfoot[C]{\rmfamily\color{headergrey}Quantitative Trading with R}
+geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r knitr_setup, include = FALSE}
+
+knitr::opts_chunk$set(
+   echo = T, 
+   eval = TRUE, 
+   dev = 'png', 
+   fig.width = 9, 
+   fig.height = 3.5)
+
+options(knitr.table.format = "latex")
+
+```
+
+```{r report_setup, message = FALSE, warning = FALSE, include = FALSE}
+
+library(knitr, quietly = TRUE, warn.conflicts = FALSE)
+library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(pander, quietly = TRUE, warn.conflicts = FALSE)
+
+library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
+
+library(here, quietly = TRUE, warn.conflicts = FALSE)
+
+library(tidyverse, quietly = TRUE, warn.conflicts = FALSE)
+library(lubridate, quietly = TRUE, warn.conflicts = FALSE)
+
+options(tinytex.verbose = TRUE)
+
+pretty_kable <- function(data, title, dig = 2) {
+  kable(data, caption = title, digits = dig) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+      kableExtra::kable_styling(latex_options = "hold_position")
+}
+
+data_dir <- here::here("Machine Learning for Factor Investing")
+```
+
+```{r pander_setup, include = FALSE}
+knitr::opts_chunk$set(comment = NA)
+
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+```
+
+## Datasets
+
+```{r}
+load(file.path(data_dir, "data_ml.RData"))
+```
+
+
+```{r}
+
+data_ml <- data_ml %>%
+   filter(date > "1999-12-31",
+          date < "2019-01-01") %>%
+   arrange(stock_id, date)
+
+data_ml[1:6, 1:6]
+```
+
+
+```{r}
+
+data_ml %>%
+   group_by(date) %>%
+   summarise(nb_assets = stock_id %>%
+                as.factor() %>% nlevels()) %>%
+   ggplot(aes(x = date, y = nb_assets)) +
+   geom_col() +
+   coord_fixed(3)
+```
+
+```{r}
+
+features <- colnames(data_ml[3:95])
+features_short <- c("Div_Yld", "Eps", "Mkt_Cap_12M_Usd", "Mom_11M_Usd",
+                    "Ofc", "Pb", "Vol1Y_Usd")
+```
+
+```{r}
+data_ml %>%
+   filter(date == "2000-02-29") %>%
+   ggplot(aes(x = Div_Yld)) +
+   geom_histogram(bins = 100) +
+   coord_fixed(0.03)
+```
+
+```{r}
+
+data_ml <- data_ml %>%
+   group_by(date) %>%
+   mutate(R1M_Usd_C = R1M_Usd > median(R1M_Usd),
+          R12M_Usd_C = R1M_Usd > median(R12M_Usd)) %>%
+   ungroup() %>%
+   mutate_if(is.logical, as.factor)
+   
+```
+
+```{r}
+separation_date <- as_date("2014-01-15")
+
+traning_sample <- filter(data_ml, date < separation_date)
+testing_sample <- filter(data_ml, date > separation_date)
+
+stock_ids <- levels(as.factor(data_ml$stock_id)) # list of all stock ids
+
+stock_days <- data_ml %>%
+   group_by(stock_id) %>%
+   summarise(nb = n())
+
+stock_ids_short <- stock_ids[which(stock_days$nb == max(stock_days$nb))] # keep only stocks with full data
+
+
+```
+
