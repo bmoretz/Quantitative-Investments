@@ -30,7 +30,7 @@ header-includes:
    \setlength\headheight{30pt}
    \rhead{\color{headergrey}\today}
    \fancyhead[L]{\color{headergrey}Moretz, Brandon}
-   \fancyhead[C]{\Large\bfseries\color{headergrey}Notations and Data}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Factor Investing and Asset Pricing Anomalies}
    \rfoot{\color{headergrey}Chapter 8}
    \lfoot{\color{headergrey}\thepage}
    \fancyfoot[C]{\rmfamily\color{headergrey}Machine Learning for Factor Investing}
@@ -98,73 +98,24 @@ panderOptions('keep.trailing.zeros', TRUE)
 load(file.path(data_dir, "data_ml.RData"))
 ```
 
-
-```{r}
-
-data_ml <- data_ml %>%
-   filter(date > "1999-12-31",
-          date < "2019-01-01") %>%
-   arrange(stock_id, date)
-
-data_ml[1:6, 1:6]
-```
-
-
 ```{r}
 
 data_ml %>%
-   group_by(date) %>%
-   summarise(nb_assets = stock_id %>%
-                as.factor() %>% nlevels()) %>%
-   ggplot(aes(x = date, y = nb_assets)) +
-   geom_col() +
-   coord_fixed(3)
-```
-
-```{r}
-
-features <- colnames(data_ml[3:95])
-features_short <- c("Div_Yld", "Eps", "Mkt_Cap_12M_Usd", "Mom_11M_Usd",
-                    "Ofc", "Pb", "Vol1Y_Usd")
-```
-
-```{r}
-data_ml %>%
-   filter(date == "2000-02-29") %>%
-   ggplot(aes(x = Div_Yld)) +
-   geom_histogram(bins = 100) +
-   coord_fixed(0.03)
-```
-
-```{r}
-
-data_ml <- data_ml %>%
-   group_by(date) %>%
-   mutate(R1M_Usd_C = R1M_Usd > median(R1M_Usd),
-          R12M_Usd_C = R1M_Usd > median(R12M_Usd)) %>%
-   ungroup() %>%
-   mutate_if(is.logical, as.factor)
+   group_by(date) %>% # group by date
+   mutate(large = Mkt_Cap_12M_Usd > median(Mkt_Cap_12M_Usd)) %>% # Creates the cap sort
+   ungroup() %>% # ungroup
+   mutate(year = lubridate::year(date)) %>% # Creates a gear variable
+   group_by(year, large) %>% # Analyze by year & cap
+   summarize(avg_return = mean(R1M_Usd)) %>% # avg return by year & cap
+   ggplot(aes(x = year, y = avg_return, fill = large)) + # plot!
+   geom_col(position = "dodge") + # bars side-to-side
+   theme(legend.position = c(0.8, 0.2)) + # legend location
+   coord_fixed(124) + # x/y aspect ration
+   theme(legend.title = element_blank()) +
+   scale_fill_manual(values = c("#F87E1F", "#0570EA"), name = "", # colors
+                     labels = c("Small", "Large")) +
+   ylab("Average Returns") +
+   theme(legend.text = element_text(size=9))
    
-```
-
-```{r}
-separation_date <- as_date("2014-01-15")
-
-traning_sample <- filter(data_ml, date < separation_date)
-testing_sample <- filter(data_ml, date > separation_date)
-
-stock_ids <- levels(as.factor(data_ml$stock_id)) # list of all stock ids
-
-stock_days <- data_ml %>%
-   group_by(stock_id) %>%
-   summarise(nb = n())
-
-stock_ids_short <- stock_ids[which(stock_days$nb == max(stock_days$nb))] # keep only stocks with full data
-
-returns <- data_ml %>%
-   filter(stock_id %in% stock_ids_short) %>%
-   dplyr::select(date, stock_id, R1M_Usd) %>%
-   spread(key = stock_id, value = R1M_Usd)
-
 ```
 
