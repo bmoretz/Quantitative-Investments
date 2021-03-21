@@ -1,8 +1,13 @@
 ---
 title: ''
 mainfont: Arial
-fontsize: 12pt
-documentclass: report
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    df_print: paged
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
 header-includes:
 - \PassOptionsToPackage{table}{xcolor}
 - \usepackage{caption}
@@ -23,25 +28,15 @@ header-includes:
 - \usepackage[table]{xcolor}
 - \usepackage{fancyhdr}
 - \usepackage{boldline}
-- \usepackage{tipa}
-   \definecolor{headergrey}{HTML}{545454}
-   \definecolor{msdblue}{HTML}{1C93D1}
-   \pagestyle{fancy}
-   \setlength\headheight{30pt}
-   \rhead{\color{headergrey}\today}
-   \fancyhead[L]{\color{headergrey}Moretz, Brandon}
-   \fancyhead[C]{\Large\bfseries\color{headergrey}Asset Prices}
-   \rfoot{\color{headergrey}Chapter 2}
-   \lfoot{\color{headergrey}\thepage}
-   \fancyfoot[C]{\rmfamily\color{headergrey}Reproducible
+- \usepackage{tipa} \definecolor{headergrey}{HTML}{545454} \definecolor{msdblue}{HTML}{1C93D1}
+  \pagestyle{fancy} \setlength\headheight{30pt} \rhead{\color{headergrey}\today} \fancyhead[L]{\color{headergrey}Moretz,
+  Brandon} \fancyhead[C]{\Large\bfseries\color{headergrey}Asset Prices} \rfoot{\color{headergrey}Chapter
+  2} \lfoot{\color{headergrey}\thepage} \fancyfoot[C]{\rmfamily\color{headergrey}Reproducible
   Finance with R}
 geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
-date: "`r format(Sys.time(), '%d %B, %Y')`"
-output:
-  pdf_document:
-    fig_caption: yes
-    latex_engine: xelatex
-editor_options: 
+fontsize: 12pt
+documentclass: report
+editor_options:
   chunk_output_type: console
 ---
 
@@ -170,7 +165,7 @@ prices <-
 
 ```{r}
 
-# Verfiy Import
+# Verify Import
 head(prices, 3)
 
 # convert to monthly prices.
@@ -232,26 +227,6 @@ asset_returns_tq_builtin <-
   slice(-1)
 
 head(asset_returns_tq_builtin)
-
-# convert to monthly returns, tibbletime.
-
-asset_returns_tbltime <-
-  prices %>%
-  tk_tbl(preserve_index = T,
-         rename_index = "date") %>%
-  # this is the tibbletime function
-  as_tbl_time(index = date) %>%
-  as_period(period = "monthly",
-            side = "end") %>%
-  gather(asset, returns, - date) %>%
-  group_by(asset) %>%
-  tq_transmute(mutate_fun = periodReturn,
-               type = "log") %>%
-  spread(asset, monthly.returns) %>%
-  select(date, symbols) %>%
-  slice(-1)
-
-head(asset_returns_tbltime)
 
 
 asset_returns_long <-

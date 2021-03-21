@@ -65,6 +65,9 @@ library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
 library(pander, quietly = TRUE, warn.conflicts = FALSE)
 
 library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
+library(tidyquant, quietly = TRUE, warn.conflicts = FALSE)
+library(PerformanceAnalytics, quietly = TRUE, warn.conflicts = FALSE)
+library(xtable, quietly = TRUE, warn.conflicts = FALSE)
 
 library(here, quietly = TRUE, warn.conflicts = FALSE)
 
@@ -84,6 +87,7 @@ data_dir <- here::here("Machine Learning for Factor Investing")
 
 ```{r pander_setup, include = FALSE}
 knitr::opts_chunk$set(comment = NA)
+knitr::opts_chunk$set(fig.width=12, fig.height=8) 
 
 panderOptions('table.alignment.default', function(df)
     ifelse(sapply(df, is.numeric), 'right', 'left'))
@@ -97,6 +101,8 @@ panderOptions('keep.trailing.zeros', TRUE)
 ```{r}
 load(file.path(data_dir, "data_ml.RData"))
 ```
+
+### Example Factor, Size
 
 ```{r}
 
@@ -116,6 +122,224 @@ data_ml %>%
                      labels = c("Small", "Large")) +
    ylab("Average Returns") +
    theme(legend.text = element_text(size=9))
+
+
    
+```
+
+## Factors
+
+### Size
+
+__SMB__ = small firms minus large firms
+
+### Value
+
+__HM__ = high minus low: undervalued minus 'growth' firms
+
+### Momentum
+
+__WML__ winners minus losers
+
+### Profitability
+
+__RMW__ = robust minus weak profits
+
+profitability is measured as (revenues - (cost and expenses)) / equity
+
+### Investment
+
+__CMA__ conservative minus aggressive
+
+Investment is measured via the growth of total assets (divided by total assets).
+
+### Low 'risk'
+
+__BAB__ betting against beta
+
+(simple vol, market beta, idiosyncratic vol, etc)
+
+[Kenneth French Factor Library](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html)
+
+#### Example Factor Model
+
+```{r}
+
+min_date <- "1963-07-31"; max_date <- "2020-06-30"
+
+temp <- tempfile()
+
+KF_website <- "http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/"
+KF_file <- "ftp/F-F_Research_Data_5_Factors_2x3_CSV.zip"
+
+link <- paste0(KF_website, KF_file)
+
+download.file(link, temp, quiet = T)
+
+FF_factors <- read_csv(unz(temp, "F-F_Research_Data_5_Factors_2x3.CSV"), 
+                       skip = 3) %>%          # Check the number of lines to skip!
+    rename(date = X1, MKT_RF = `Mkt-RF`) %>%  # Change the name of first columns
+    mutate_at(vars(-date), as.numeric) %>%                 # Convert values to number
+    mutate(date = ymd(parse_date_time(date, "%Y%m"))) %>%  # Date in right format
+    mutate(date = rollback(date + months(1)))              # End of month date
+
+FF_factors <- FF_factors %>% mutate(MKT_RF = MKT_RF / 100,
+                                    SMB = SMB / 100,
+                                    HML = HML / 100,
+                                    RMW = RMW / 100,
+                                    CMA = CMA / 100,
+                                    RF = RF / 100) %>%
+   filter(date >= min_date, date <= max_date)
+
+knitr::kable(head(FF_factors), booktabs = T,
+             caption = "Sample of Monthly Factor Returns.")
+
+```
+
+```{r}
+FF_Avg_Returns <- FF_factors %>%
+   mutate(date = year(date)) %>%
+   gather(key = factor, value = value, - date) %>%
+   group_by(date, factor) %>%
+   summarise(value = mean(value))
+```
+
+```{r, fig.cap="Factor Returns"}
+
+FF_Avg_Returns %>%
+   ggplot(aes(x = date, y = value, color = factor)) +
+   geom_line() + coord_fixed(500)
+
+```
+
+```{r, fig.cap="Return Densitites"}
+
+FF_factors %>%
+   gather(key = factor, value = return, - date) %>%
+   filter(factor != 'RF') %>%
+   ggplot(aes(return, group = factor)) +
+      geom_density(aes(fill = factor, alpha = .25))
+
+```
+
+
+```{r, fig.cap="Yearly Avg Return Densities"}
+
+FF_Avg_Returns %>%
+   filter(factor != 'RF') %>%
+   ggplot(aes(value, group = factor)) +
+      geom_density(aes(fill = factor, alpha = .25))
+
+```
+
+```{r, fig.cap="Growth of $1 by factor"}
+
+FF_Cum_Returns <- FF_factors %>%
+   gather(key = factor, value = value, -date) %>%
+   group_by(factor) %>%
+   mutate(lag_ret = lag(value)) %>%
+   mutate(return = cumprod(1 + ifelse(is.na(lag_ret), 0, lag_ret)))
+
+FF_Cum_Returns %>%
+   ggplot(aes(date, return, group = factor)) +
+   
+   geom_line(aes(col = factor))
+```
+
+## Fama-Macbeth Regressions
+
+```{r}
+separation_date <- as_date("2014-01-15")
+
+traning_sample <- filter(data_ml, date < separation_date)
+testing_sample <- filter(data_ml, date > separation_date)
+
+stock_ids <- levels(as.factor(data_ml$stock_id)) # list of all stock ids
+
+stock_days <- data_ml %>%
+   group_by(stock_id) %>%
+   summarise(nb = n())
+
+stock_ids_short <- stock_ids[which(stock_days$nb == max(stock_days$nb))] # keep only stocks with full data
+```
+
+```{r}
+nb_factors <- 5                                                     # Number of factors
+data_FM <- left_join(data_ml %>%                                    # Join the 2 datasets
+                         dplyr::select(date, stock_id, R1M_Usd) %>% # (with returns...
+                         filter(stock_id %in% stock_ids_short),     # ... over some stocks)
+                     FF_factors, 
+                     by = "date") %>% 
+    group_by(stock_id) %>%                                          # Grouping
+    mutate(R1M_Usd = lag(R1M_Usd)) %>%                              # Lag returns
+    ungroup() %>%
+    na.omit() %>%                                                   # Remove missing points
+    spread(key = stock_id, value = R1M_Usd)
+
+models <- lapply(paste0("`", stock_ids_short, 
+                        '` ~  MKT_RF + SMB + HML + RMW + CMA'),           # Model spec
+                 function(f){ lm(as.formula(f), data = data_FM,           # Call lm(.)
+                                 na.action="na.exclude") %>%       
+                         summary() %>%                                    # Gather the output
+                         "$"(coef) %>%                                    # Keep only coefs
+                         data.frame() %>%                                 # Convert to dataframe
+                         dplyr::select(Estimate)}                         # Keep the estimates
+                 )
+betas <- matrix(unlist(models), ncol = nb_factors + 1, byrow = T) %>%     # Extract the betas
+    data.frame(row.names = stock_ids_short)                               # Format: row names
+colnames(betas) <- c("Constant", "MKT_RF", "SMB", "HML", "RMW", "CMA")    # Format: col names
+
+```
+
+```{r}
+knitr::kable(head(betas), caption = "Coefficents")
+```
+
+```{r}
+
+loadings <- betas %>%
+   dplyr::select(-Constant) %>%
+   data.frame()
+
+returns <- data_FM %>%
+   dplyr::select(-MKT_RF, -SMB, -HML, -RMW, -CMA)
+
+ret <- returns %>%
+   dplyr::select(-date) %>%
+   data.frame(row.names = returns$date) %>%
+   t()
+
+FM_data <- cbind(loadings, ret)
+```
+
+```{r}
+
+models <- lapply(paste("`", 
+                       returns$date, "`", 
+                       ' ~  MKT_RF + SMB + HML + RMW + CMA', sep = ""),
+                           function(f){ lm(as.formula(f), data = FM_data) %>%                        # Call lm(.)
+                              summary() %>%                                    # Gather the output
+                              "$"(coef) %>%                                    # Keep only the coefs
+                              data.frame() %>%                                 # Convert to dataframe
+                              dplyr::select(Estimate)}                         # Keep only estimates
+                 )
+
+gammas <- matrix(unlist(models), ncol = nb_factors + 1, byrow = T) %>%    # Switch to dataframe
+    data.frame(row.names = returns$date)                                  # & set row names
+colnames(gammas) <- c("Constant", "MKT_RF", "SMB", "HML", "RMW", "CMA")   # Set col names
+
+```
+
+```{r, fig.cap="Gammas"}
+
+gammas %>%                                         # Take gammas:
+    # The first row is omitted because the first row of returns is undefined
+    dplyr::select(MKT_RF, SMB, HML) %>%                             # Select 3 factors
+    bind_cols(date = data_FM$date) %>%                              # Add date
+    gather(key = factor, value = gamma, -date) %>%                  # Put in tidy shape
+    ggplot(aes(x = date, y = gamma, color = factor)) +              # Plot
+    geom_line() + facet_grid( factor~. ) +                          # Lines & facets
+    scale_color_manual(values=c("#F87E1F", "#0570EA", "#F81F40")) + # Colors
+    coord_fixed(980)                                                # Fix x/y ratio
 ```
 
