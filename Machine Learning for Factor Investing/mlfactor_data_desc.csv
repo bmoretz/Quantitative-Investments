@@ -1,0 +1,100 @@
+Column Name,Short Description
+stock_id,security id
+date,date of the data
+Advt_12M_Usd,average daily volume in amount in USD over 12 months
+Advt_3M_Usd,average daily volume in amount in USD over 3 months
+Advt_6M_Usd,average daily volume in amount in USD over 6 months
+Asset_Turnover,total sales on average assets
+Bb_Yld,buyback yield
+Bv,book value
+Capex_Ps_Cf,capital expenditure on price to sale cash flow
+Capex_Sales,capital expenditure on sales
+Cash_Div_Cf,cash dividends cash flow
+Cash_Per_Share,cash per share
+Cf_Sales,cash flow per share
+Debtequity,debt to equity
+Div_Yld,dividend yield
+Dps,dividend per share
+Ebit_Bv,EBIT on book value
+Ebit_Noa,EBIT on non operating asset
+Ebit_Oa,EBIT on operating asset
+Ebit_Ta,EBIT on total asset
+Ebitda_Margin,EBITDA margin
+Eps,earnings per share
+Eps_Basic,earnings per share basic
+Eps_Basic_Gr,earnings per share growth
+Eps_Contin_Oper,earnings per share continuing operations
+Eps_Dil,earnings per share diluted
+Ev,enterprise value
+Ev_Ebitda,enterprise value on EBITDA
+Fa_Ci,fixed assets on common equity
+Fcf,free cash flow
+Fcf_Bv,free cash flow on book value
+Fcf_Ce,free cash flow on capital employed
+Fcf_Margin,free cash flow margin
+Fcf_Noa,free cash flow on net operating assets
+Fcf_Oa,free cash flow on operating assets
+Fcf_Ta,free cash flow on total assets
+Fcf_Tbv,free cash flow on tangible book value
+Fcf_Toa,free cash flow on total operating assets
+Fcf_Yld,free cash flow yield
+Free_Ps_Cf,free cash flow on price sales
+Int_Rev,intangibles on revenues
+Interest_Expense,interest expense coverage
+Mkt_Cap_12M_Usd,average market capitalization over 12 months in USD
+Mkt_Cap_3M_Usd,average market capitalization over 3 months in USD
+Mkt_Cap_6M_Usd,average market capitalization over 6 months in USD
+Mom_11M_Usd,price momentum 12 - 1 months in USD
+Mom_5M_Usd,price momentum 6 - 1 months in USD
+Mom_Sharp_11M_Usd,price momentum 12 - 1 months in USD divided by volatility
+Mom_Sharp_5M_Usd,price momentum 6 - 1 months in USD divided by volatility
+Nd_Ebitda,net debt on EBITDA
+Net_Debt,net debt
+Net_Debt_Cf,net debt on cash flow
+Net_Margin,net margin
+Netdebtyield,net debt yield
+Ni,net income
+Ni_Avail_Margin,net income available margin
+Ni_Oa,net income on operating asset
+Ni_Toa,net income on total operating asset
+Noa,net operating asset
+Oa,operating asset
+Ocf,operating cash flow
+Ocf_Bv,operating cash flow on book value
+Ocf_Ce,operating cash flow on capital employed
+Ocf_Margin,operating cash flow margin
+Ocf_Noa,operating cash flow on net operating assets
+Ocf_Oa,operating cash flow on operating assets
+Ocf_Ta,operating cash flow on total assets
+Ocf_Tbv,operating cash flow on tangible book value
+Ocf_Toa,operating cash flow on total operating assets
+Op_Margin,operating margin
+Op_Prt_Margin,net margin 1Y growth
+Oper_Ps_Net_Cf,cash flow from operations per share net
+Pb,price to book
+Pe,price earnings
+Ptx_Mgn,margin pretax
+Recurring_Earning_Total_Assets,reccuring earnings on total assets
+Return_On_Capital,return on capital
+Rev,revenue
+Roa,return on assets
+Roc,return on capital
+Roce,return on capital employed
+Roe,return on equity
+Sales_Ps,price to sales
+Share_Turn_12M,average share turnover 12 months
+Share_Turn_3M,average share turnover 3 months
+Share_Turn_6M,average share turnover 6 months
+Ta,total assets
+Tev_Less_Mktcap,total enterprise value less market capitalization
+Tot_Debt_Rev,total debt on revenue
+Total_Capital,total capital
+Total_Debt,total debt on revenue
+Total_Debt_Capital,total debt on capital
+Total_Liabilities_Total_Assets,total liabilities on total assets
+Vol1Y_Usd,volatility of returns over one year
+Vol3Y_Usd,volatility of returns over 3 years
+R1M_Usd,return forward 1 month (LABEL)
+R3M_Usd,return forward 3 months (LABEL)
+R6M_Usd,return forward 6 months (LABEL)
+R12M_Usd,return forward 12 months (LABEL)
