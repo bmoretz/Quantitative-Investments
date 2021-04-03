@@ -31,7 +31,7 @@ header-includes:
    \rhead{\color{headergrey}\today}
    \fancyhead[L]{\color{headergrey}Moretz, Brandon}
    \fancyhead[C]{\Large\bfseries\color{headergrey}Factor Investing and Asset Pricing Anomalies}
-   \rfoot{\color{headergrey}Chapter 8}
+   \rfoot{\color{headergrey}Chapter 3}
    \lfoot{\color{headergrey}\thepage}
    \fancyfoot[C]{\rmfamily\color{headergrey}Machine Learning for Factor Investing}
 geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
@@ -67,6 +67,8 @@ library(pander, quietly = TRUE, warn.conflicts = FALSE)
 library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
 library(tidyquant, quietly = TRUE, warn.conflicts = FALSE)
 library(PerformanceAnalytics, quietly = TRUE, warn.conflicts = FALSE)
+library(cowplot, quietly = TRUE, warn.conflicts = FALSE)
+library(forecast, quietly = TRUE, warn.conflicts = FALSE)
 library(xtable, quietly = TRUE, warn.conflicts = FALSE)
 
 library(here, quietly = TRUE, warn.conflicts = FALSE)
@@ -82,7 +84,6 @@ pretty_kable <- function(data, title, dig = 2) {
       kableExtra::kable_styling(latex_options = "hold_position")
 }
 
-data_dir <- here::here("Machine Learning for Factor Investing")
 ```
 
 ```{r pander_setup, include = FALSE}
@@ -99,7 +100,7 @@ panderOptions('keep.trailing.zeros', TRUE)
 ## Datasets
 
 ```{r}
-load(file.path(data_dir, "data_ml.RData"))
+load(here("Machine Learning for Factor Investing", "data_ml.RData"))
 ```
 
 ### Example Factor, Size
@@ -124,7 +125,6 @@ data_ml %>%
    theme(legend.text = element_text(size=9))
 
 
-   
 ```
 
 ## Factors
@@ -197,11 +197,13 @@ knitr::kable(head(FF_factors), booktabs = T,
 ```
 
 ```{r}
+
 FF_Avg_Returns <- FF_factors %>%
    mutate(date = year(date)) %>%
    gather(key = factor, value = value, - date) %>%
    group_by(date, factor) %>%
    summarise(value = mean(value))
+
 ```
 
 ```{r, fig.cap="Factor Returns"}
@@ -242,13 +244,16 @@ FF_Cum_Returns <- FF_factors %>%
 
 FF_Cum_Returns %>%
    ggplot(aes(date, return, group = factor)) +
-   
    geom_line(aes(col = factor))
+
 ```
+
+\newpage
 
 ## Fama-Macbeth Regressions
 
 ```{r}
+
 separation_date <- as_date("2014-01-15")
 
 traning_sample <- filter(data_ml, date < separation_date)
@@ -261,10 +266,49 @@ stock_days <- data_ml %>%
    summarise(nb = n())
 
 stock_ids_short <- stock_ids[which(stock_days$nb == max(stock_days$nb))] # keep only stocks with full data
+
 ```
 
 ```{r}
+
+# single stock example
+
+stock_identifer <- 3
+
+data_ml %>%
+   filter(date == as_date("2006-06-30") & stock_id == 3)
+
+stock_returns <- data_ml %>%
+                  filter(stock_id == stock_identifer) %>%
+                  select(date, stock_id, Return = R1M_Usd) %>%
+                  group_by(stock_id) %>%
+                  mutate(Return = lag(Return)) %>%
+                  ungroup()
+
+stock_returns %>%
+   filter(date == as_date("2006-06-30") & stock_id == 3)
+
+factor_data <- left_join(stock_returns, FF_factors, by = "date") %>%
+               select(date, stock_id, MKT_RF, SMB, HML, RMW, CMA, RF, Return)
+
+factor_loading <- 
+   coef(summary(lm(formula = "Return ~ MKT_RF + SMB + HML + RMW + CMA", data = factor_data))) %>%
+   as.data.frame() %>%
+   select(Value = Estimate) %>%
+   rownames_to_column("Factor") %>%
+   mutate(stock_id = stock_identifer) %>%
+   spread(key = "Factor", value = "Value") %>%
+   select(MKT_RF, SMB, HML, RMW, CMA)
+
+factor_data <- cbind(factor_loading, stock_returns) %>%
+   filter(!is.na(Return))
+
+```
+
+```{r, fig.height=12}
+
 nb_factors <- 5                                                     # Number of factors
+
 data_FM <- left_join(data_ml %>%                                    # Join the 2 datasets
                          dplyr::select(date, stock_id, R1M_Usd) %>% # (with returns...
                          filter(stock_id %in% stock_ids_short),     # ... over some stocks)
@@ -285,8 +329,12 @@ models <- lapply(paste0("`", stock_ids_short,
                          data.frame() %>%                                 # Convert to dataframe
                          dplyr::select(Estimate)}                         # Keep the estimates
                  )
+
 betas <- matrix(unlist(models), ncol = nb_factors + 1, byrow = T) %>%     # Extract the betas
     data.frame(row.names = stock_ids_short)                               # Format: row names
+
+stopifnot(nrow(betas) == length(stock_ids_short))
+
 colnames(betas) <- c("Constant", "MKT_RF", "SMB", "HML", "RMW", "CMA")    # Format: col names
 
 ```
@@ -297,27 +345,30 @@ knitr::kable(head(betas), caption = "Coefficents")
 
 ```{r}
 
-loadings <- betas %>%
+factor_loadings <- betas %>%
    dplyr::select(-Constant) %>%
    data.frame()
 
-returns <- data_FM %>%
-   dplyr::select(-MKT_RF, -SMB, -HML, -RMW, -CMA)
+stock_returns <- data_FM %>%
+   dplyr::select(-MKT_RF, -SMB, -HML, -RMW, -CMA, -RF)
 
-ret <- returns %>%
+factor_returns <- stock_returns %>%
    dplyr::select(-date) %>%
-   data.frame(row.names = returns$date) %>%
+   data.frame(row.names = stock_returns$date) %>%
    t()
 
-FM_data <- cbind(loadings, ret)
+stopifnot(nrow(factor_returns) == nrow(factor_loadings))
+
+FM_data <- cbind(factor_loadings, factor_returns)
+
 ```
 
 ```{r}
 
 models <- lapply(paste("`", 
-                       returns$date, "`", 
+                       stock_returns$date, "`", 
                        ' ~  MKT_RF + SMB + HML + RMW + CMA', sep = ""),
-                           function(f){ lm(as.formula(f), data = FM_data) %>%                        # Call lm(.)
+                           function(f){ lm(as.formula(f), data = FM_data) %>%  # Call lm(.)
                               summary() %>%                                    # Gather the output
                               "$"(coef) %>%                                    # Keep only the coefs
                               data.frame() %>%                                 # Convert to dataframe
@@ -325,21 +376,95 @@ models <- lapply(paste("`",
                  )
 
 gammas <- matrix(unlist(models), ncol = nb_factors + 1, byrow = T) %>%    # Switch to dataframe
-    data.frame(row.names = returns$date)                                  # & set row names
+    data.frame(row.names = stock_returns$date)                                  # & set row names
 colnames(gammas) <- c("Constant", "MKT_RF", "SMB", "HML", "RMW", "CMA")   # Set col names
 
 ```
 
-```{r, fig.cap="Gammas"}
+```{r, fig.cap="Gammas", out.height="100%", fig.height=15}
 
-gammas %>%                                         # Take gammas:
+gammas %>%                                                           # Take gammas:
     # The first row is omitted because the first row of returns is undefined
     dplyr::select(MKT_RF, SMB, HML) %>%                             # Select 3 factors
     bind_cols(date = data_FM$date) %>%                              # Add date
     gather(key = factor, value = gamma, -date) %>%                  # Put in tidy shape
     ggplot(aes(x = date, y = gamma, color = factor)) +              # Plot
     geom_line() + facet_grid( factor~. ) +                          # Lines & facets
-    scale_color_manual(values=c("#F87E1F", "#0570EA", "#F81F40")) + # Colors
-    coord_fixed(980)                                                # Fix x/y ratio
+    scale_color_manual(values=c("#F87E1F", "#0570EA", "#F81F40"))  # Colors
+```
+
+\newpage
+
+## Factor Competition
+
+```{r}
+
+factors <- c("MKT_RF", "SMB", "HML", "RMW", "CMA")
+
+models <- lapply(paste(factors, ' ~  MKT_RF + SMB + HML + RMW + CMA-',factors),
+ function(f){ lm(as.formula(f), data = FF_factors) %>%               # Call lm(.)
+                         summary() %>%                               # Gather the output
+                         "$"(coef) %>%                               # Keep only the coefs
+                         data.frame() %>%                            # Convert to dataframe
+                         filter(rownames(.) == "(Intercept)") %>%    # Keep only the Intercept
+                         dplyr::select(Estimate,`Pr...t..`)}         # Keep the coef & p-value
+                 )
+alphas <- matrix(unlist(models), ncol = 2, byrow = T) %>%       # Switch from list to dataframe
+    data.frame(row.names = factors)
+# alphas # To see the alphas (optional)
+
+```
+
+```{r}
+
+results <- matrix(NA, nrow = length(factors), ncol = length(factors) + 1)   # Coefs
+signif  <- matrix(NA, nrow = length(factors), ncol = length(factors) + 1)   # p-values
+
+for(j in 1:length(factors)){
+    form <- paste(factors[j],
+                  ' ~  MKT_RF + SMB + HML + RMW + CMA-',factors[j])         # Build model
+    fit <- lm(form, data = FF_factors) %>% summary()                        # Estimate model
+    coef <- fit$coefficients[,1]                                            # Keep coefficients
+    p_val <- fit$coefficients[,4]                                           # Keep p-values
+    results[j,-(j+1)] <- coef                                               # Fill matrix
+    signif[j,-(j+1)] <- p_val
+}
+
+signif[is.na(signif)] <- 1                                                  # Kick out NAs
+
+results <- results %>% round(3)  %>% data.frame()                           # Basic formatting
+
+results[signif<0.001] <- paste(results[signif<0.001]," (***)")              # 3 star signif
+
+results[signif>0.001&signif<0.01] <-                                        # 2 star signif
+    paste(results[signif>0.001&signif<0.01]," (**)")
+
+results[signif>0.01&signif<0.05] <-                                         # 1 star signif
+    paste(results[signif>0.01&signif<0.05]," (*)")     
+
+results <- cbind(factors, results)                            # Add dep. variable
+
+colnames(results) <- c("Dep. Variable", "Intercept", factors)                # Add column names
+
+```
+
+```{r, echo = F}
+knitr::kable(head(results), booktabs = T,
+             caption = "Factor competition among the Fama and French (2015) five factors.",
+             ) %>%
+    kable_styling(latex_options = "striped")
+```
+
+## Momentum, timing and ESG
+
+```{r, out.height="100%", fig.height=15}
+
+acf_SMB <- ggAcf(FF_factors$SMB, lag.max = 10) + labs(title = "")
+acf_HML <- ggAcf(FF_factors$HML, lag.max = 10) + labs(title = "")
+acf_RMW <- ggAcf(FF_factors$RMW, lag.max = 10) + labs(title = "")
+acf_CMA <- ggAcf(FF_factors$CMA, lag.max = 10) + labs(title = "")
+
+plot_grid(acf_SMB, acf_HML, acf_RMW, acf_CMA, # plot
+          labels = c("SMB", "HML", "RMW", "CMA"))
 ```
 

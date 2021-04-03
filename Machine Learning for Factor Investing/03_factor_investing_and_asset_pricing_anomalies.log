@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (MiKTeX 2.9.7300 64-bit) (preloaded format=xelatex 2020.3.20)  21 MAR 2021 15:09
+This is XeTeX, Version 3.14159265-2.6-0.999992 (MiKTeX 2.9.7300 64-bit) (preloaded format=xelatex 2020.3.20)  3 APR 2021 11:14
 entering extended mode
 **./03_factor_investing_and_asset_pricing_anomalies.tex
 (03_factor_investing_and_asset_pricing_anomalies.tex
@@ -1152,24 +1152,45 @@ File: 03_factor_investing_and_asset_pricing_anomalies_files/figure-latex/unname
 d-chunk-8-1.png Graphic file (type bmp)
 <03_factor_investing_and_asset_pricing_anomalies_files/figure-latex/unnamed-chu
 nk-8-1.png>
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 456.
-[9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 456.
+[9] [10]
+Underfull \vbox (badness 10000) detected at line 599
+ []
+
+[11]
+Underfull \vbox (badness 10000) detected at line 648
+ []
+
+[12]
+File: 03_factor_investing_and_asset_pricing_anomalies_files/figure-latex/unname
+d-chunk-15-1.png Graphic file (type bmp)
+<03_factor_investing_and_asset_pricing_anomalies_files/figure-latex/unnamed-chu
+nk-15-1.png>
+
+LaTeX Warning: Float too large for page by 24.53099pt on input line 683.
+
+[13] [14] [15]
+File: 03_factor_investing_and_asset_pricing_anomalies_files/figure-latex/unname
+d-chunk-19-1.png Graphic file (type bmp)
+<03_factor_investing_and_asset_pricing_anomalies_files/figure-latex/unnamed-chu
+nk-19-1.png>
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 775.
+[16] [17]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 775.
 (03_factor_investing_and_asset_pricing_anomalies.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 456.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 456.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 775.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 775.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 22221 strings out of 414221
- 379395 string characters out of 2902595
- 837956 words of memory out of 3000000
- 39425 multiletter control sequences out of 15000+200000
+ 22256 strings out of 414221
+ 381409 string characters out of 2902595
+ 842276 words of memory out of 3000000
+ 39455 multiletter control sequences out of 15000+200000
  536517 words of font info for 70 fonts, out of 3000000 for 9000
  1348 hyphenation exceptions out of 8191
  55i,12n,121p,848b,467s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on 03_factor_investing_and_asset_pricing_anomalies.pdf (9 pages)
-.
+Output written on 03_factor_investing_and_asset_pricing_anomalies.pdf (17 pages
+).
