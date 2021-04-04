@@ -1,0 +1,157 @@
+---
+title: ''
+mainfont: Arial
+fontsize: 12pt
+documentclass: report
+header-includes:
+- \PassOptionsToPackage{table}{xcolor}
+- \usepackage{caption}
+- \usepackage{amssymb}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage[table]{xcolor}
+- \usepackage{fancyhdr}
+- \usepackage{boldline}
+- \usepackage{tipa}
+   \definecolor{headergrey}{HTML}{545454}
+   \definecolor{msdblue}{HTML}{1C93D1}
+   \pagestyle{fancy}
+   \setlength\headheight{30pt}
+   \rhead{\color{headergrey}\today}
+   \fancyhead[L]{\color{headergrey}Moretz, Brandon}
+   \fancyhead[C]{\Large\bfseries\color{headergrey}Data Processing}
+   \rfoot{\color{headergrey}Chapter 4}
+   \lfoot{\color{headergrey}\thepage}
+   \fancyfoot[C]{\rmfamily\color{headergrey}Machine Learning for Factor Investing}
+geometry: left = 1cm, right = 1cm, top = 2cm, bottom = 3cm
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+    latex_engine: xelatex
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r knitr_setup, include = FALSE}
+
+knitr::opts_chunk$set(
+   echo = T, 
+   eval = TRUE, 
+   dev = 'png', 
+   fig.width = 9, 
+   fig.height = 3.5)
+
+options(knitr.table.format = "latex")
+
+```
+
+```{r report_setup, message = FALSE, warning = FALSE, include = FALSE}
+
+library(knitr, quietly = TRUE, warn.conflicts = FALSE)
+library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
+library(pander, quietly = TRUE, warn.conflicts = FALSE)
+
+library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
+library(tidyquant, quietly = TRUE, warn.conflicts = FALSE)
+library(PerformanceAnalytics, quietly = TRUE, warn.conflicts = FALSE)
+library(cowplot, quietly = TRUE, warn.conflicts = FALSE)
+library(forecast, quietly = TRUE, warn.conflicts = FALSE)
+library(xtable, quietly = TRUE, warn.conflicts = FALSE)
+
+library(here, quietly = TRUE, warn.conflicts = FALSE)
+
+library(tidyverse, quietly = TRUE, warn.conflicts = FALSE)
+library(lubridate, quietly = TRUE, warn.conflicts = FALSE)
+
+options(tinytex.verbose = TRUE)
+
+pretty_kable <- function(data, title, dig = 2) {
+  kable(data, caption = title, digits = dig) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+      kableExtra::kable_styling(latex_options = "hold_position")
+}
+```
+
+```{r pander_setup, include = FALSE}
+knitr::opts_chunk$set(comment = NA)
+
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+```
+
+## Datasets
+
+```{r}
+load(here("Machine Learning for Factor Investing", "data_ml.RData"))
+```
+
+## Know your Data
+
+```{r}
+
+features_short <- c("Div_Yld", "Eps", "Mkt_Cap_12M_Usd", "Mom_Sharp_11M_Usd", "Ocf", "Pb", "Vol1Y_Usd")
+
+data_ml %>%
+   dplyr::select(c(features_short), "R1M_Usd", "date") %>%
+   group_by(date) %>%
+   summarise_all(funs(cor(., R1M_Usd))) %>%
+   dplyr::select(-R1M_Usd) %>%
+   gather(key = Predictor, value = value, -date) %>%
+   ggplot(aes(x = Predictor, y = value, color = Predictor)) +
+      geom_boxplot(outlier.color = "black") + coord_flip() +
+      theme(aspect.ratio = 0.6) + xlab(element_blank())
+   
+```
+
+```{r}
+
+data_ml %>%
+   ggplot(aes(y = R1M_Usd)) +
+      geom_smooth(aes(x = Mkt_Cap_12M_Usd, color = "Market Cap")) +
+      geom_smooth(aes(x = Vol1Y_Usd, color = "Volatility")) +
+   scale_color_manual(values = c("#F87E1F", "#0570EA")) +
+   coord_fixed(10) +
+   labs(color = "Predictor") + xlab(element_blank())
+
+```
+
+## Autocorrelation
+
+```{r}
+
+features <- c("Advt_12M_Usd","Advt_3M_Usd","Advt_6M_Usd","Asset_Turnover","Bb_Yld","Bv","Capex_Ps_Cf","Capex_Sales","Cash_Div_Cf","Cash_Per_Share","Cf_Sales","Debtequity","Div_Yld","Dps","Ebit_Bv","Ebit_Noa","Ebit_Oa","Ebit_Ta","Ebitda_Margin","Eps","Eps_Basic","Eps_Basic_Gr","Eps_Contin_Oper","Eps_Dil","Ev","Ev_Ebitda","Fa_Ci","Fcf","Fcf_Bv","Fcf_Ce","Fcf_Margin","Fcf_Noa","Fcf_Oa","Fcf_Ta","Fcf_Tbv","Fcf_Toa","Fcf_Yld","Free_Ps_Cf","Int_Rev","Interest_Expense","Mkt_Cap_12M_Usd","Mkt_Cap_3M_Usd","Mkt_Cap_6M_Usd","Mom_11M_Usd","Mom_5M_Usd","Mom_Sharp_11M_Usd","Mom_Sharp_5M_Usd","Nd_Ebitda","Net_Debt","Net_Debt_Cf","Net_Margin","Netdebtyield","Ni","Ni_Avail_Margin","Ni_Oa","Ni_Toa","Noa","Oa","Ocf","Ocf_Bv","Ocf_Ce","Ocf_Margin","Ocf_Noa","Ocf_Oa","Ocf_Ta","Ocf_Tbv","Ocf_Toa","Op_Margin","Op_Prt_Margin","Oper_Ps_Net_Cf","Pb","Pe","Ptx_Mgn","Recurring_Earning_Total_Assets","Return_On_Capital","Rev","Roa","Roc","Roce","Roe","Sales_Ps","Share_Turn_12M","Share_Turn_3M","Share_Turn_6M","Ta","Tev_Less_Mktcap","Tot_Debt_Rev","Total_Capital","Total_Debt","Total_Debt_Capital","Total_Liabilities_Total_Assets","Vol1Y_Usd","Vol3Y_Usd")
+
+autocorrs <- data_ml %>%
+   dplyr::select(c("stock_id", features)) %>%
+   gather(key = feature, value = value, -stock_id) %>%
+   group_by(stock_id, feature) %>%
+   summarise(acf = acf(value, lag.max = 1, plot = F)$acf[2])
+
+autocorrs %>%
+   ggplot(aes(x = acf)) + xlim(-0.1, 1) +
+   geom_histogram(bins = 60)
+
+```
+
+## Missing Data
+
+```{r}
+
+```
+

@@ -49,4 +49,4 @@ data_ml %>%
   summarise(return = mean(R1M_Usd)) %>%
   mutate(capitalization = factor(capitalization, levels = 1:4, labels = c("small", "medium", "large", "x-large"))) %>%
   ggplot(aes(year, return, fill = capitalization)) +
-    geom_col(position = "dodge")
+  geom_col(position = "dodge")
