@@ -60,10 +60,12 @@ options(knitr.table.format = "latex")
 
 ```{r report_setup, message = FALSE, warning = FALSE, include = FALSE}
 
+library(data.table, quietly = TRUE, warn.conflicts = FALSE)
 library(knitr, quietly = TRUE, warn.conflicts = FALSE)
 library(kableExtra, quietly = TRUE, warn.conflicts = FALSE)
 library(pander, quietly = TRUE, warn.conflicts = FALSE)
 
+library(fred, quietly = TRUE, warn.conflicts = FALSE)
 library(quantmod, quietly = TRUE, warn.conflicts = FALSE)
 library(tidyquant, quietly = TRUE, warn.conflicts = FALSE)
 library(PerformanceAnalytics, quietly = TRUE, warn.conflicts = FALSE)
@@ -149,9 +151,139 @@ autocorrs %>%
 
 ```
 
-## Missing Data
+# Impact of rescaling: graphical representation
 
 ```{r}
+
+Length <- 100                                # length of the sequence
+x <- exp(sin(1:Length))                      # original data
+data <- data.frame(index = 1:Length, x = x)  # convert to df
+
+ggplot(data, aes(x = index, y = x)) + geom_bar(stat = "identity")
+
+```
+
+```{r, fig.height=12}
+# uniformalises a vector
+norm_unif <- function(v) {
+   v <- v %>% as.matrix()
+   return(ecdf(v)(v))
+}
+
+# function that uniformalises a vector
+norm_0_1 <- function(v) {
+   return((v-min(v))/(max(v)-min(v)))
+}
+
+data_norm <- data.frame(
+   index = 1:Length,
+   raw = x,
+   standard = (x - mean(x)) / sd(x),
+   norm_0_1 = norm_0_1(x),
+   unif = norm_unif(x)) %>%
+   gather(key = Type, value = value, -index)
+
+ggplot(data_norm, aes(x = index, y = value, fill = Type)) +
+   geom_bar(stat = "identity") +
+   facet_grid(Type~.)
+
+```
+
+```{r}
+ggplot(data_norm, aes(x = value, fill = Type)) +
+   geom_histogram(position = "dodge")
+```
+
+```{r}
+
+firm <- c(rep(1, 3), rep(2, 3), rep(3, 3))
+date <- rep(c(1, 2, 3), 3)
+cap <- c(10, 50, 100, 
+         15, 10, 15, 
+         200, 120, 80)
+
+sample_data <- data.table(
+   firm = firm,
+   date = date,
+   cap = cap
+)
+
+sample_data[, cap_0_1 := norm_0_1(cap), by = c("date")]
+sample_data[, cap_u := norm_unif(cap), by = c("date")]
+
+sample_data[, return := c(0.06, 0.01, -0.06,
+                         -0.03, 0.00, 0.02,
+                         -0.04, -0.02, 0.00)]
+```
+
+### Impact of Rescaling
+
+```{r}
+sample_data[date == 1]
+
+sample_data[date == 2]
+
+sample_data[date == 3]
+
+```
+
+```{r}
+
+lm(return ~ cap_0_1, data = sample_data) %>%
+   broom::tidy() %>%
+   knitr::kable(caption = "Regression output when the independent var. 
+                comes from min-max rescaling.", booktabs = T)
+```
+
+
+```{r}
+
+lm(return ~ cap_u, data = sample_data) %>%
+   broom::tidy() %>%
+   knitr::kable(caption = "Regression output when the independent var. 
+                comes from uniformization rescaling.", booktabs = T)
+```
+
+
+# Exercises
+
+## The Federal Reserve of St. Louis (https:://fred.stlouisfred.org) hosts thousands of time serries economic indicators that can serve as conditioning variables. Pick one and apply forumla (4.3) to expand the number of predictors.
+
+If need be, use the function defined in 4.8.2
+
+```{r}
+
+getSymbols.FRED("BAMLC0A0CM",                                    # Extract data
+                env = ".GlobalEnv", 
+                return.class = "xts")
+
+cred_spread <- fortify(BAMLC0A0CM)                               # Transform to dataframe
+
+colnames(cred_spread) <- c("date", "spread")                     # Change column name
+
+cred_spread <- cred_spread %>%                                   # Take extraction and...
+    full_join(data_ml %>% dplyr::select(date), by = "date") %>%  # Join!
+    mutate(spread = na.locf(spread))                             # Replace NA by previous
+
+cred_spread <- cred_spread[!duplicated(cred_spread),]            # Remove duplicates
+
+data_cond <- data_ml %>%
+   dplyr::select(c("stock_id", "date", features_short))
+
+names_cred_spread <- paste0(features_short, "_cred_spread")       # new col names
+
+feat_cred_spread <- data_cond %>%
+   dplyr::select(features_short)
+
+cred_spread <- data_ml %>%
+   dplyr::select(date) %>%
+   left_join(cred_spread, by = "date")
+
+feat_cred_spread <- feat_cred_spread *
+   matrix(cred_spread$spread,
+          length(cred_spread$spread),
+          length(features_short))
+
 
 ```
 

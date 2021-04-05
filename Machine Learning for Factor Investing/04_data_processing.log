@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (MiKTeX 2.9.7300 64-bit) (preloaded format=xelatex 2020.3.20)  3 APR 2021 13:46
+This is XeTeX, Version 3.14159265-2.6-0.999992 (MiKTeX 2.9.7300 64-bit) (preloaded format=xelatex 2020.3.20)  4 APR 2021 16:16
 entering extended mode
 **./04_data_processing.tex
 (04_data_processing.tex
@@ -1089,25 +1089,98 @@ LaTeX Font Info:    Font shape `TU/Arial(0)/b/n' will be
 (Font)              scaled to size 17.28pt on input line 143.
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <12> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 147.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 151.
+File: 04_data_processing_files/figure-latex/unnamed-chunk-2-1.png Graphic file 
+(type bmp)
+<04_data_processing_files/figure-latex/unnamed-chunk-2-1.png>
 [1
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 151.
+File: 04_data_processing_files/figure-latex/unnamed-chunk-3-1.png Graphic file 
+(type bmp)
+<04_data_processing_files/figure-latex/unnamed-chunk-3-1.png>
+[2]
+File: 04_data_processing_files/figure-latex/unnamed-chunk-4-1.png Graphic file 
+(type bmp)
+<04_data_processing_files/figure-latex/unnamed-chunk-4-1.png>
+[3]
+LaTeX Font Info:    Font shape `TU/Arial(0)/m/n' will be
+(Font)              scaled to size 24.88pt on input line 260.
+LaTeX Font Info:    Font shape `TU/Arial(0)/b/n' will be
+(Font)              scaled to size 24.88pt on input line 260.
+File: 04_data_processing_files/figure-latex/unnamed-chunk-5-1.png Graphic file 
+(type bmp)
+<04_data_processing_files/figure-latex/unnamed-chunk-5-1.png>
+
+Overfull \vbox (0.37741pt too high) detected at line 299
+ []
+
+[4
+
+]
+File: 04_data_processing_files/figure-latex/unnamed-chunk-6-1.png Graphic file 
+(type bmp)
+<04_data_processing_files/figure-latex/unnamed-chunk-6-1.png>
+[5] [6]
+File: 04_data_processing_files/figure-latex/unnamed-chunk-7-1.png Graphic file 
+(type bmp)
+<04_data_processing_files/figure-latex/unnamed-chunk-7-1.png>
+LaTeX Font Info:    Font shape `TU/Arial(0)/m/n' will be
+(Font)              scaled to size 14.4pt on input line 340.
+LaTeX Font Info:    Font shape `TU/Arial(0)/b/n' will be
+(Font)              scaled to size 14.4pt on input line 340.
+[7]
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 10.10637pt on input line 395.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 7.21884pt on input line 395.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 3
+95.
+("C:\Program Files\MiKTeX 2.9\tex/latex/lm\omllmm.fd"
+File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 14.43915pt on input line 395.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 10.10739pt on input line 395.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 7.21957pt on input line 395.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 14.43622pt on input line 395.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 10.10533pt on input line 395.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 7.21811pt on input line 395.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 395
+.
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/microtype\mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 395
+.
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) (C:\Users\bmore\AppData\Roaming\MiKTeX\2.9\tex/latex/microtype\mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 429.
+[8]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 429.
 (04_data_processing.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 151.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 151.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 429.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 429.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 22057 strings out of 414221
- 373669 string characters out of 2902595
- 828413 words of memory out of 3000000
- 39308 multiletter control sequences out of 15000+200000
- 533668 words of font info for 50 fonts, out of 3000000 for 9000
+ 22223 strings out of 414221
+ 378807 string characters out of 2902595
+ 834811 words of memory out of 3000000
+ 39424 multiletter control sequences out of 15000+200000
+ 536533 words of font info for 72 fonts, out of 3000000 for 9000
  1348 hyphenation exceptions out of 8191
- 53i,11n,121p,819b,331s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,11n,121p,3473b,467s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on 04_data_processing.pdf (1 page).
+Output written on 04_data_processing.pdf (8 pages).
